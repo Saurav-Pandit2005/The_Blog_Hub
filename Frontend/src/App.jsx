@@ -1,10 +1,13 @@
+import React from 'react';
+import HomePage from './Visitor/Home/HomePage';
+
+
 function App() {
 
   return (
     <>
-      <h1>Saurav</h1>
-      <h2>HomePage</h2>
-      <h3>Hero Section</h3>
+      <HomePage/>
+      
     </>
   )
 }
