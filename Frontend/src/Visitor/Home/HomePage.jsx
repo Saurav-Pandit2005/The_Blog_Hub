@@ -7,6 +7,7 @@ import News_letter from './News_letter';
 import Stats from './Stats';
 import Footer from '../footer';
 
+
 function HomePage() {
     return (  
         <>
