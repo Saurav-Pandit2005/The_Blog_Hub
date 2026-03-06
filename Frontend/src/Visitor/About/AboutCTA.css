@@ -1,0 +1,47 @@
+.about-cta {
+    text-align: center;
+    padding: 90px 120px;
+}
+
+.about-cta .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.about-cta .primary-btn {
+    padding: 10px 24px;
+    background: #3B82F6;
+    border-radius: 30px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.about-cta .primary-btn:hover {
+    background: #2563EB;
+}
+
+.about-cta .primary-outline-btn {
+    padding: 10px 24px;
+    border: 1px solid #3B82F6;
+    border-radius: 30px;
+    color: #3B82F6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.about-cta .primary-outline-btn:hover {
+    background: #3B82F6;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .about-cta {
+        padding: 60px 20px;
+    }
+
+    .about-cta .cta-buttons {
+        flex-direction: column;
+    }
+}

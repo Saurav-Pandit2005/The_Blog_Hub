@@ -1,22 +1,18 @@
 import React from 'react';
-import Navbar from '../navbar';
-import Hero from './Hero';
-import Story from './Story';
-import Team from './Team';
-import CTA from './CTA';
-import Footer from '../footer';
+import AboutHero from './AboutHero';
+import AboutStory from './AboutStory';
+import AboutTeam from './AboutTeam';
+import AboutCTA from './AboutCTA';
 
 function AboutPage() {
-    return ( 
-        <>
-            <Navbar/>
-            <Hero/>
-            <Story/>
-            <Team/>
-            <CTA/>
-            <Footer/>
-        </>
-     );
+    return (
+        <main>
+            <AboutHero />
+            <AboutStory />
+            <AboutTeam />
+            <AboutCTA />
+        </main>
+    );
 }
 
 export default AboutPage;
