@@ -5,12 +5,12 @@ import Podcasts from './Podcasts';
 import Footer from '../footer';
 
 function PodcastsPage() {
-    return (  
+    return (
         <>
-            <Navbar/>
-            <Hero/>
-            <Podcasts/>
-            <Footer/>
+            <Navbar />
+            <Hero />
+            <Podcasts />
+            <Footer />
         </>
     );
 }

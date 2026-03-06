@@ -1,0 +1,50 @@
+.newsletter {
+    text-align: center;
+    padding: 60px 80px 40px 80px;
+    background: #f9fafb;
+}
+
+.newsletter h2 {
+    margin-bottom: 10px;
+    color: #1E293B;
+}
+
+.newsletter p {
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.newsletter-box {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.newsletter-box input {
+    padding: 10px 15px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Merriweather', serif;
+    outline: none;
+}
+
+.newsletter-box input:focus {
+    border-color: #3B82F6;
+}
+
+@media (max-width: 768px) {
+    .newsletter {
+        padding: 40px 20px;
+    }
+
+    .newsletter-box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .newsletter-box input {
+        width: 100%;
+        max-width: 300px;
+    }
+}

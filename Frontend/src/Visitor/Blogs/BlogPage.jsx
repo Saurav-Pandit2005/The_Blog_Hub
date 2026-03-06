@@ -7,16 +7,16 @@ import Pagination from './Pagination';
 import Footer from '../footer';
 
 function BlogPage() {
-    return ( 
+    return (
         <>
-            <Navbar/>
-            <Page_Header/>
-            <Filter/>
-            <Blog_Articles/>
-            <Pagination/>
-            <Footer/>
+            <Navbar />
+            <Page_Header />
+            <Filter />
+            <Blog_Articles />
+            <Pagination />
+            <Footer />
         </>
-     );
+    );
 }
 
 export default BlogPage;

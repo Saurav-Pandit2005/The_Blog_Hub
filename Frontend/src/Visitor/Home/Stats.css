@@ -1,0 +1,30 @@
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 40px 80px;
+    background: white;
+}
+
+.stat-box {
+    text-align: center;
+}
+
+.stat-box h2 {
+    color: #3B82F6;
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.stat-box p {
+    color: #555;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .stats {
+        flex-direction: column;
+        gap: 40px;
+        padding: 40px 20px;
+    }
+}

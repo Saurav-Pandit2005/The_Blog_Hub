@@ -6,13 +6,13 @@ import FAQ from './FAQ';
 import Footer from '../footer';
 
 function ContactPage() {
-    return (  
+    return (
         <>
-            <Navbar/>
-            <Hero/>
-            <Contact_Section/>
-            <FAQ/>
-            <Footer/>
+            <Navbar />
+            <Hero />
+            <Contact_Section />
+            <FAQ />
+            <Footer />
         </>
     );
 }

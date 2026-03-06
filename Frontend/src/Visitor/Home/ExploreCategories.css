@@ -1,0 +1,33 @@
+.categories {
+    padding: 40px 80px 20px 80px;
+    text-align: center;
+}
+
+.category-list {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.category-list span {
+    border: 1px solid #3B82F6;
+    padding: 8px 18px;
+    border-radius: 25px;
+    color: #3B82F6;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-list span:hover {
+    background-color: #3B82F6;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .categories {
+        padding: 20px;
+    }
+}
