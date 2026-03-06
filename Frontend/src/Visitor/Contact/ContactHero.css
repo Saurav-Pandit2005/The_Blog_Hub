@@ -1,0 +1,25 @@
+.contact-hero {
+    text-align: center;
+    padding: 90px 120px;
+    background: #f4f8ff;
+}
+
+.contact-hero h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.contact-hero p {
+    color: #555;
+    font-family: 'Merriweather', serif;
+}
+
+@media (max-width: 768px) {
+    .contact-hero {
+        padding: 60px 20px;
+    }
+
+    .contact-hero h1 {
+        font-size: 28px;
+    }
+}

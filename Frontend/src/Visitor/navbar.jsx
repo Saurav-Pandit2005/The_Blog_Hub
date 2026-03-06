@@ -19,7 +19,7 @@ function Navbar() {
                 <li><Link to="/podcasts">Podcasts</Link></li>
                 <li><Link to="/resources">Resources</Link></li>
                 <li><Link to="/about">About</Link></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><Link to="/contact">Contact</Link></li>
             </ul>
 
             {/* Actions Section */}
