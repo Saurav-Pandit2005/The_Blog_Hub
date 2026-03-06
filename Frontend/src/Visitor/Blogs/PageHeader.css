@@ -1,0 +1,27 @@
+.blog-header {
+    text-align: center;
+    padding: 60px 80px 30px;
+    background: linear-gradient(to bottom, #f8fafc, #ffffff);
+}
+
+.blog-header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.blog-header p {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .blog-header {
+        padding: 40px 20px 20px;
+    }
+
+    .blog-header h1 {
+        font-size: 28px;
+    }
+}

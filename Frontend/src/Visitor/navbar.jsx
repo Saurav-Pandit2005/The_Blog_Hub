@@ -15,7 +15,7 @@ function Navbar() {
             {/* Links Section */}
             <ul className="nav-links">
                 <li><Link to="/">Home</Link></li>
-                <li><a href="#blogs">Blogs</a></li>
+                <li><Link to="/blogs">Blogs</Link></li>
                 <li><a href="#podcasts">Podcasts</a></li>
                 <li><a href="#resources">Resources</a></li>
                 <li><a href="#about">About</a></li>
