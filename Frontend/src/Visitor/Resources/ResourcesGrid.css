@@ -1,0 +1,87 @@
+.resources-section {
+    padding: 60px 120px 120px 120px;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.resource-card {
+    background: white;
+    border-radius: 18px;
+    padding-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.resource-card:hover {
+    transform: translateY(-8px);
+}
+
+.resource-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 18px 18px 0 0;
+}
+
+.resource-card h3 {
+    padding: 20px 25px 10px 25px;
+}
+
+.resource-card p {
+    padding: 0 25px;
+    font-size: 14px;
+    color: #555;
+    flex-grow: 1;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 15px;
+    padding: 20px 25px 0 25px;
+}
+
+.outline-btn {
+    padding: 8px 18px;
+    border: 1px solid #3B82F6;
+    border-radius: 8px;
+    color: #3B82F6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.outline-btn:hover {
+    background: #3B82F6;
+    color: white;
+}
+
+@media (max-width: 1024px) {
+    .resources-section {
+        padding: 60px 40px;
+    }
+
+    .resources-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .resources-section {
+        padding: 40px 20px;
+    }
+
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-buttons {
+        flex-direction: column;
+    }
+}

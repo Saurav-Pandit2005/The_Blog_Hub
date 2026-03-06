@@ -1,16 +1,16 @@
 import React from 'react';
-import Navbar from '../navbar';
-import Resources from './Resources';
-import Footer from '../footer';
+import ResourcesHero from './ResourcesHero';
+import FeaturedResource from './FeaturedResource';
+import ResourcesGrid from './ResourcesGrid';
 
-function ResourcesPge() {
+function ResourcesPage() {
     return (
-        <>
-            <Navbar />
-            <Resources />
-            <Footer />
-        </>
+        <main>
+            <ResourcesHero />
+            <FeaturedResource />
+            <ResourcesGrid />
+        </main>
     );
 }
 
-export default ResourcesPge;
+export default ResourcesPage;
