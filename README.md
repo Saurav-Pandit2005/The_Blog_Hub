@@ -108,4 +108,7 @@ This project is licensed under the MIT License.
 
 ---
 
-**Developed with ❤️ by [Saurav Pandit](https://github.com/Saurav-Pandit2005)**
+**Developed by:**
+- 👤 **[Saurav Pandit](https://github.com/Saurav-Pandit2005)**
+- 👤 **[Surja Bist](https://github.com/Surja-009-collab)**
+- 👤 **[Rima Sah](https://github.com/srima45678)**
