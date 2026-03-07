@@ -90,7 +90,6 @@ The_Blog_Hub/
 ### Home Page
 ![Hero Section](https://raw.githubusercontent.com/Saurav-Pandit2005/The_Blog_Hub/main/Frontend/src/assets/Images/Visitor/HomePage/hero.jpg)
 
-*(Add more screenshots of your local output here)*
 
 ---
 
