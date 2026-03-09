@@ -1,24 +1,24 @@
 import React from 'react';
-import Navbar from '../Navbar';
+import Navbar from '../Navbar/Navbar';
 import Hero from './Hero';
 import Explore_Categories from './Explore_Categories';
 import Articles from './Articles';
 import News_letter from './News_letter';
 import Stats from './Stats';
-import Footer from '../Footer';
+import Footer from '../Footer/Footer';
 
 function HomePage() {
-    return ( 
+    return (
         <>
-            <Navbar/>
-            <Hero/>
-            <Explore_Categories/>
-            <Articles/>
-            <News_letter/>
-            <Stats/>
-            <Footer/>
+            <Navbar />
+            <Hero />
+            <Explore_Categories />
+            <Articles />
+            <News_letter />
+            <Stats />
+            <Footer />
         </>
-     );
+    );
 }
 
 export default HomePage;
