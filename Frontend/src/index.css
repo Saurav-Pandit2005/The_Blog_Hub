@@ -18,7 +18,9 @@
 }
 
 html,
-body {
+body,
+#root {
+    height: 100%;
     font-family: var(--font-family);
     background-color: var(--bg-color);
     color: var(--text-main);
