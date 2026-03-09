@@ -12,6 +12,14 @@ import Landing from './Visitor/Landing/Landing';
 import BlogDetailPage from './Visitor/Blogs/BlogDetail/BlogDetailPage';
 import ForgotPassword from './Visitor/Authentication/ForgotPassword';
 
+// Author Pages
+import AuthorHome from './Author/Home/HomePage';
+import AuthorAbout from './Author/About/AboutPage';
+import AuthorExplore from './Author/Explore/ExplorePage';
+import AuthorPodcasts from './Author/Podcasts/PodcastsPage';
+import AuthorResources from './Author/Resources/ResourcesPage';
+import AuthorContact from './Author/Contact/ContactPage';
+
 import Navbar from './Visitor/Authentication/navbar.jsx';
 import Footer from './Visitor/Authentication/footer.jsx';
 
@@ -19,7 +27,9 @@ function App() {
   const location = useLocation();
 
   // Paths where we don't want Navbar and Footer
-  const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname);
+  // Paths where we don't want Visitor Navbar and Footer
+  const isAuthorPath = location.pathname.startsWith('/author');
+  const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath;
 
   return (
     <>
@@ -36,6 +46,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/blog-detail" element={<BlogDetailPage />} />
+
+        {/* Author Routes */}
+        <Route path="/author/home" element={<AuthorHome />} />
+        <Route path="/author/about" element={<AuthorAbout />} />
+        <Route path="/author/explore" element={<AuthorExplore />} />
+        <Route path="/author/podcasts" element={<AuthorPodcasts />} />
+        <Route path="/author/resources" element={<AuthorResources />} />
+        <Route path="/author/contact" element={<AuthorContact />} />
       </Routes>
       {!hideNavFooter && <Footer />}
 
