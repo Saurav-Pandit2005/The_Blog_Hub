@@ -10,12 +10,17 @@
 }
 
 .about-cta .primary-btn {
-    padding: 10px 24px;
+    padding: 13px 30px;
     background: #3B82F6;
     border-radius: 30px;
     color: white;
     text-decoration: none;
     font-weight: 600;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    transition: background 0.3s ease;
 }
 
 .about-cta .primary-btn:hover {
@@ -23,12 +28,18 @@
 }
 
 .about-cta .primary-outline-btn {
-    padding: 10px 24px;
+    padding: 13px 30px;
     border: 1px solid #3B82F6;
     border-radius: 30px;
     color: #3B82F6;
     text-decoration: none;
     font-weight: 600;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    background: transparent;
+    transition: all 0.3s ease;
 }
 
 .about-cta .primary-outline-btn:hover {
