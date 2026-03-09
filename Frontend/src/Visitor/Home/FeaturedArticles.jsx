@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './FeaturedArticles.css';
 
 import blog1 from '../../assets/Images/Visitor/HomePage/blog1.webp';
@@ -19,7 +20,7 @@ function FeaturedArticles() {
                     <span className="tag">Technology</span>
                     <h3>The Future of AI in Web Development</h3>
                     <p>Artificial intelligence is rapidly transforming modern web development.</p>
-                    <a href="#read">Read More →</a>
+                    <Link to="/blog-detail">Read More →</Link>
                 </div>
 
                 {/* CARD 2 */}
@@ -28,7 +29,7 @@ function FeaturedArticles() {
                     <span className="tag">Design</span>
                     <h3>10 Essential Design Principles</h3>
                     <p>Design principles that guide effective and modern UI systems.</p>
-                    <a href="#read">Read More →</a>
+                    <Link to="/blog-detail">Read More →</Link>
                 </div>
 
                 {/* CARD 3 */}
@@ -37,7 +38,7 @@ function FeaturedArticles() {
                     <span className="tag">Lifestyle</span>
                     <h3>Mastering Productivity Tips</h3>
                     <p>Unlock your full productivity potential with smart habits.</p>
-                    <a href="#read">Read More →</a>
+                    <Link to="/blog-detail">Read More →</Link>
                 </div>
 
                 {/* CARD 4 */}
@@ -46,7 +47,7 @@ function FeaturedArticles() {
                     <span className="tag">Technology</span>
                     <h3>The Evolution of JavaScript ES2023</h3>
                     <p>Explore new features and updates in modern JavaScript.</p>
-                    <a href="#read">Read More →</a>
+                    <Link to="/blog-detail">Read More →</Link>
                 </div>
 
                 {/* CARD 5 */}
@@ -55,7 +56,7 @@ function FeaturedArticles() {
                     <span className="tag">Lifestyle</span>
                     <h3>Sustainable Living Guide</h3>
                     <p>Practical tips for a more eco-friendly and sustainable life.</p>
-                    <a href="#read">Read More →</a>
+                    <Link to="/blog-detail">Read More →</Link>
                 </div>
 
                 {/* CARD 6 */}
@@ -64,7 +65,7 @@ function FeaturedArticles() {
                     <span className="tag">Marketing</span>
                     <h3>The Art of Storytelling</h3>
                     <p>Learn how storytelling builds powerful brand identity.</p>
-                    <a href="#read">Read More →</a>
+                    <Link to="/blog-detail">Read More →</Link>
                 </div>
 
             </div>
