@@ -1,0 +1,101 @@
+.auth-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #EAF2FF, #F4F8FF);
+    padding: 40px 20px;
+}
+
+/* FORM BOX */
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 50px 55px;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* TITLE */
+.auth-box h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #3B82F6;
+}
+
+/* SUBTITLE */
+.auth-subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* INPUT GROUP */
+.input-group {
+    width: 100%;
+    margin-bottom: 20px;
+    font-family: 'Merriweather', serif;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 8px;
+    border: 2px solid #3B82F6;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    background: white;
+    font-family: 'Merriweather', serif;
+}
+
+/* Focus Effect */
+.input-group input:focus,
+.input-group select:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* BUTTON */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 100px;
+    /* Modern touch */
+    background: #3B82F6;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Merriweather', serif;
+}
+
+.auth-btn:hover {
+    background: #2563EB;
+}
+
+/* SWITCH TEXT */
+.switch-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.switch-text a {
+    color: #3B82F6;
+    font-weight: 600;
+    text-decoration: none;
+}
