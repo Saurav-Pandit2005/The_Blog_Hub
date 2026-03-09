@@ -90,7 +90,7 @@
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.primary-btn {
+.contact-form .primary-btn {
     padding: 10px 24px;
     background: #3B82F6;
     border-radius: 30px;
@@ -103,7 +103,7 @@
     font-family: 'Merriweather', serif;
 }
 
-.primary-btn:hover {
+.contact-form .primary-btn:hover {
     background: #2563EB;
 }
 

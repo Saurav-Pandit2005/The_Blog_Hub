@@ -20,6 +20,22 @@
     gap: 15px;
 }
 
+.newsletter-box .primary-btn {
+    font-family: 'Merriweather', serif;
+    background: #3B82F6;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.newsletter-box .primary-btn:hover {
+    background: #2563EB;
+}
+
 .newsletter-box input {
     padding: 10px 15px;
     width: 250px;
