@@ -1,0 +1,30 @@
+.explore-header {
+    text-align: center;
+    padding: 60px 80px 30px;
+    background: linear-gradient(to bottom, #f8fafc, #ffffff);
+    font-family: 'Merriweather', serif;
+}
+
+.explore-header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.explore-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .explore-header {
+        padding: 40px 20px 20px;
+    }
+
+    .explore-header h1 {
+        font-size: 28px;
+    }
+}
