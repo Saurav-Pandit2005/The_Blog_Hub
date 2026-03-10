@@ -1,0 +1,31 @@
+.resources-hero {
+    padding: 120px 120px 80px 120px;
+    background: linear-gradient(135deg, #F4F8FF, #EAF2FF);
+    text-align: center;
+    font-family: 'Merriweather', serif;
+}
+
+.resources-hero h1 {
+    font-size: 44px;
+    margin-bottom: 20px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.resources-hero p {
+    max-width: 650px;
+    margin: auto;
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .resources-hero {
+        padding: 60px 20px;
+    }
+
+    .resources-hero h1 {
+        font-size: 32px;
+    }
+}
