@@ -1,0 +1,93 @@
+.about-story {
+    padding: 100px 120px;
+    background: #ffffff;
+    font-family: 'Merriweather', serif;
+}
+
+.about-story .story-wrapper {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.about-story .story-content {
+    flex: 1.2;
+}
+
+.about-story .story-content h2 {
+    margin-bottom: 30px;
+    color: #3B82F6;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.about-story .story-content p {
+    margin-bottom: 22px;
+    color: #475569;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+/* TIMELINE STYLE */
+.about-story .story-timeline {
+    flex: 1;
+    position: relative;
+    padding-left: 40px;
+    border-left: 3px solid #3B82F6;
+}
+
+.about-story .timeline-item {
+    margin-bottom: 45px;
+    position: relative;
+}
+
+.about-story .timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.about-story .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -48.5px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: #3B82F6;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.about-story .year {
+    font-size: 15px;
+    font-weight: 700;
+    color: #3B82F6;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.about-story .timeline-item h4 {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.about-story .timeline-item p {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .about-story .story-wrapper {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .about-story {
+        padding: 60px 40px;
+    }
+}
