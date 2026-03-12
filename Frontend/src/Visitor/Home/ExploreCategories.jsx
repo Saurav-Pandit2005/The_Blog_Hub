@@ -4,8 +4,7 @@ import './ExploreCategories.css';
 function ExploreCategories() {
     const categories = [
         "Technology", "Design", "Lifestyle", "Productivity",
-        "Travel", "Food", "Health", "Finance",
-        "Marketing", "Science"
+        "Travel", "Food", "Health", "Finance"
     ];
 
     return (

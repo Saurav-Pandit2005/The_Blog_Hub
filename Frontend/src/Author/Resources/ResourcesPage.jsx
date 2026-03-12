@@ -1,18 +1,18 @@
 import React from 'react';
-import Navbar from '../Navbar'
+import Navbar from '../Navbar/Navbar';
 import Hero from './Hero';
 import Resources from './Resources';
-import Footer from '../Footer'
+import Footer from '../Footer/Footer';
 
 function ResourcesPage() {
-    return ( 
+    return (
         <>
-            <Navbar/>
-            <Hero/>
-            <Resources/>
-            <Footer/>
+            <Navbar />
+            <Hero />
+            <Resources />
+            <Footer />
         </>
-     );
+    );
 }
 
 export default ResourcesPage;
