@@ -19,6 +19,12 @@ import AuthorExplore from './Author/Explore/ExplorePage';
 import AuthorPodcasts from './Author/Podcasts/PodcastsPage';
 import AuthorResources from './Author/Resources/ResourcesPage';
 import AuthorContact from './Author/Contact/ContactPage';
+import AuthorDashboard from './Author/Dashboard/Dashboard';
+import WritePost from './Author/Dashboard/WritePost/WritePost';
+import MyBlogs from './Author/Dashboard/MyBlogs/MyBlogs';
+import AuthorDashPodcasts from './Author/Dashboard/Podcasts/Podcasts';
+import AuthorDashResources from './Author/Dashboard/Resources/Resources';
+import AuthorProfile from './Author/Dashboard/Profile/Profile';
 
 import Navbar from './Visitor/Authentication/navbar.jsx';
 import Footer from './Visitor/Authentication/footer.jsx';
@@ -54,6 +60,12 @@ function App() {
         <Route path="/author/podcasts" element={<AuthorPodcasts />} />
         <Route path="/author/resources" element={<AuthorResources />} />
         <Route path="/author/contact" element={<AuthorContact />} />
+        <Route path="/author/dashboard" element={<AuthorDashboard />} />
+        <Route path="/author/write-post" element={<WritePost />} />
+        <Route path="/author/my-blogs" element={<MyBlogs />} />
+        <Route path="/author/dashboard/podcasts" element={<AuthorDashPodcasts />} />
+        <Route path="/author/dashboard/resources" element={<AuthorDashResources />} />
+        <Route path="/author/profile" element={<AuthorProfile />} />
       </Routes>
       {!hideNavFooter && <Footer />}
 
