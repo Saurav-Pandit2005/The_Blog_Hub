@@ -1,0 +1,96 @@
+/* ===== SIDEBAR (Slidebar) SCOPED STYLES ===== */
+
+.sidebar {
+    width: 270px;
+    height: 100vh;
+    background: linear-gradient(180deg, #f8fbff, #eef4ff);
+    border-right: 1px solid #e2e8f0;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    box-shadow: 10px 0 35px rgba(37, 99, 235, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 22px;
+    position: sticky;
+    top: 0;
+    font-family: 'Outfit', sans-serif;
+    z-index: 100;
+}
+
+.sidebar .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #3b82f6;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    text-decoration: none;
+}
+
+.sidebar .logo img {
+    width: 32px;
+}
+
+.sidebar .menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #475569;
+    padding: 12px 18px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+}
+
+.sidebar .menu a img {
+    width: 18px;
+    filter: brightness(0) saturate(100%) invert(43%) sepia(13%) saturate(1514%) hue-rotate(182deg) brightness(91%) contrast(85%);
+}
+
+.sidebar .menu a:hover {
+    background: #dbeafe;
+    transform: translateX(6px);
+}
+
+.sidebar .menu a.active {
+    background: #bfdbfe;
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+.sidebar .menu a.active img {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(51%) saturate(2465%) hue-rotate(210deg) brightness(92%) contrast(101%);
+}
+
+.sidebar .logout a {
+    display: block;
+    text-decoration: none;
+    color: #ef4444;
+    padding: 12px;
+    border-radius: 14px;
+    text-align: center;
+    background: #fff1f2;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.sidebar .logout a:hover {
+    background: #ffe4e6;
+    border-color: #fecaca;
+    transform: translateY(-2px);
+}
