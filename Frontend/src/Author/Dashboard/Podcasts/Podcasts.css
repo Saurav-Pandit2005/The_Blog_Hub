@@ -1,0 +1,316 @@
+/* ===== AUTHOR DASHBOARD PODCASTS LAYOUT ===== */
+
+.author-podcasts-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f1f5f9;
+    font-family: 'Outfit', sans-serif;
+}
+
+.podcasts-main-content {
+    flex: 1;
+    padding: 40px 60px;
+    overflow-y: auto;
+}
+
+/* ===== HEADER ===== */
+
+.podcasts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+}
+
+.podcasts-header h1 {
+    font-size: 32px;
+    color: #0f172a;
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+}
+
+.podcasts-header p {
+    color: #64748b;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.upload-btn {
+    background: #3B82F6;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-btn:hover {
+    background: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* ===== MANAGEMENT CONTROLS ===== */
+
+.management-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 20px 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid #eef2f6;
+}
+
+.search-bar {
+    width: 350px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.filter-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.stat-tag {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.stat-tag.total {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.stat-tag.published {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.stat-tag.listeners {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ===== PODCAST CARD LIST ===== */
+
+.podcasts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.podcast-item-card {
+    background: white;
+    padding: 25px 35px;
+    border-radius: 20px;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    transition: all 0.3s ease;
+}
+
+.podcast-item-card:hover {
+    transform: translateX(10px);
+    border-color: #3b82f6;
+    box-shadow: 10px 10px 30px rgba(59, 130, 246, 0.05);
+}
+
+.pod-play-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mini-play-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #eff6ff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.mini-play-btn img {
+    width: 20px;
+    filter: brightness(0) saturate(100%) invert(43%) sepia(13%) saturate(1514%) hue-rotate(182deg) brightness(91%) contrast(85%);
+}
+
+.podcast-item-card:hover .mini-play-btn {
+    background: #3B82F6;
+}
+
+.podcast-item-card:hover .mini-play-btn img {
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+.pod-info {
+    flex: 1;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.title-row h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.published {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.draft {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.pod-desc {
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    max-width: 800px;
+}
+
+.pod-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.meta-divider {
+    color: #e2e8f0;
+}
+
+/* ===== ACTIONS ===== */
+
+.pod-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.action-button {
+    width: 45px;
+    height: 45px;
+    border-radius: 14px;
+    border: 1.5px solid #f1f5f9;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.action-button img {
+    width: 20px;
+    filter: brightness(0) saturate(100%) invert(43%) sepia(13%) saturate(1514%) hue-rotate(182deg) brightness(91%) contrast(85%);
+}
+
+.action-button.edit:hover {
+    background: #dbeafe;
+    border-color: #3b82f6;
+}
+
+.action-button.delete:hover {
+    background: #fff1f2;
+    border-color: #ef4444;
+}
+
+.action-button.delete:hover img {
+    filter: brightness(0) saturate(100%) invert(43%) sepia(85%) saturate(3000%) hue-rotate(340deg) brightness(95%) contrast(100%);
+}
+
+.no-data {
+    text-align: center;
+    padding: 60px;
+    color: #94a3b8;
+    background: white;
+    border-radius: 20px;
+    border: 3px dashed #eef2f6;
+}
+
+@media (max-width: 900px) {
+    .podcasts-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .management-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .podcast-item-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 25px;
+    }
+
+    .pod-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
