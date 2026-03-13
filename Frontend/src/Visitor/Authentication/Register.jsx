@@ -24,7 +24,6 @@ function Register() {
         }
 
         // Logic like SignupServlet
-        alert("Account Created Successfully! Redirecting to login...");
         navigate("/login");
     };
 
