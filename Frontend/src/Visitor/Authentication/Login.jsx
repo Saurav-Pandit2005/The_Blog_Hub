@@ -13,13 +13,11 @@ function Login() {
 
         // Dummy Author Login
         if (email === "author@test.com" && password === "123456" && role === "author") {
-            alert("Login Successful as Author!");
-            // navigate("/author/home"); // Not yet implemented, but this is how you'd do it
+            navigate("/author/home");
         }
         // Dummy Admin Login
         else if (email === "admin@test.com" && password === "123456" && role === "admin") {
-            alert("Login Successful as Admin!");
-            // navigate("/admin/dashboard"); // Not yet implemented
+            navigate("/admin/dashboard");
         }
         else {
             alert("Invalid email, password, or role!");

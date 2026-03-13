@@ -13,11 +13,24 @@
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(59, 130, 246, 0.1);
     text-align: center;
+    font-family: 'Outfit', sans-serif !important;
 }
 
 .login-card h2 {
     margin-bottom: 30px;
     color: #3B82F6;
+    font-family: 'Merriweather', serif !important;
+    font-weight: 700;
+}
+
+.login-card input,
+.login-card select,
+.login-card button,
+.login-card label,
+.login-card a,
+.login-card span,
+.login-card div {
+    font-family: 'Outfit', sans-serif !important;
 }
 
 /* FORM */
@@ -31,10 +44,15 @@
     padding: 12px 15px;
     border: 2px solid #3B82F6;
     border-radius: 10px;
-    font-family: 'Merriweather', serif;
-    font-size: 14px;
-    color: #000;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 15px;
+    color: #1e293b;
     background: white;
+}
+
+.form-group input::placeholder {
+    font-family: 'Outfit', sans-serif !important;
+    color: #94a3b8;
 }
 
 /* Highlight dropdown when selected */
@@ -94,7 +112,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
-    font-family: 'Merriweather', serif;
+    font-family: 'Outfit', sans-serif !important;
 }
 
 .login-card .primary-btn:hover {
