@@ -28,6 +28,24 @@
     font-weight: 700;
 }
 
+.back-home {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 25px;
+}
+
+.back-home a {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.back-home a:hover {
+    color: #3B82F6;
+}
+
 /* SUBTITLE */
 .auth-subtitle {
     text-align: center;

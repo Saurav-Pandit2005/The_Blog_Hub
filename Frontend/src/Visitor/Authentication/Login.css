@@ -23,6 +23,24 @@
     font-weight: 700;
 }
 
+.back-home {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+
+.back-home a {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.back-home a:hover {
+    color: #3B82F6;
+}
+
 .login-card input,
 .login-card select,
 .login-card button,

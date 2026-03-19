@@ -30,6 +30,9 @@ function Register() {
     return (
         <section className="auth-section">
             <div className="auth-box">
+                <div className="back-home">
+                    <Link to="/home">← Back to Home</Link>
+                </div>
                 <h2>Create Your Account</h2>
                 <p className="auth-subtitle">Join The Blog Hub community today</p>
 
