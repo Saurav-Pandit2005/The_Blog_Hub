@@ -31,6 +31,10 @@ function Slidebar() {
                     The Blog Hub
                 </Link>
 
+                <Link to="/author/home" className="back-btn">
+                    ← Back to Home
+                </Link>
+
                 <nav className="menu">
                     {menuItems.map((item) => (
                         <Link
