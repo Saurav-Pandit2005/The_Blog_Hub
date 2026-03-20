@@ -14,12 +14,14 @@
 ## ✨ Features
 
 - **🏠 Home Page**: Engaging Hero section, featured articles, newsletters, and platform statistics.
-- **📖 Dynamic Blogging**: Explore a wide range of articles across various categories like Technology, Design, and Lifestyle.
-- **📄 Detailed Blog Post**: A dedicated page for in-depth reading with author information, related posts, and a comment section.
-- **🔐 User Authentication**: Fully implemented Login, Registration, and Forgot Password pages with professional styling.
-- **🎧 Multimedia Content**: Integrated sections for Podcasts and Resources for a diverse content experience.
-- **📱 Fully Responsive**: Optimized for all devices, from desktop and tablets to smartphones.
-- **💎 Premium Aesthetics**: Custom-styled using Vanilla CSS with smooth hover effects and Merriweather typography.
+- **📖 Dynamic Blogging**: Explore a wide range of articles across various categories.
+- **📑 Author Dashboard**: A comprehensive control center for content creators.
+  - ✍️ **Write Post**: Create and publish new articles.
+  - 🎙️ **Podcast Management**: Upload audio/video stories.
+  - 📂 **Resource Management**: Share templates and educational guides.
+- **🔐 User Authentication**: Role-based login and registration with "Back to Home" safety.
+- **📱 Fully Responsive**: Optimized for every screen size.
+- **💎 Premium Aesthetics**: Custom-styled using Vanilla CSS with glassmorphism and smooth animations.
 
 ---
 
@@ -28,9 +30,8 @@
 - **Frontend Framework**: [React 19](https://react.dev/)
 - **Build Tool**: [Vite](https://vitejs.dev/)
 - **Routing**: [React Router Dom v7](https://reactrouter.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Styling**: Vanilla CSS (Custom properties & Flexbox/Grid)
-- **Fonts**: [Google Fonts (Merriweather)](https://fonts.google.com/specimen/Merriweather)
+- **Styling**: Vanilla CSS (Flexbox/Grid & Custom Design System)
+- **Typography**: [Merriweather](https://fonts.google.com/specimen/Merriweather) & [Outfit](https://fonts.google.com/specimen/Outfit)
 
 ---
 
@@ -40,17 +41,15 @@
 The_Blog_Hub/
 ├── Frontend/
 │   ├── src/
-│   │   ├── assets/           # Images, Logos & Global styles
-│   │   ├── Visitor/          # Main logical sections
-│   │   │   ├── Home/         # Hero, Stats, Newsletter
-│   │   │   ├── Blogs/        # Listing & Blog Detail Page
-│   │   │   ├── Authentication/ # Login, Register, Forgot Password
-│   │   │   ├── About/        # Story, Team, Contact
-│   │   │   └── Resources/    # Downloads and guides
-│   │   ├── App.jsx           # Routing & Layout config
-│   │   └── main.jsx          # Entry point
-│   ├── public/               # Static assets
-│   └── package.json          # Dependencies & Scripts
+│   │   ├── Visitor/          # Visitor-facing pages
+│   │   ├── Author/           # Dashboard & Author Management
+│   │   │   ├── Dashboard/    # Writing, Analytics, Sidebar
+│   │   │   ├── Podcasts/     # Media uploads
+│   │   │   └── Resources/    # Tools & Downloads
+│   │   ├── assets/           # Global styles and assets
+│   │   ├── App.jsx           # Routing Setup
+│   │   └── main.jsx          # Project Entry
+│   └── package.json          # Dependencies
 └── README.md
 ```
 
