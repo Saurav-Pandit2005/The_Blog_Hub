@@ -11,19 +11,27 @@
     gap: 15px;
 }
 
-.category-list span {
+.category-btn {
     border: 1px solid #3B82F6;
+    background: transparent;
     padding: 8px 18px;
     border-radius: 25px;
     color: #3B82F6;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: inherit;
 }
 
-.category-list span:hover {
+.category-btn:hover {
     background-color: #3B82F6;
     color: white;
+}
+
+.category-btn.active {
+    background-color: #3B82F6;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 @media (max-width: 768px) {

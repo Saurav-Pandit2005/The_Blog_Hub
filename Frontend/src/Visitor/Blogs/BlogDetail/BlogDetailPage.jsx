@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './BlogDetailPage.css';
 
 // Using placeholders similar to JSP
@@ -9,6 +9,13 @@ import blog2 from '../../../assets/Images/Visitor/HomePage/blog2.jpg';
 import blog3 from '../../../assets/Images/Visitor/HomePage/blog3.jpg';
 
 function BlogDetailPage() {
+    const navigate = useNavigate();
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        navigate('/register');
+    };
+
     return (
         <div className="blog-details-container">
             {/* Back Button */}
@@ -62,7 +69,7 @@ function BlogDetailPage() {
 
                 <div className="comment-form">
                     <input type="text" placeholder="Write a comment..." />
-                    <button>Submit Comment</button>
+                    <button onClick={handleCommentSubmit}>Submit Comment</button>
                 </div>
 
                 <div className="comment">
@@ -93,21 +100,21 @@ function BlogDetailPage() {
                         <span className="tag">Lifestyle</span>
                         <h3>Building Healthy Morning Habits</h3>
                         <p>Discover simple morning routines that boost energy and improve daily productivity.</p>
-                        <Link to="/blog/1">Read More →</Link>
+                        <Link to="/blog-detail">Read More →</Link>
                     </div>
                     <div className="card">
                         <img src={blog2} alt="Related Blog 2" />
                         <span className="tag">Technology</span>
                         <h3>Understanding Cloud Computing</h3>
                         <p>An easy guide to how cloud platforms are transforming modern businesses.</p>
-                        <Link to="/blog/2">Read More →</Link>
+                        <Link to="/blog-detail">Read More →</Link>
                     </div>
                     <div className="card">
                         <img src={blog3} alt="Related Blog 3" />
                         <span className="tag">Startup</span>
                         <h3>How to Launch Your First Startup</h3>
                         <p>A beginner’s roadmap to turning your innovative idea into a successful venture.</p>
-                        <Link to="/blog/3">Read More →</Link>
+                        <Link to="/blog-detail">Read More →</Link>
                     </div>
                 </div>
             </div>

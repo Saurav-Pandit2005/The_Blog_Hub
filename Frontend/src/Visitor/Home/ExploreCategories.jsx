@@ -1,9 +1,9 @@
 import React from 'react';
 import './ExploreCategories.css';
 
-function ExploreCategories() {
+function ExploreCategories({ selectedCategory, setSelectedCategory }) {
     const categories = [
-        "Technology", "Design", "Lifestyle", "Productivity",
+        "All", "Technology", "Design", "Lifestyle", "Productivity",
         "Travel", "Food", "Health", "Finance"
     ];
 
@@ -12,7 +12,13 @@ function ExploreCategories() {
             <h2>Explore Categories</h2>
             <div className="category-list">
                 {categories.map((category, index) => (
-                    <span key={index}>{category}</span>
+                    <button 
+                        key={index} 
+                        className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
+                        onClick={() => setSelectedCategory(category)}
+                    >
+                        {category}
+                    </button>
                 ))}
             </div>
         </section>

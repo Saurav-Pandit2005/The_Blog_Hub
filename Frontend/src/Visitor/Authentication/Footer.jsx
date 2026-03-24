@@ -1,65 +1,98 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+    Twitter,
+    Facebook,
+    Instagram,
+    Linkedin,
+    Github,
+    Mail,
+    Send,
+    MapPin,
+    Phone
+} from 'lucide-react';
 import './Footer.css';
 
 import logoImg from '../../assets/Images/Visitor/Navbar/logo.png';
-import twitterImg from '../../assets/Images/Visitor/Footer/twitter.png';
-import facebookImg from '../../assets/Images/Visitor/Footer/facebook.png';
-import instagramImg from '../../assets/Images/Visitor/Footer/instagram.png';
 
 function Footer() {
+    const currentYear = new Date().getFullYear();
+
     return (
         <footer className="footer">
-            <div className="footer-container">
-
-                {/* Column 1 */}
-                <div className="footer-col">
-                    <div className="footer-logo">
-                        <img src={logoImg} alt="Logo" />
-                        <h3>The Blog Hub</h3>
+            <div className="footer-top">
+                <div className="footer-container">
+                    {/* Brand Section */}
+                    <div className="footer-col brand-col">
+                        <div className="footer-logo">
+                            <img src={logoImg} alt="The Blog Hub Logo" />
+                            <h3>The Blog Hub</h3>
+                        </div>
+                        <p className="brand-desc">
+                            Empowering creators and readers through insightful stories,
+                            expert perspectives, and a community-driven blogging experience.
+                        </p>
+                        <div className="footer-socials">
+                            <a href="https://twitter.com" className="social-link"><Twitter size={18} /></a>
+                            <a href="https://facebook.com" className="social-link"><Facebook size={18} /></a>
+                            <a href="https://instagram.com" className="social-link"><Instagram size={18} /></a>
+                            <a href="https://linkedin.com" className="social-link"><Linkedin size={18} /></a>
+                            <a href="https://github.com" className="social-link"><Github size={18} /></a>
+                        </div>
                     </div>
-                    <p>
-                        Discover insightful articles on technology, design,
-                        productivity and modern lifestyle.
-                    </p>
-                </div>
 
-                {/* Column 2 */}
-                <div className="footer-col">
-                    <h4>Quick Links</h4>
-                    <Link to="/home">Home</Link>
-                    <Link to="/blogs">Blogs</Link>
-                    <Link to="/about">About Us</Link>
-                    <Link to="/contact">Contact</Link>
-                </div>
-
-                {/* Column 3 */}
-                <div className="footer-col">
-                    <h4>Categories</h4>
-                    <a href="#technology">Technology</a>
-                    <a href="#aiml">AI and ML</a>
-                    <a href="#design">Design</a>
-                    <a href="#productivity">Productivity</a>
-                    <a href="#business">Business</a>
-                </div>
-
-                {/* Column 4 - Socials */}
-                <div className="socials">
-                    <div className="social-box">
-                        <img src={twitterImg} alt="Twitter" />
+                    {/* Links Section */}
+                    <div className="footer-col">
+                        <h4>Explore</h4>
+                        <ul className="footer-links">
+                            <li><Link to="/home">Home</Link></li>
+                            <li><Link to="/blogs">All Blogs</Link></li>
+                            <li><Link to="/podcasts">Podcasts</Link></li>
+                            <li><Link to="/resources">Resources</Link></li>
+                            <li><Link to="/about">About Our Mission</Link></li>
+                        </ul>
                     </div>
-                    <div className="social-box">
-                        <img src={facebookImg} alt="Facebook" />
+
+                    {/* Categories Section */}
+                    <div className="footer-col">
+                        <h4>Popular Categories</h4>
+                        <ul className="footer-links">
+                            <li><Link to="/blogs?category=Technology">Technology</Link></li>
+                            <li><Link to="/blogs?category=AI">AI & Machine Learning</Link></li>
+                            <li><Link to="/blogs?category=Design">Creative Design</Link></li>
+                            <li><Link to="/blogs?category=Productivity">Productivity</Link></li>
+                            <li><Link to="/blogs?category=Business">Business Growth</Link></li>
+                        </ul>
                     </div>
-                    <div className="social-box">
-                        <img src={instagramImg} alt="Instagram" />
+
+                    {/* Newsletter & Contact */}
+                    <div className="footer-col newsletter-col">
+                        <h4>Stay Updated</h4>
+                        <p>Subscribe to our newsletter for the latest articles and updates.</p>
+                        {/* <form className="footer-newsletter" onSubmit={(e) => e.preventDefault()}>
+                            <input type="email" placeholder="Email Address" required />
+                            <button type="submit">
+                                <Send size={16} />
+                            </button>
+                        </form> */}
+                        <div className="footer-contact">
+                            <div className="contact-item">
+                                <Mail size={16} />
+                                <span>support@bloghub.com</span>
+                            </div>
+                            <div className="contact-item">
+                                <MapPin size={16} />
+                                <span>Rajkot, Gujarat, India</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
 
             <div className="footer-bottom">
-                © 2026 BlogVista. All rights reserved.
+                <div className="footer-bottom-content">
+                    <p>© {currentYear} The Blog Hub. Built with ❤️ for the creator community.</p>
+                </div>
             </div>
         </footer>
     );
