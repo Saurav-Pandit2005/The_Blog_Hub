@@ -21,7 +21,7 @@ function Slidebar() {
         { path: '/admin/manage-resources', label: 'Manage Resources', icon: '📁' },
         { path: '/admin/inquiries', label: 'Inquiries', icon: '✉️' },
         { path: '/admin/edit-about', label: 'Edit About', icon: '✍️' },
-        { path: '/admin/analytics', label: 'Analytics', icon: '📊' },
+        // { path: '/admin/analytics', label: 'Analytics', icon: '📊' },
         { path: '/admin/profile', label: 'Profile', icon: '👤' },
     ];
 
