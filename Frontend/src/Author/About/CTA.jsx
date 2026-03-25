@@ -11,7 +11,7 @@ function CTA() {
                 to reach their audience and build their influence.
             </p>
             <div className="cta-buttons">
-                <Link to="/author/home" className="primary-btn">View My Dashboard</Link>
+                <Link to="/author/dashboard" className="primary-btn">View My Dashboard</Link>
                 <Link to="/author/explore" className="primary-outline-btn">Explore Community</Link>
             </div>
         </section>
