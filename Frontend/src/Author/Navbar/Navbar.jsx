@@ -63,9 +63,9 @@ function Navbar() {
                 <img src={profileImg} className="profile-img" alt="Profile" />
 
                 <div className={`dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
-                    <Link to="/author/profile">👤 Profile</Link>
-                    <Link to="/author/dashboard">📊 Dashboard</Link>
-                    <Link to="/login">🚪 Logout</Link>
+                    <Link to="/author/profile"> Profile</Link>
+                    <Link to="/author/dashboard"> Dashboard</Link>
+                    <Link to="/login"> Logout</Link>
                 </div>
             </div>
         </nav>
