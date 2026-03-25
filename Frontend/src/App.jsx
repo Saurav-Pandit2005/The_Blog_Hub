@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+
 import HomePage from './Visitor/Home/HomePage';
 import BlogPage from './Visitor/Blogs/BlogPage';
 import PodcastsPage from './Visitor/Podcasts/PodcastsPage';
@@ -27,6 +28,16 @@ import AuthorDashResources from './Author/Dashboard/Resources/Resources';
 import AuthorProfile from './Author/Dashboard/Profile/Profile';
 import UploadPodcast from './Author/Dashboard/Podcasts/UploadPodcast';
 import UploadResource from './Author/Dashboard/Resources/UploadResource';
+import AdminDashboard from './Admin/Dashboard/Dashboard';
+import WriteBlog from './Admin/WriteBlog/WriteBlog';
+import ManageUsers from './Admin/ManageUsers/ManageUsers';
+import ManageBlogs from './Admin/ManageBlogs/ManageBlogs';
+import ManagePodcasts from './Admin/ManagePodcasts/ManagePodcasts';
+import ManageResources from './Admin/ManageResources/ManageResources';
+import Inquiries from './Admin/Inquiries/Inquiries';
+import EditAbout from './Admin/EditAbout/EditAbout';
+import Analytics from './Admin/Analytics/Analytics';
+import AdminProfile from './Admin/Profile/Profile';
 
 import Navbar from './Visitor/Authentication/navbar.jsx';
 import Footer from './Visitor/Authentication/footer.jsx';
@@ -37,7 +48,8 @@ function App() {
   // Paths where we don't want Navbar and Footer
   // Paths where we don't want Visitor Navbar and Footer
   const isAuthorPath = location.pathname.startsWith('/author');
-  const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath;
+  const isAdminPath = location.pathname.startsWith('/admin');
+  const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath || isAdminPath;
 
   return (
     <>
@@ -70,6 +82,18 @@ function App() {
         <Route path="/author/profile" element={<AuthorProfile />} />
         <Route path="/author/upload-podcast" element={<UploadPodcast />} />
         <Route path="/author/upload-resource" element={<UploadResource />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/write-blog" element={<WriteBlog />} />
+        <Route path="/admin/manage-users" element={<ManageUsers />} />
+        <Route path="/admin/manage-blogs" element={<ManageBlogs />} />
+        <Route path="/admin/manage-podcasts" element={<ManagePodcasts />} />
+        <Route path="/admin/manage-resources" element={<ManageResources />} />
+        <Route path="/admin/inquiries" element={<Inquiries />} />
+        <Route path="/admin/edit-about" element={<EditAbout />} />
+        <Route path="/admin/analytics" element={<Analytics />} />
+        <Route path="/admin/profile" element={<AdminProfile />} />
       </Routes>
       {!hideNavFooter && <Footer />}
 
