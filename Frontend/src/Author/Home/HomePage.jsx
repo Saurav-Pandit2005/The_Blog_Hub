@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import Hero from './Hero';
 import Explore_Categories from './Explore_Categories';
 import Articles from './Articles';
 import News_letter from './News_letter';
-import Stats from './Stats';
+// import Stats from './Stats';
 import Footer from '../Footer/Footer';
 
 function HomePage() {
+    const [selectedCategory, setSelectedCategory] = useState("All");
+
     return (
         <>
             <Navbar />
             <Hero />
-            <Explore_Categories />
-            <Articles />
+            <Explore_Categories
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+            />
+            <Articles
+                selectedCategory={selectedCategory}
+            />
             <News_letter />
-            <Stats />
+            {/* <Stats /> */}
             <Footer />
         </>
     );

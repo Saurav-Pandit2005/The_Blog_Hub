@@ -1,18 +1,24 @@
 import React from 'react';
 import './Explore_Categories.css';
 
-function Explore_Categories() {
+function Explore_Categories({ selectedCategory, setSelectedCategory }) {
     const categories = [
-        "Technology", "Design", "Productivity", "AI & ML",
-        "Business", "Marketing", "Writing Tips", "SEO"
+        "All", "Technology", "Design", "Productivity", "Lifestyle", "AI & ML",
+        "Business", "Marketing"
     ];
 
     return (
         <section className="categories">
-            <h2>Topics for Your Next Story</h2>
+            <h2>Topics in The Blog Hub</h2>
             <div className="category-list">
                 {categories.map((category, index) => (
-                    <span key={index}>{category}</span>
+                    <button
+                        key={index}
+                        className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
+                        onClick={() => setSelectedCategory(category)}
+                    >
+                        {category}
+                    </button>
                 ))}
             </div>
         </section>
