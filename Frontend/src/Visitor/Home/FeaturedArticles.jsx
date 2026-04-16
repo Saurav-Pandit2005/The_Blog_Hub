@@ -1,120 +1,128 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Calendar, Heart } from 'lucide-react';
+import { User, Calendar, Heart, MessageSquare } from 'lucide-react';
+import api from '../../api';
 import './FeaturedArticles.css';
-
-import blog1 from '../../assets/Images/Visitor/HomePage/blog1.webp';
-import blog2 from '../../assets/Images/Visitor/HomePage/blog2.jpg';
-import blog3 from '../../assets/Images/Visitor/HomePage/blog3.jpg';
-import blog4 from '../../assets/Images/Visitor/HomePage/blog4.jpg';
-import blog5 from '../../assets/Images/Visitor/HomePage/blog5.jpg';
-import blog6 from '../../assets/Images/Visitor/HomePage/blog6.webp';
-
-const blogData = [
-    {
-        id: 1,
-        image: blog1,
-        tag: "Technology",
-        title: "The Future of AI in Web Development",
-        desc: "Artificial intelligence is rapidly transforming modern web development.",
-        author: "Raghav Nayar",
-        date: "June 17, 2024"
-    },
-    {
-        id: 2,
-        image: blog2,
-        tag: "Design",
-        title: "10 Essential Design Principles",
-        desc: "Design principles that guide effective and modern UI systems.",
-        author: "Samriddhi Uniyal",
-        date: "April 29, 2023"
-    },
-    {
-        id: 3,
-        image: blog3,
-        tag: "Lifestyle",
-        title: "Mastering Productivity Tips",
-        desc: "Unlock your full productivity potential with smart habits.",
-        author: "David Lee",
-        date: "March 10, 2024"
-    },
-    {
-        id: 4,
-        image: blog4,
-        tag: "Technology",
-        title: "The Evolution of JavaScript ES2023",
-        desc: "Explore new features and updates in modern JavaScript.",
-        author: "Raghav Nayar",
-        date: "November 20, 2024"
-    },
-    {
-        id: 5,
-        image: blog5,
-        tag: "Lifestyle",
-        title: "Sustainable Living Guide",
-        desc: "Practical tips for a more eco-friendly and sustainable life.",
-        author: "Sophie Green",
-        date: "March 05, 2024"
-    },
-    {
-        id: 6,
-        image: blog6,
-        tag: "Marketing",
-        title: "The Art of Storytelling",
-        desc: "Learn how storytelling builds powerful brand identity.",
-        author: "Michael Brown",
-        date: "March 02, 2024"
-    }
-];
 
 function FeaturedArticles({ selectedCategory }) {
     const navigate = useNavigate();
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const isLoggedIn = !!(token && user?.id);
 
-    const handleLikeClick = (e) => {
+    useEffect(() => {
+        const fetchLatestBlogs = async () => {
+            try {
+                setLoading(true);
+                const res = await api.get('/blogs');
+                if (res.data.success) {
+                    setBlogs(res.data.data);
+                }
+            } catch (err) {
+                console.error("Error fetching homepage blogs:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchLatestBlogs();
+    }, []);
+
+    const handleLikeClick = async (blogId, e) => {
         e.preventDefault();
-        navigate('/register');
+        if (!isLoggedIn) {
+            navigate('/register');
+            return;
+        }
+        try {
+            const res = await api.put(`/blogs/${blogId}/like`);
+            if (res.data.success) {
+                // Update specific blog in the list
+                setBlogs(prev => prev.map(b => 
+                    b._id === blogId 
+                    ? { ...b, likes: b.likes.includes(user.id) ? b.likes.filter(id => id !== user.id) : [...b.likes, user.id] } 
+                    : b
+                ));
+            }
+        } catch (err) {
+            console.error("Like Error:", err);
+            if (err.response && err.response.status === 401) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                navigate('/register');
+            }
+        }
+    };
+
+    const handleCommentClick = (blogSlug, e) => {
+        e.preventDefault();
+        if (!isLoggedIn) {
+            navigate('/register');
+        } else {
+            navigate(`/blog-detail/${blogSlug}`);
+        }
     };
 
     const filteredBlogs = selectedCategory === "All"
-        ? blogData
-        : blogData.filter(blog => blog.tag === selectedCategory);
+        ? blogs.slice(0, 6)
+        : blogs.filter(blog => blog.category === selectedCategory).slice(0, 6);
+
+    if (loading) {
+        return <div className="loading-featured">Fetching the latest highlights...</div>;
+    }
+
+    const stripHtml = (html) => {
+        if (!html) return '';
+        return html.replace(/<[^>]*>?/gm, '');
+    };
 
     return (
         <section className="featured">
-            <h2>{selectedCategory === "All" ? "Featured Articles" : `${selectedCategory} Articles`}</h2>
+            <h2>{selectedCategory === "All" ? "Latest Highlights" : `${selectedCategory} Insights`}</h2>
             <div className="cards">
                 {filteredBlogs.length > 0 ? (
                     filteredBlogs.map((blog) => (
-                        <div className="card" key={blog.id}>
+                        <div className="card" key={blog._id}>
                             <div className="card-image">
-                                <img src={blog.image} alt={blog.title} />
-                                <span className="tag">{blog.tag}</span>
+                                <img src={blog.coverImage || 'https://via.placeholder.com/400x250'} alt={blog.title} />
+                                <span className="tag">{blog.category}</span>
                             </div>
                             <div className="card-content">
                                 <h3>{blog.title}</h3>
-                                <p>{blog.desc}</p>
-
+                                <p>{stripHtml(blog.summary || blog.content || "").substring(0, 85) + '...'}</p>
+                                
                                 <div className="card-footer">
-                                    <div className="author-info">
-                                        <User size={14} />
-                                        <span>{blog.author}</span>
+                                    <div className="left-stats">
+                                        <div className="author-info">
+                                            <User size={14} />
+                                            <span>{blog.author?.name || 'Hub Author'}</span>
+                                        </div>
+                                        <div className="date-info">
+                                            <Calendar size={14} />
+                                            <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+                                        </div>
                                     </div>
-                                    <div className="date-info">
-                                        <Calendar size={14} />
-                                        <span>{blog.date}</span>
+
+                                    <div className="social-actions">
+                                        <div className="social-pill comment-trigger" onClick={(e) => handleCommentClick(blog.slug, e)} style={{ cursor: 'pointer' }}>
+                                            <MessageSquare size={18} />
+                                            <span className="social-count">{blog.commentsCount || 0}</span>
+                                        </div>
+                                        <div className="social-pill like-trigger" onClick={(e) => handleLikeClick(blog._id, e)}>
+                                            <Heart size={18} className={blog.likes?.includes(user?.id) ? "liked" : ""} />
+                                            <span className="social-count">{blog.likes?.length || 0}</span>
+                                        </div>
                                     </div>
-                                    <button className="like-btn" onClick={handleLikeClick} title="Like this post">
-                                        <Heart size={22} />
-                                    </button>
                                 </div>
 
-                                <Link to="/blog-detail" className="read-more">Read More →</Link>
+                                <Link to={`/blog-detail/${blog.slug}`} className="read-more">Read More →</Link>
                             </div>
                         </div>
                     ))
                 ) : (
                     <div className="no-articles">
-                        <p>No articles found in this category yet.</p>
+                        <p>Our authors are hard at work. Check back soon for {selectedCategory} articles!</p>
                     </div>
                 )}
             </div>
