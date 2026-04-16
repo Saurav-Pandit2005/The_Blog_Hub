@@ -8,6 +8,8 @@ function BlogPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const [sortBy, setSortBy] = useState("Latest");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     return (
         <main>
@@ -24,8 +26,14 @@ function BlogPage() {
                 searchTerm={searchTerm}
                 selectedCategory={selectedCategory}
                 sortBy={sortBy}
+                currentPage={currentPage}
+                setTotalPages={setTotalPages}
             />
-            <Pagination />
+            <Pagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
         </main>
     );
 }
