@@ -118,6 +118,111 @@
     background: #2563EB;
 }
 
+/* PROFILE DROPDOWN */
+.profile-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 40px;
+    transition: 0.3s;
+}
+
+.user-profile-trigger:hover {
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.user-name {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.nav-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #3B82F6;
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: white;
+    min-width: 180px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 8px 0;
+    display: none;
+    z-index: 1000;
+    border: 1.5px solid #3B82F6;
+    animation: fadeIn 0.2s ease;
+}
+
+.profile-dropdown-container:hover .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: #475569;
+    font-weight: 500;
+    font-size: 14px;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.nav-dropdown-menu a:hover {
+    background: #f8fafc;
+    color: #3B82F6;
+}
+
+/* SYNCED DROPDOWN STYLES */
+.auth-dropdown-item {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.bold-item {
+    font-weight: 800 !important;
+    color: #1e293b !important;
+}
+
+.auth-logout-btn {
+    border-top: 1px solid #edf2f7;
+    padding-top: 10px !important;
+    color: #ef4444 !important;
+}
+
+.auth-logout-btn:hover {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+.auth-logout-btn:hover {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 992px) {
     .navbar {
         padding: 14px 40px;
@@ -125,9 +230,7 @@
 }
 
 @media (max-width: 768px) {
-
-    .nav-links,
-    .auth-buttons {
+    .nav-links, .auth-buttons {
         display: none;
     }
 }
