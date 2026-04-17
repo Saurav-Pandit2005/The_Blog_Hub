@@ -7,7 +7,7 @@ function ResourcesPage() {
     return (
         <main>
             <ResourcesHero />
-            <FeaturedResource />
+            {/* <FeaturedResource /> */}
             <ResourcesGrid />
         </main>
     );
