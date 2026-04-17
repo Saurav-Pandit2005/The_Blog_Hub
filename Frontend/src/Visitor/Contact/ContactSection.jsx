@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../../api';
 import './ContactSection.css';
 
 import locationIcon from '../../assets/Images/Visitor/Contact/location.png';
@@ -10,6 +12,53 @@ import facebookIcon from '../../assets/Images/Visitor/Contact/facebook.png';
 import instagramIcon from '../../assets/Images/Visitor/Contact/instagram.png';
 
 function ContactSection() {
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const isLoggedIn = !!(token && user?.id);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+    const [loading, setLoading] = useState(false);
+
+    const { name, email, subject, message } = formData;
+
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (!isLoggedIn || user?.role?.toLowerCase() !== 'author') {
+            alert('Please login as an Author to send messages.');
+            navigate('/register');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await api.post('/inquiries', formData);
+            if (res.data.success) {
+                alert('Message Sent Successfully!');
+                setFormData({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
+                });
+            }
+        } catch (err) {
+            alert(err.response?.data?.error || 'Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <section className="contact-section">
             {/* LEFT INFO */}
@@ -59,20 +108,50 @@ function ContactSection() {
             {/* RIGHT FORM */}
             <div className="contact-form">
                 <h2>Send Us a Message</h2>
-                <form onSubmit={(e) => e.preventDefault()}>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" placeholder="Full Name" />
+                        <input 
+                            type="text" 
+                            name="name"
+                            placeholder="Full Name" 
+                            value={name}
+                            onChange={onChange}
+                            required
+                        />
                     </div>
                     <div className="form-group">
-                        <input type="email" placeholder="Email Address" />
+                        <input 
+                            type="email" 
+                            name="email"
+                            placeholder="Email Address" 
+                            value={email}
+                            onChange={onChange}
+                            required
+                        />
                     </div>
                     <div className="form-group">
-                        <input type="text" placeholder="Subject" />
+                        <input 
+                            type="text" 
+                            name="subject"
+                            placeholder="Subject" 
+                            value={subject}
+                            onChange={onChange}
+                            required
+                        />
                     </div>
                     <div className="form-group">
-                        <textarea rows="5" placeholder="Your Message"></textarea>
+                        <textarea 
+                            name="message"
+                            rows="5" 
+                            placeholder="Your Message"
+                            value={message}
+                            onChange={onChange}
+                            required
+                        ></textarea>
                     </div>
-                    <button type="submit" className="primary-btn">Send Message</button>
+                    <button type="submit" className="primary-btn" disabled={loading}>
+                        {loading ? 'Sending...' : 'Send Message'}
+                    </button>
                 </form>
             </div>
         </section>

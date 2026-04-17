@@ -3,9 +3,14 @@ import './ContactHero.css';
 
 function ContactHero() {
     return (
-        <section className="contact-hero">
-            <h1>Get in Touch</h1>
-            <p>Have questions, feedback, or ideas? We’d love to hear from you.</p>
+        <section className="podcast-hero blogs-hero-custom">
+            <div className="podcast-hero-content">
+                <h1>Get in <span className="highlight">Touch</span> & Shared <span className="highlight">Feedback</span></h1>
+                <p>
+                    Have questions, ideas, or just want to say hello? We’re here to listen 
+                    and help you get the most out of The Blog Hub experience.
+                </p>
+            </div>
         </section>
     );
 }
