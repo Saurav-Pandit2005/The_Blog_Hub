@@ -10,6 +10,13 @@ function ExplorePage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const [sortBy, setSortBy] = useState("Latest");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo(0, 400); // Scroll to content area
+    };
 
     return (
         <>
@@ -27,8 +34,16 @@ function ExplorePage() {
                 searchTerm={searchTerm}
                 selectedCategory={selectedCategory}
                 sortBy={sortBy}
+                currentPage={currentPage}
+                setTotalPages={setTotalPages}
             />
-            <Pagination />
+            {totalPages > 1 && (
+                <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
             <Footer />
         </>
     );
