@@ -1,51 +1,135 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Play, Headphones, Eye, Trash2 } from 'lucide-react';
+import api from '../../api';
+import Pagination from './Pagination';
 import './Podcasts.css';
 
-// Assets from Author/Podcasts
-import p1 from '../../assets/Images/Author/Podcasts/p1.jpg';
-import p2 from '../../assets/Images/Author/Podcasts/p2.jpg';
-import p3 from '../../assets/Images/Author/Podcasts/p3.jpg';
+const PodcastSkeleton = () => (
+    <div className="podcast-skeleton-card">
+        <div className="skeleton-image shine"></div>
+        <div className="skeleton-content">
+            <div className="skeleton-line full shine"></div>
+            <div className="skeleton-line path shine"></div>
+            <div className="skeleton-footer">
+                <div className="skeleton-circle shine"></div>
+                <div className="skeleton-btn shine"></div>
+            </div>
+        </div>
+    </div>
+);
 
 function Podcasts() {
-    const podcastsData = [
-        {
-            image: p1,
-            duration: "5:20 min",
-            title: "AI in Healthcare",
-            desc: "Discussing how artificial intelligence is transforming patient care and diagnostics."
-        },
-        {
-            image: p2,
-            duration: "8:45 min",
-            title: "AI Ethics",
-            desc: "Exploring ethical considerations and real-world dilemmas in modern AI systems."
-        },
-        {
-            image: p3,
-            duration: "6:15 min",
-            title: "Machine Learning Explained",
-            desc: "Breaking down complex ML concepts into simple, understandable discussions."
-        }
-    ];
+    const navigate = useNavigate();
+    const [podcasts, setPodcasts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const podcastsPerPage = 3;
+
+    useEffect(() => {
+        const fetchPodcasts = async () => {
+            try {
+                setLoading(true);
+                const res = await api.get('/podcasts');
+                if (res.data.success) {
+                    setPodcasts(res.data.data);
+                }
+            } catch (err) {
+                console.error("Error fetching podcasts:", err);
+            } finally {
+                setTimeout(() => setLoading(false), 800);
+            }
+        };
+        fetchPodcasts();
+    }, []);
+
+    const handleWatchClick = (podcastId, e) => {
+        e.preventDefault();
+        // Authors are already logged in, so just navigate
+        navigate(`/podcast-detail/${podcastId}`);
+    };
+
+    // Pagination Logic
+    const indexOfLastPodcast = currentPage * podcastsPerPage;
+    const indexOfFirstPodcast = indexOfLastPodcast - podcastsPerPage;
+    const currentPodcasts = podcasts.slice(indexOfFirstPodcast, indexOfLastPodcast);
+    const totalPages = Math.ceil(podcasts.length / podcastsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
-        <section className="podcast-section">
+        <section className="author-podcast-section">
             <div className="podcast-grid">
-                {podcastsData.map((podcast, index) => (
-                    <div className="podcast-card" key={index}>
-                        <div className="podcast-image">
-                            <img src={podcast.image} alt={podcast.title} />
-                            <div className="play-icon">▶</div>
-                            <span className="duration">{podcast.duration}</span>
+                {loading ? (
+                    [1, 2, 3].map(i => <PodcastSkeleton key={i} />)
+                ) : currentPodcasts.length > 0 ? (
+                    currentPodcasts.map((podcast) => (
+                        <div className="podcast-card" key={podcast._id}>
+                            <div className="podcast-image-wrapper">
+                                <img src={podcast.coverImage || 'https://via.placeholder.com/600x400'} alt={podcast.title} />
+                                <div 
+                                    className="play-button-overlay" 
+                                    onClick={(e) => handleWatchClick(podcast._id, e)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div className="play-icon-circle">
+                                        {podcast.type === 'Audio' ? <Headphones size={24} color="white" /> : <Play size={24} color="white" fill="white" />}
+                                    </div>
+                                </div>
+                                <div className="duration-pill">{podcast.duration || '0:00'} min</div>
+                                <div className="format-badge">{podcast.type}</div>
+                            </div>
+
+                            <div className="podcast-content">
+                                <div className="card-top-meta">
+                                    <span className="podcast-category-pill">{podcast.category}</span>
+                                    <span className="podcast-plays">
+                                        {podcast.type === 'Audio' ? <Headphones size={14} /> : <Eye size={14} />}
+                                        {podcast.plays || 0} {podcast.type === 'Audio' ? 'Listens' : 'Views'}
+                                    </span>
+                                </div>
+                                
+                                <h3 className="podcast-title">{podcast.title}</h3>
+                                <p className="podcast-description">{podcast.desc}</p>
+
+                                <div className="card-bottom-footer">
+                                    <div className="podcast-author">
+                                        <img 
+                                            src={podcast.host?.profilePic || `https://ui-avatars.com/api/?name=${podcast.host?.name || 'Author'}&background=eff6ff&color=3b82f6`} 
+                                            alt={podcast.host?.name} 
+                                        />
+                                        <div className="author-text">
+                                            <span className="by">Hosted by</span>
+                                            <span className="name">{podcast.host?.name || 'Hub Expert'}</span>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={(e) => handleWatchClick(podcast._id, e)}
+                                        className="action-btn-main"
+                                    >
+                                        {podcast.type === 'Audio' ? 'Listen Podcast →' : 'Watch Podcast →'}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
-                        <h3>{podcast.title}</h3>
-                        <p>{podcast.desc}</p>
-
-                        <a href="#listen" className="podcast-btn">Listen Episode →</a>
+                    ))
+                ) : (
+                    <div className="no-podcasts-state">
+                        <p>No podcasts available. Start the first conversation!</p>
                     </div>
-                ))}
+                )}
             </div>
+
+            {podcasts.length > podcastsPerPage && !loading && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
         </section>
     );
 }
