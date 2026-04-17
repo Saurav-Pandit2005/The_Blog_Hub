@@ -1,31 +1,35 @@
+/* ===== REGISTER FORM - NORMALIZED PREMIUM LOOK ===== */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 .auth-section {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #EAF2FF, #F4F8FF);
-    padding: 40px 20px;
+    /* Soft, normalized light blue gradient */
+    background: linear-gradient(135deg, #F0F7FF 0%, #E2E8F0 100%);
+    padding: 60px 20px;
+    font-family: 'Outfit', sans-serif;
+    position: relative;
+    overflow: hidden;
 }
 
-/* FORM BOX */
+/* FORM BOX - Clean Look with Premium Shadow */
 .auth-box {
     width: 100%;
-    max-width: 420px;
-    background: white;
-    padding: 50px 55px;
-    border-radius: 18px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-    font-family: 'Outfit', sans-serif !important;
+    max-width: 480px;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); /* Soft shadow */
+    border: 1px solid #e2e8f0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
 }
 
-/* TITLE */
-.auth-box h2 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 5px;
-    color: #3B82F6;
-    font-family: 'Merriweather', serif !important;
-    font-weight: 700;
+.auth-box:hover {
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 .back-home {
@@ -37,88 +41,128 @@
 .back-home a {
     color: #64748b;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 8px 14px;
+    border-radius: 100px;
 }
 
 .back-home a:hover {
     color: #3B82F6;
+    background: #eff6ff;
 }
 
-/* SUBTITLE */
+/* TITLE & SUBTITLE */
+.auth-box h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #0f172a;
+    font-family: 'Merriweather', serif;
+    font-weight: 900;
+}
+
 .auth-subtitle {
     text-align: center;
-    margin-bottom: 30px;
-    color: #666;
-    font-size: 14px;
-    font-family: 'Outfit', sans-serif !important;
+    margin-bottom: 35px;
+    color: #64748b;
+    font-size: 15px;
     font-weight: 500;
 }
 
-/* INPUT GROUP */
+/* INPUT GROUPS */
 .input-group {
     width: 100%;
-    margin-bottom: 20px;
-    font-family: 'Outfit', sans-serif !important;
+    margin-bottom: 22px;
 }
 
 .input-group label {
     display: block;
     margin-bottom: 6px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .input-group input,
 .input-group select {
     width: 100%;
-    padding: 13px 16px;
-    border-radius: 8px;
-    border: 2px solid #3B82F6;
-    font-size: 14px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 15px;
+    color: #1e293b;
     outline: none;
-    transition: 0.3s;
-    background: white;
-    font-family: 'Outfit', sans-serif !important;
+    transition: all 0.2s ease;
+    background: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+    box-sizing: border-box;
 }
 
-/* Focus Effect */
+/* Input Focus Effect */
 .input-group input:focus,
 .input-group select:focus {
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: #3B82F6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
 /* BUTTON */
 .auth-btn {
     width: 100%;
-    padding: 12px;
+    padding: 16px;
     margin-top: 10px;
     border: none;
-    border-radius: 100px;
-    /* Modern touch */
+    border-radius: 12px;
     background: #3B82F6;
     color: white;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 800;
+    font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
-    font-family: 'Outfit', sans-serif !important;
+    transition: all 0.3s ease;
+    font-family: 'Outfit', sans-serif;
 }
 
 .auth-btn:hover {
     background: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 /* SWITCH TEXT */
 .switch-text {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
     font-size: 14px;
+    color: #64748b;
 }
 
 .switch-text a {
     color: #3B82F6;
-    font-weight: 600;
+    font-weight: 800;
     text-decoration: none;
+    margin-left: 6px;
+}
+
+.switch-text a:hover {
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .auth-box {
+        padding: 35px 25px;
+    }
 }
