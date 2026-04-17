@@ -1,4 +1,4 @@
-/* ================= AUTHOR NAVBAR ================= */
+/* ================= AUTHOR NAVBAR (Synced with Visitor Look) ================= */
 
 .author-navbar {
     display: flex;
@@ -65,36 +65,38 @@
     width: 100%;
 }
 
-/* ================= PROFILE & USER INFO ================= */
-.author-navbar .profile-container {
+/* ================= PROFILE & USER INFO (Author Specific) ================= */
+.auth-profile-container {
     display: flex;
     align-items: center;
     gap: 12px;
     cursor: pointer;
     position: relative;
-}
-
-.author-navbar .user-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: #333;
-}
-
-.author-navbar .profile-img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #3B82F6;
+    padding: 4px 8px;
     transition: 0.3s;
 }
 
-.author-navbar .profile-img:hover {
-    transform: scale(1.05);
+.auth-profile-container:hover {
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 40px;
+}
+
+.auth-user-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.auth-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #3B82F6;
 }
 
 /* Dropdown Box */
-.author-navbar .dropdown-content {
+.auth-dropdown-content {
     display: none;
     position: absolute;
     right: 0;
@@ -102,72 +104,64 @@
     background: white;
     min-width: 180px;
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    padding: 8px;
-    border: 1px solid rgba(59, 130, 246, 0.1);
+    padding: 8px 0;
+    border: 1.5px solid #3B82F6;
     z-index: 1001;
-    transform-origin: top right;
 }
 
-.author-navbar .dropdown-content.show {
+.auth-dropdown-content.show {
     display: block;
-    animation: dropdownFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: authFadeIn 0.2s ease;
 }
 
-.author-navbar .dropdown-content a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+.auth-dropdown-item {
+    display: block;
+    padding: 10px 20px;
     text-decoration: none;
     color: #475569;
     font-size: 14px;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    font-weight: 500;
+    transition: 0.2s;
 }
 
-.author-navbar .dropdown-content a:hover {
-    background: #F1F5F9;
-    color: #3B82F6;
-    transform: translateX(4px);
+.auth-dropdown-item:hover {
+    background: #f8fafc;
+    color: #3b82f6;
 }
 
-/* Specific styling for Logout */
-.author-navbar .dropdown-content a:last-child {
-    margin-top: 4px;
-    border-top: 1px solid #F1F5F9;
-    padding-top: 12px;
-    color: #EF4444;
+.bold-item {
+    font-weight: 800 !important;
+    color: #1e293b !important;
 }
 
-.author-navbar .dropdown-content a:last-child:hover {
-    background: #FFF1F2;
-    color: #DC2626;
+/* LOGOUT SPECIFIC (RED) */
+.auth-logout-btn {
+    border-top: 1px solid #edf2f7;
+    margin-top: 5px;
+    padding-top: 10px !important;
+    color: #ef4444 !important;
 }
 
-@keyframes dropdownFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.95);
+.auth-logout-btn:hover {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+@keyframes authFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 992px) {
+    .author-navbar {
+        padding: 14px 40px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 }
 
-/* Arrow pointer */
-.author-navbar .dropdown-content::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    right: 15px;
-    width: 12px;
-    height: 12px;
-    background: white;
-    transform: rotate(45deg);
-    border-left: 1px solid rgba(59, 130, 246, 0.1);
-    border-top: 1px solid rgba(59, 130, 246, 0.1);
+@media (max-width: 768px) {
+    .author-navbar .nav-links {
+        display: none;
+    }
 }
