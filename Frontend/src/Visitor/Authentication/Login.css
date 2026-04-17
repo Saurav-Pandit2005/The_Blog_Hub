@@ -1,92 +1,107 @@
+/* ===== LOGIN FORM - NORMALIZED PREMIUM LOOK ===== */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 .login-container {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #F4F8FF 0%, #EAF2FF 100%);
+    /* Soft, normalized light blue gradient */
+    background: linear-gradient(135deg, #F0F7FF 0%, #E2E8F0 100%);
+    padding: 60px 20px;
+    font-family: 'Outfit', sans-serif;
+    position: relative;
+    overflow: hidden;
 }
 
+/* LOGIN CARD - Clean look with Premium Shadow */
 .login-card {
-    width: 420px;
-    background: white;
-    padding: 45px;
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 50px;
     border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.1);
-    text-align: center;
-    font-family: 'Outfit', sans-serif !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.login-card:hover {
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 .login-card h2 {
-    margin-bottom: 30px;
-    color: #3B82F6;
-    font-family: 'Merriweather', serif !important;
-    font-weight: 700;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 35px;
+    color: #0f172a;
+    font-family: 'Merriweather', serif;
+    font-weight: 900;
 }
 
 .back-home {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .back-home a {
     color: #64748b;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 8px 14px;
+    border-radius: 100px;
 }
 
 .back-home a:hover {
     color: #3B82F6;
+    background: #eff6ff;
 }
 
-.login-card input,
-.login-card select,
-.login-card button,
-.login-card label,
-.login-card a,
-.login-card span,
-.login-card div {
-    font-family: 'Outfit', sans-serif !important;
-}
-
-/* FORM */
+/* FORM ELEMENTS */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #3B82F6;
-    border-radius: 10px;
-    font-family: 'Outfit', sans-serif !important;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
     font-size: 15px;
     color: #1e293b;
-    background: white;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+    box-sizing: border-box;
 }
 
-.form-group input::placeholder {
-    font-family: 'Outfit', sans-serif !important;
-    color: #94a3b8;
-}
-
-/* Highlight dropdown when selected */
-.form-group select {
-    cursor: pointer;
-}
-
-.form-group select option {
-    padding: 10px;
-}
-
-/* Focus effect */
+/* Focus Effect */
 .form-group input:focus,
 .form-group select:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: #3B82F6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
 /* REMEMBER + FORGOT */
@@ -94,25 +109,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     font-size: 14px;
+    color: #64748b;
 }
 
 .extra-options label {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     cursor: pointer;
-}
-
-.extra-options input[type="checkbox"] {
-    accent-color: #3B82F6;
 }
 
 .forgot-link {
     color: #3B82F6;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .forgot-link:hover {
@@ -122,28 +134,47 @@
 /* BUTTON */
 .login-card .primary-btn {
     width: 100%;
-    padding: 12px;
-    background: #3B82F6;
+    padding: 16px;
+    margin-top: 10px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
+    background: #3B82F6;
     color: white;
-    font-weight: 600;
+    font-weight: 800;
+    font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
-    font-family: 'Outfit', sans-serif !important;
+    transition: all 0.3s ease;
+    font-family: 'Outfit', sans-serif;
 }
 
 .login-card .primary-btn:hover {
     background: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
 }
 
+/* FOOTER */
 .auth-footer {
-    margin-top: 20px;
+    text-align: center;
+    margin-top: 30px;
     font-size: 14px;
+    color: #64748b;
 }
 
 .auth-footer a {
     color: #3B82F6;
-    font-weight: 600;
+    font-weight: 800;
     text-decoration: none;
+    margin-left: 6px;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .login-card {
+        padding: 35px 25px;
+    }
 }

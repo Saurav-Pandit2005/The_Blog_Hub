@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../../api';
 import './Login.css';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
-        // Dummy Author Login
-        if (email === "author@test.com" && password === "123456" && role === "author") {
-            navigate("/author/home");
-        }
-        // Dummy Admin Login
-        else if (email === "admin@test.com" && password === "123456" && role === "admin") {
-            navigate("/admin/dashboard");
-        }
-        else {
-            alert("Invalid email, password, or role!");
+        try {
+            const res = await api.post('/auth/login', { email, password });
+            
+            if (res.data.success) {
+                const { token, user } = res.data;
+                
+                // Store in localStorage
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // Navigate based on role
+                if (user.role === 'Admin') {
+                    navigate("/admin/dashboard");
+                } else if (user.role === 'Author') {
+                    navigate("/author/home");
+                } else {
+                    navigate("/home");
+                }
+            }
+        } catch (err) {
+            alert(err.response?.data?.error || "Invalid email or password!");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -52,18 +68,6 @@ function Login() {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <select
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
-                            required
-                        >
-                            <option value="">✔ Select Role</option>
-                            <option value="author">Author</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-
                     <div className="extra-options">
                         <label>
                             <input type="checkbox" name="remember" />
@@ -74,8 +78,8 @@ function Login() {
                         </Link>
                     </div>
 
-                    <button type="submit" className="primary-btn">
-                        Login
+                    <button type="submit" className="primary-btn" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
 
