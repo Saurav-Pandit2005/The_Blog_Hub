@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FileText, Tag, Layers, Send, X, UploadCloud, Info, BookOpen } from 'lucide-react';
 import Slidebar from '../Slidebar/Slidebar';
-import './UploadResource.css';
+import api from '../../../api';
+import '../WritePost/WritePost.css';
 
 function UploadResource() {
     const navigate = useNavigate();
+    const [resourceFile, setResourceFile] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
-        description: '',
-        resourceType: '',
-        file: null,
-        link: '',
-        visibility: 'public'
+        desc: '',
+        category: '',
+        type: 'PDF',
+        status: 'Published'
     });
 
     const handleChange = (e) => {
@@ -20,132 +23,178 @@ function UploadResource() {
     };
 
     const handleFileChange = (e) => {
-        setFormData(prev => ({ ...prev, file: e.target.files[0] }));
+        if (e.target.files && e.target.files[0]) {
+            setResourceFile(e.target.files[0]);
+        }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Resource Submitted:", formData);
-        alert("Resource uploaded successfully!");
-        navigate('/author/dashboard/resources');
+
+        if (!formData.title.trim() || formData.title.length < 10) {
+            alert("Please provide a title (min 10 characters).");
+            return;
+        }
+
+        if (!formData.desc.trim() || formData.desc.length < 30) {
+            alert("Please provide a description (min 30 characters).");
+            return;
+        }
+
+        if (!resourceFile) {
+            alert("Please upload a PDF document.");
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            const data = new FormData();
+            Object.keys(formData).forEach(key => data.append(key, formData[key]));
+            if (resourceFile) {
+                data.append('resourceFile', resourceFile);
+            }
+            const res = await api.post('/resources', data, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            if (res.data.success) {
+                alert("Resource Added Successfully!");
+                navigate('/author/dashboard/resources');
+            }
+        } catch (err) {
+            console.error("Error uploading resource:", err);
+            alert("Failed to add resource. Please verify category and type.");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
-        <div className="upload-resource-container">
+        <div className="write-post-container">
             <Slidebar />
-
-            <main className="upload-resource-main">
-                <header className="upload-header">
-                    <div className="header-text">
-                        <h1>Upload New Resource</h1>
-                        <p>Share templates, guides, or external resources with your audience.</p>
+            
+            <main className="write-content-main">
+                <header className="write-header-top">
+                    <div className="header-badge">
+                        <BookOpen size={14} />
+                        <span>Library Curator</span>
                     </div>
+                    <h1>Upload Resource</h1>
+                    <p>Contribute knowledge by sharing PDFs, Guides, and E-books.</p>
                 </header>
 
-                <form className="upload-form" onSubmit={handleSubmit}>
-                    <div className="form-grid">
-                        <div className="form-left">
-                            <div className="input-group">
+                <div className="write-editor-wrapper">
+                    <form className="editor-main-card" onSubmit={handleSubmit}>
+
+                        {/* LEFT SECTION: Details */}
+                        <div className="editor-body">
+                            <div className="input-field-group">
                                 <label>Resource Title</label>
-                                <input
-                                    type="text"
-                                    name="title"
-                                    placeholder="e.g., SEO Checklist 2024"
+                                <input 
+                                    type="text" 
+                                    name="title" 
+                                    placeholder="e.g. FullStack Modern Web Guide 2024" 
                                     value={formData.title}
                                     onChange={handleChange}
-                                    required
+                                    className="premium-input title-input"
+                                    required 
                                 />
                             </div>
 
-                            <div className="input-group">
-                                <label>Description</label>
-                                <textarea
-                                    name="description"
-                                    placeholder="Briefly describe what this resource offers..."
-                                    value={formData.description}
+                             <div className="input-field-group">
+                                <label>Detailed Description</label>
+                                <textarea 
+                                    name="desc" 
+                                    placeholder="Explain what's inside this resource..." 
+                                    rows="12"
+                                    value={formData.desc}
                                     onChange={handleChange}
+                                    className="premium-textarea"
                                     required
                                 ></textarea>
                             </div>
 
-                            <div className="input-group">
-                                <label>Resource Type</label>
-                                <select 
-                                    name="resourceType" 
-                                    value={formData.resourceType} 
-                                    onChange={handleChange} 
-                                    required
-                                >
-                                    <option value="">Select Type</option>
-                                    <option value="PDF">PDF Document</option>
-                                    <option value="Ebook">E-book</option>
-                                    <option value="Template">Template</option>
-                                    <option value="Spreadsheet">Spreadsheet</option>
-                                    <option value="External Link">External Link</option>
-                                </select>
+                            <div className="input-field-group">
+                                <label>Select PDF Document</label>
+                                <div className="file-selector-premium">
+                                    <button 
+                                        type="button" 
+                                        className="select-file-btn"
+                                        onClick={() => document.getElementById('pdf-upload').click()}
+                                    >
+                                        <UploadCloud size={18} />
+                                        Choose File
+                                    </button>
+                                    <div className="selected-filename">
+                                        {resourceFile ? resourceFile.name : 'No file selected yet...'}
+                                    </div>
+                                    <input 
+                                        type="file" 
+                                        id="pdf-upload"
+                                        accept=".pdf"
+                                        onChange={handleFileChange}
+                                        style={{ display: 'none' }}
+                                        required
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        <div className="form-right">
-                            <div className="upload-box-container">
-                                <label>Upload File (Optional for Links)</label>
-                                <div className="resource-upload-zone">
-                                    <input 
-                                        type="file" 
-                                        onChange={handleFileChange} 
-                                    />
-                                    <div className="zone-content">
-                                        <span className="icon">📁</span>
-                                        <p>{formData.file ? formData.file.name : "Drag & Drop or Click to Upload"}</p>
+                        {/* RIGHT SECTION: Meta & Action */}
+                        <div className="editor-sidebar">
+                            <div className="sidebar-section">
+                                <div className="section-title">
+                                    <Tag size={18} />
+                                    <h3>Categorization</h3>
+                                </div>
+                                <div className="input-field-group">
+                                    <label>Resource Category</label>
+                                    <div className="tag-input-wrapper">
+                                        <Layers size={16} className="tag-icon" />
+                                        <input 
+                                            type="text"
+                                            name="category" 
+                                            value={formData.category} 
+                                            onChange={handleChange} 
+                                            placeholder="e.g. Web Design"
+                                            className="premium-input with-icon"
+                                            required 
+                                        />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="input-group">
-                                <label>External URL (If applicable)</label>
-                                <input
-                                    type="url"
-                                    name="link"
-                                    placeholder="https://example.com/resource"
-                                    value={formData.link}
-                                    onChange={handleChange}
-                                />
-                                <span className="input-hint">Use this if the resource is hosted elsewhere.</span>
-                            </div>
-
-                            <div className="input-group">
-                                <label>Visibility</label>
-                                <div className="radio-group">
-                                    <label className="radio-label">
-                                        <input 
-                                            type="radio" 
-                                            name="visibility" 
-                                            value="public" 
-                                            checked={formData.visibility === 'public'}
-                                            onChange={handleChange}
-                                        />
-                                        Public
-                                    </label>
-                                    <label className="radio-label">
-                                        <input 
-                                            type="radio" 
-                                            name="visibility" 
-                                            value="private" 
-                                            checked={formData.visibility === 'private'}
-                                            onChange={handleChange}
-                                        />
-                                        Private (Draft)
-                                    </label>
+                            <div className="sidebar-section">
+                                <div className="section-title">
+                                    <FileText size={18} />
+                                    <h3>Format</h3>
+                                </div>
+                                <div className="input-field-group">
+                                    <label>File Type</label>
+                                    <select className="premium-input" name="type" value={formData.type} onChange={handleChange} required>
+                                        <option value="PDF">PDF Document</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div className="form-footer">
-                        <button type="button" className="secondary-btn" onClick={() => navigate('/author/dashboard/resources')}>Cancel</button>
-                        <button type="submit" className="primary-btn">Save Resource</button>
-                    </div>
-                </form>
+                            <div className="sidebar-info-box">
+                                <div className="info-icon"><Info size={16} /></div>
+                                <p>Maximum file size allowed is 20MB. Ensure your PDF is optimized for web viewing.</p>
+                            </div>
+
+                            <div className="editor-actions">
+                                <button type="button" className="action-btn outline" onClick={() => navigate('/author/dashboard/resources')}>
+                                    <X size={18} />
+                                    Cancel
+                                </button>
+                                <button type="submit" className="action-btn filled" disabled={submitting}>
+                                    <Send size={18} />
+                                    {submitting ? 'Uploading...' : 'Publish Resource'}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
             </main>
         </div>
     );
