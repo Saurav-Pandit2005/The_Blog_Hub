@@ -1,0 +1,222 @@
+/* ================= ADMIN VISITOR NAVBAR (Synced with Author Look) ================= */
+
+.author-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 110px;
+    width: 100%;
+    background: linear-gradient(90deg, #EEF5FF 0%, #F5F9FF 100%);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* LOGO */
+.author-navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: #3B82F6;
+    text-decoration: none;
+}
+
+.author-navbar .logo img {
+    width: 30px;
+}
+
+.auth-user-info-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.admin-tag-new {
+    font-size: 10px;
+    background: #3b82f6;
+    color: white;
+    padding: 1px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+/* NAV LINKS */
+.author-navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+}
+
+.author-navbar .nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    position: relative;
+    transition: 0.3s;
+}
+
+/* Hover underline animation */
+.author-navbar .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background: #3B82F6;
+    transition: 0.3s;
+}
+
+.author-navbar .nav-links a:hover {
+    color: #3B82F6;
+}
+
+.author-navbar .nav-links a:hover::after {
+    width: 100%;
+}
+
+/* ================= PROFILE & USER INFO ================= */
+.auth-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+    padding: 4px 8px;
+    transition: 0.3s;
+}
+
+.auth-profile-container:hover {
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 40px;
+}
+
+.auth-user-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.auth-profile-img-square {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #3B82F6;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.1);
+}
+
+/* Dropdown Box */
+.auth-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background: white;
+    min-width: 180px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 8px 0;
+    border: 1.5px solid #3B82F6;
+    z-index: 1001;
+}
+
+.auth-dropdown-content.show {
+    display: block;
+    animation: authFadeIn 0.2s ease;
+}
+
+.auth-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 20px;
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-align: left;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.auth-dropdown-item:hover {
+    background: rgba(59, 130, 246, 0.04);
+    color: #3b82f6;
+    padding-left: 24px;
+}
+
+.bold-item {
+    font-weight: 800 !important;
+    color: #1e293b !important;
+}
+
+/* LOGOUT SPECIFIC (RED) */
+.auth-logout-btn {
+    color: #ef4444 !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+}
+
+.auth-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.05) !important;
+    color: #dc2626 !important;
+}
+
+/* Premium Admin Dropdown Specifics */
+.auth-chevron {
+    color: #475569;
+    transition: transform 0.3s ease;
+}
+
+.auth-chevron.open {
+    transform: rotate(180deg);
+}
+
+.premium-admin-dropdown {
+    width: 200px;
+    padding: 8px 0;
+    border-radius: 12px;
+    border: 1.5px solid #3b82f6;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e2e8f0;
+    width: 100%;
+    margin: 4px 0;
+}
+
+@keyframes authFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 992px) {
+    .author-navbar {
+        padding: 14px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .author-navbar .nav-links {
+        display: none;
+    }
+}
+
+
