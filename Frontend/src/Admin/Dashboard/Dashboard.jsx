@@ -1,33 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../api';
 import './Dashboard.css';
+import { Users, FileText, Mic, Box, Calendar } from 'lucide-react';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
+import { UserContext } from '../../context/UserContext';
 
 function AdminDashboard() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    const { user } = useContext(UserContext);
+    const [statsData, setStatsData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+        fetchStats();
     }, []);
 
-    const stats = [
-        { label: 'Total Users', value: '1,240', change: '+12%', color: '#3b82f6', icon: '👥' },
-        { label: 'Total Blogs', value: '3,850', change: '+5%', color: '#10b981', icon: '📝' },
-        { label: 'Active Podcasts', value: '150', change: '+8%', color: '#f59e0b', icon: '🎙️' },
-        { label: 'Downloads', value: '12.5k', change: '+24%', color: '#8b5cf6', icon: '📥' },
+    const fetchStats = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/admin/stats');
+            if (res.data.success) {
+                setStatsData(res.data.data);
+            }
+        } catch (err) {
+            console.error('Error fetching admin stats:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const dashboardStats = [
+        { label: 'Total Users', value: statsData?.totalUsers || '0', color: '#3b82f6', icon: <Users size={24} />, path: '/admin/manage-users' },
+        { label: 'Total Blogs', value: statsData?.totalBlogs || '0', color: '#10b981', icon: <FileText size={24} />, path: '/admin/manage-blogs' },
+        { label: 'Active Podcasts', value: statsData?.totalPodcasts || '0', color: '#f59e0b', icon: <Mic size={24} />, path: '/admin/manage-podcasts' },
+        { label: 'Resources', value: statsData?.totalResources || '0', color: '#8b5cf6', icon: <Box size={24} />, path: '/admin/manage-resources' },
     ];
 
     return (
@@ -37,42 +45,49 @@ function AdminDashboard() {
             <main className="admin-main-content">
                 <header className="admin-header">
                     <div className="header-text">
-                        <h1>System Administration Overview</h1>
-                        <p>Real-time oversight and site management dashboard.</p>
+                        <span className="breadcrumb">Administrator Control Panel</span>
+                        <h1>Admin Overall View</h1>
+                        <p>Monitor platform growth, manage users, and audit system activities from one central hub.</p>
                     </div>
                     <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
+                        <div className="header-date">
+                            <Calendar size={16} color="var(--admin-accent)" style={{marginRight: '10px'}} />
+                            <span className="live-clock">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                        <div className="admin-profile-container" onClick={() => navigate('/admin/profile')}>
+                            <div className="admin-profile-icon">
+                                <img src={user?.profilePic || adminProfileImg} alt="Admin Profile" />
                                 <span className="status-online"></span>
                             </div>
-
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </header>
 
                 <div className="stats-grid">
-                    {stats.map((stat, index) => (
-                        <div key={index} className="stat-card" style={{ '--accent-color': stat.color }}>
-                            <div className="stat-card-inner">
-                                <div className="stat-top">
-                                    <span className="stat-label">{stat.label}</span>
-                                    <div className="stat-icon">{stat.icon}</div>
-                                </div>
-                                <div className="stat-bottom">
-                                    <h2 className="stat-value">{stat.value}</h2>
-                                    <span className="stat-trend positive">{stat.change} ↑</span>
+                    {loading ? (
+                        <div className="loading-state">Syncing real-time stats...</div>
+                    ) : (
+                        dashboardStats.map((stat, index) => (
+                            <div 
+                                key={index} 
+                                className="admin-stat-card-custom" 
+                                style={{ '--accent-color': stat.color, cursor: 'pointer' }}
+                                onClick={() => navigate(stat.path)}
+                            >
+                                <div className="stat-card-inner">
+                                    <div className="stat-top">
+                                        <div className="stat-info">
+                                            <span className="stat-label">{stat.label}</span>
+                                            <h2 className="stat-value">{stat.value}</h2>
+                                        </div>
+                                        <div className="stat-icon-wrapper" style={{ backgroundColor: stat.color }}>
+                                            {stat.icon}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
 
                 <div className="dashboard-main-grid">
@@ -81,38 +96,27 @@ function AdminDashboard() {
                         <div className="card-header">
                             <div className="header-title">
                                 <h3>New Authors</h3>
-                                <span className="view-count">8 pending</span>
+                                <span className="view-count">{statsData?.recentUsers?.length || 0} recent</span>
                             </div>
-                            <button className="text-btn">Manage</button>
+                            <button className="text-btn" onClick={() => navigate('/admin/manage-users')}>Manage</button>
                         </div>
                         <div className="user-feed">
-                            <div className="user-list-item">
-                                <div className="user-avatar-box">
-                                    <img src="https://ui-avatars.com/api/?name=Surja+Bist&background=eff6ff&color=3b82f6" alt="user" />
-                                    <span className="role-dot author"></span>
-                                </div>
-                                <div className="user-details">
-                                    <p className="u-name">Surja Bist</p>
-                                    <p className="u-email">surja@bloghub.com</p>
-                                </div>
-                                <div className="user-action-btns">
-                                    <button className="mini-btn approve" title="Approve Account">✓</button>
-                                </div>
-                            </div>
-
-                            <div className="user-list-item">
-                                <div className="user-avatar-box">
-                                    <img src="https://ui-avatars.com/api/?name=Rima+Sah&background=fef2f2&color=ef4444" alt="user" />
-                                    <span className="role-dot author"></span>
-                                </div>
-                                <div className="user-details">
-                                    <p className="u-name">Rima Sah</p>
-                                    <p className="u-email">rima@bloghub.com</p>
-                                </div>
-                                <div className="user-action-btns">
-                                    <button className="mini-btn approve" title="Approve Account">✓</button>
-                                </div>
-                            </div>
+                            {statsData?.recentUsers?.length > 0 ? (
+                                statsData.recentUsers.map((user, idx) => (
+                                    <div className="user-list-item" key={idx}>
+                                        <div className="user-avatar-box">
+                                            <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} alt="user" />
+                                            <span className={`role-dot ${user.role.toLowerCase()}`}></span>
+                                        </div>
+                                        <div className="user-details">
+                                            <p className="u-name">{user.name}</p>
+                                            <p className="u-email">{user.email}</p>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="no-feed">No recent authors found.</p>
+                            )}
                         </div>
                     </div>
 
@@ -123,30 +127,23 @@ function AdminDashboard() {
                                 <h3>System Activity</h3>
                                 <span className="status-live">Live Feed</span>
                             </div>
-                            <button className="text-btn">All Logs</button>
                         </div>
                         <div className="logs-container">
-                            <div className="log-row">
-                                <div className="log-icon-wrap podcast"><span className="log-i">🎙️</span></div>
-                                <div className="log-content">
-                                    <p className="log-desc"><strong>Rima Sah</strong> uploaded "Tech Talk Ep. 4"</p>
-                                    <span className="log-time">14:20 PM</span>
-                                </div>
-                            </div>
-                            <div className="log-row">
-                                <div className="log-icon-wrap blog"><span className="log-i">📝</span></div>
-                                <div className="log-content">
-                                    <p className="log-desc"><strong>Saurav Pandit</strong> published "The UI Guide"</p>
-                                    <span className="log-time">12:05 PM</span>
-                                </div>
-                            </div>
-                            <div className="log-row warning">
-                                <div className="log-icon-wrap mod"><span className="log-i">🛡️</span></div>
-                                <div className="log-content">
-                                    <p className="log-desc">Reported content flagged for moderator review</p>
-                                    <span className="log-time">09:15 AM</span>
-                                </div>
-                            </div>
+                            {statsData?.recentActivity?.length > 0 ? (
+                                statsData.recentActivity.map((log, idx) => (
+                                    <div className="log-row" key={idx}>
+                                        <div className={`log-icon-wrap ${log.type}`}>
+                                            <span className="log-i">{log.icon}</span>
+                                        </div>
+                                        <div className="log-content">
+                                            <p className="log-desc"><strong>{log.user || 'Unknown'}</strong> published "{log.title}"</p>
+                                            <span className="log-time">{new Date(log.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="no-feed">No recent activity logged.</p>
+                            )}
                         </div>
                     </div>
                 </div>
