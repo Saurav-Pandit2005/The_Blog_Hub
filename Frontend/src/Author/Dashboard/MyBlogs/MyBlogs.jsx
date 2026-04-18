@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../../api';
 import './MyBlogs.css';
 
 // Assets
@@ -9,47 +10,50 @@ import deleteIcon from '../../../assets/Images/Author/Dashboard/MyBlogs/delete.p
 
 function MyBlogs() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const blogsData = [
-        {
-            id: 1,
-            title: "Getting Started with Next.js",
-            description: "Learn how to build modern web applications with Next.js and React.",
-            date: "2024-02-01",
-            views: 523,
-            likes: 87,
-            status: "published"
-        },
-        {
-            id: 2,
-            title: "AI Trends in 2024",
-            description: "Exploring the latest advancements in Artificial Intelligence.",
-            date: "2024-02-18",
-            views: 0,
-            likes: 0,
-            status: "draft"
-        },
-        {
-            id: 3,
-            title: "Understanding Spring Boot",
-            description: "A beginner-friendly guide to building REST APIs using Spring Boot.",
-            date: "2024-02-10",
-            views: 312,
-            likes: 45,
-            status: "published"
-        },
-        {
-            id: 4,
-            title: "Mastering TypeScript",
-            description: "Deep dive into advanced TypeScript patterns and utility types.",
-            date: "2024-03-05",
-            views: 120,
-            likes: 32,
-            status: "published"
+    useEffect(() => {
+        fetchMyBlogs();
+    }, []);
+
+    const fetchMyBlogs = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/author/blogs');
+            if (res.data.success) {
+                setBlogs(res.data.data);
+            }
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching blogs:', err);
+            setError('Failed to load your blogs. Please try again.');
+            setLoading(false);
         }
-    ];
+    };
 
-    const filteredBlogs = blogsData.filter(blog =>
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this blog?')) {
+            try {
+                const res = await api.delete(`/blogs/${id}`);
+                if (res.data.success) {
+                    alert('Blog deleted successfully!');
+                    fetchMyBlogs();
+                }
+            } catch (err) {
+                console.error('Error deleting blog:', err);
+                alert('Failed to delete blog.');
+            }
+        }
+    };
+
+    const stripHtml = (html) => {
+        if (!html) return '';
+        return html.replace(/<[^>]*>?/gm, '');
+    };
+
+    const filteredBlogs = blogs.filter(blog =>
         blog.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -68,7 +72,6 @@ function MyBlogs() {
                     </Link>
                 </header>
 
-                {/* SEARCH & FILTERS IMPROVEMENT */}
                 <div className="management-controls">
                     <div className="search-bar">
                         <input
@@ -79,49 +82,59 @@ function MyBlogs() {
                         />
                     </div>
                     <div className="filter-stats">
-                        <span className="stat-tag">Total: {blogsData.length}</span>
-                        <span className="stat-tag published">Published: {blogsData.filter(b => b.status === "published").length}</span>
-                        <span className="stat-tag draft">Drafts: {blogsData.filter(b => b.status === "draft").length}</span>
+                        <span className="stat-tag">Total: {blogs.length}</span>
+                        <span className="stat-tag published">Published: {blogs.filter(b => b.status === "Published").length}</span>
+                        <span className="stat-tag draft">Drafts: {blogs.filter(b => b.status === "Draft").length}</span>
                     </div>
                 </div>
 
-                <div className="blogs-list">
-                    {filteredBlogs.map((blog) => (
-                        <div className="blog-item-card" key={blog.id}>
-                            <div className="blog-info-wrapper">
-                                <div className="title-section">
-                                    <h3>{blog.title}</h3>
-                                    <span className={`status-pill ${blog.status}`}>
-                                        {blog.status}
-                                    </span>
+                {loading ? (
+                    <div className="loading-state">Loading your blogs...</div>
+                ) : error ? (
+                    <div className="error-state">{error}</div>
+                ) : (
+                    <div className="blogs-list">
+                        {filteredBlogs.map((blog) => (
+                            <div className="blog-item-card" key={blog._id}>
+                                <div className="blog-info-wrapper">
+                                    <div className="title-section">
+                                        <h3>{blog.title}</h3>
+                                        <span className={`status-pill ${blog.status.toLowerCase()}`}>
+                                            {blog.status}
+                                        </span>
+                                    </div>
+                                    <p className="blog-desc">{stripHtml(blog.summary || blog.content || "").substring(0, 100) + '...'}</p>
+                                    <div className="blog-meta-data">
+                                        <span className="meta-item">📅 {new Date(blog.createdAt).toLocaleDateString()}</span>
+                                        <span className="meta-divider">|</span>
+                                        <span className="meta-item">👁️ {blog.views} views</span>
+                                        <span className="meta-divider">|</span>
+                                        <span className="meta-item">❤️ {blog.likes?.length || 0} likes</span>
+                                    </div>
                                 </div>
-                                <p className="blog-desc">{blog.description}</p>
-                                <div className="blog-meta-data">
-                                    <span className="meta-item">📅 {blog.date}</span>
-                                    <span className="meta-divider">|</span>
-                                    <span className="meta-item">👁️ {blog.views} views</span>
-                                    <span className="meta-divider">|</span>
-                                    <span className="meta-item">❤️ {blog.likes} likes</span>
+
+                                <div className="blog-actions">
+                                    <Link to={`/author/edit-post/${blog._id}`} className="action-button edit" title="Edit Post">
+                                        <img src={editIcon} alt="Edit" />
+                                    </Link>
+                                    <button 
+                                        className="action-button delete" 
+                                        title="Delete Post"
+                                        onClick={() => handleDelete(blog._id)}
+                                    >
+                                        <img src={deleteIcon} alt="Delete" />
+                                    </button>
                                 </div>
                             </div>
+                        ))}
 
-                            <div className="blog-actions">
-                                <button className="action-button edit" title="Edit Post">
-                                    <img src={editIcon} alt="Edit" />
-                                </button>
-                                <button className="action-button delete" title="Delete Post">
-                                    <img src={deleteIcon} alt="Delete" />
-                                </button>
+                        {filteredBlogs.length === 0 && (
+                            <div className="no-results">
+                                <p>No articles found matching "{searchTerm}"</p>
                             </div>
-                        </div>
-                    ))}
-
-                    {filteredBlogs.length === 0 && (
-                        <div className="no-results">
-                            <p>No articles found matching "{searchTerm}"</p>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </main>
         </div>
     );
