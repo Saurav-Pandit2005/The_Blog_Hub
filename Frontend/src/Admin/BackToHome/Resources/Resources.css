@@ -1,0 +1,59 @@
+.resources-section {
+    padding: 60px 80px;
+    background: #f8fafc;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 15px;
+    padding-top: 15px;
+}
+
+.card-buttons .outline-btn,
+.card-buttons .primary-btn {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card-buttons .outline-btn {
+    border: 1px solid #3B82F6;
+    color: #3B82F6;
+    background: transparent;
+}
+
+.card-buttons .outline-btn:hover {
+    background: #3B82F6;
+    color: white;
+}
+
+.card-buttons .primary-btn {
+    background: #3B82F6;
+    color: white;
+    border: 1px solid #3B82F6;
+}
+
+.card-buttons .primary-btn:hover {
+    background: #2563EB;
+}
+
+@media (max-width: 1024px) {
+    .resources-section {
+        padding: 60px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .resources-section {
+        padding: 40px 20px;
+    }
+    .card-buttons {
+        flex-direction: column;
+    }
+}
