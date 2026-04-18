@@ -1,41 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../api';
 import './ManagePodcasts.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
+import { Search, Filter, Play, Edit, Trash2, Mic, Film, Eye, ChevronDown, Calendar } from 'lucide-react';
+import { UserContext } from '../../context/UserContext';
 
 function ManagePodcasts() {
+    const { user } = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    const [podcasts, setPodcasts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+        fetchPodcasts();
     }, []);
 
-    const podcasts = [
-        { id: 1, title: 'Tech Trends 2024', host: 'Saurav Pandit', category: 'Technology', duration: '45:30', status: 'Published', date: 'Mar 10, 2024', plays: '1.2k' },
-        { id: 2, title: 'UI Design Patterns', host: 'Rima Sah', category: 'Design', duration: '32:15', status: 'Pending', date: 'Mar 12, 2024', plays: '-' },
-        { id: 3, title: 'Mastering React 19', host: 'Alice Smith', category: 'Coding', duration: '50:00', status: 'Published', date: 'Mar 14, 2024', plays: '850' },
-        { id: 4, title: 'The Future of AI', host: 'Bob Wilson', category: 'Technology', duration: '40:00', status: 'Draft', date: 'Mar 15, 2024', plays: '-' },
-        { id: 5, title: 'Growth Strategies', host: 'Saurav Pandit', category: 'Business', duration: '28:45', status: 'Published', date: 'Mar 16, 2024', plays: '2.4k' },
-    ];
+    const fetchPodcasts = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/admin/podcasts');
+            if (res.data.success) {
+                setPodcasts(res.data.data);
+            }
+        } catch (err) {
+            console.error('Error fetching podcasts:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this podcast?')) {
+            try {
+                const res = await api.delete(`/podcasts/${id}`);
+                if (res.data.success) {
+                    alert('Podcast Deleted!');
+                    fetchPodcasts();
+                }
+            } catch (err) {
+                alert('Error deleting podcast');
+            }
+        }
+    };
 
     const filteredPodcasts = podcasts.filter(podcast => {
         const matchesSearch = podcast.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                             podcast.host.toLowerCase().includes(searchTerm.toLowerCase());
+                             (podcast.host?.name || '').toLowerCase().includes(searchTerm.toLowerCase());
         const matchesStatus = statusFilter === 'All' || podcast.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
@@ -47,120 +61,137 @@ function ManagePodcasts() {
             <main className="manage-podcasts-main">
                 <header className="admin-header">
                     <div className="header-text">
+                        <span className="breadcrumb">Audio-Visual Hub</span>
                         <h1>Podcast Management</h1>
-                        <p>Track, moderate, and analyze all platform podcasts.</p>
+                        <p>Track listener engagement, moderate episodes, and manage your broadcast schedule.</p>
                     </div>
                     <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
+                        <div className="header-date">
+                            <Calendar size={16} color="var(--admin-accent)" style={{marginRight: '10px'}} />
+                            <span className="live-clock">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                        <div className="admin-profile-container" onClick={() => navigate('/admin/profile')}>
+                            <div className="admin-profile-icon">
+                                <img src={user?.profilePic || adminProfileImg} alt="Admin Profile" />
                                 <span className="status-online"></span>
                             </div>
-
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </header>
 
-                <section className="podcasts-stats-row">
-                    <div className="stat-card">
-                        <span className="sc-label">Total Tracks</span>
-                        <h4 className="sc-value">458</h4>
+                <section className="podcasts-stats-grid">
+                    <div className="stat-premium-card total" onClick={() => setStatusFilter('All')} style={{cursor:'pointer'}}>
+                        <div className="stat-icon-box"><Mic size={24} /></div>
+                        <div className="stat-info">
+                            <span className="stat-label">Total Tracks</span>
+                            <h3 className="stat-value">{podcasts.length}</h3>
+                        </div>
                     </div>
-                    <div className="stat-card alert">
-                        <span className="sc-label">Pending Approval</span>
-                        <h4 className="sc-value">12</h4>
-                    </div>
-                    <div className="stat-card success">
-                        <span className="sc-label">Total Plays</span>
-                        <h4 className="sc-value">124.5k</h4>
-                    </div>
-                    <div className="stat-card">
-                        <span className="sc-label">Average Time</span>
-                        <h4 className="sc-value">34m</h4>
+                    <div className="stat-premium-card views">
+                        <div className="stat-icon-box"><Film size={24} /></div>
+                        <div className="stat-info">
+                            <span className="stat-label">Total Plays</span>
+                            <h3 className="stat-value">{podcasts.reduce((acc, p) => acc + (p.plays || 0), 0)}</h3>
+                        </div>
                     </div>
                 </section>
 
-                <section className="podcasts-list-card">
-                    <div className="list-filters-row">
-                        <div className="search-bar">
-                            <span>🔍</span>
+                <section className="podcasts-management-hub">
+                    <div className="hub-controls">
+                        <div className="search-wrapper">
+                            <Search size={18} className="search-i" />
                             <input 
                                 type="text" 
-                                placeholder="Search by title or host..." 
+                                placeholder="Search by title, host or category..." 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div className="filter-group">
-                            <select 
-                                className="status-select"
-                                value={statusFilter} 
-                                onChange={(e) => setStatusFilter(e.target.value)}
-                            >
-                                <option>All</option>
-                                <option>Published</option>
-                                <option>Pending</option>
-                                <option>Draft</option>
+                        <div className="filter-select-box">
+                            <Filter size={16} className="filter-i" />
+                            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                                <option value="All">All Status</option>
+                                <option value="Published">Published</option>
+                                <option value="Draft">Draft</option>
                             </select>
-                            <button className="export-report-btn" onClick={() => alert('Podcast Performance Report Exported to CSV!')}>📊 Export CSV Report</button>
+                            <ChevronDown size={14} className="chevron-i" />
                         </div>
                     </div>
 
-                    <div className="table-wrapper">
-                        <table className="admin-podcast-table">
-                            <thead>
-                                <tr>
-                                    <th>Podcast Details</th>
-                                    <th>Category</th>
-                                    <th>Duration</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Plays</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredPodcasts.map(podcast => (
-                                    <tr key={podcast.id}>
-                                        <td>
-                                            <div className="podcast-title-cell">
-                                                <div className="p-cover-mini">
-                                                    🎙️
-                                                </div>
-                                                <div className="p-text">
-                                                    <p className="p-title">{podcast.title}</p>
-                                                    <p className="p-host">By {podcast.host}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span className="cat-tag">{podcast.category}</span></td>
-                                        <td><span className="dur-text">{podcast.duration}</span></td>
-                                        <td>
-                                            <span className={`status-badge ${podcast.status.toLowerCase()}`}>
-                                                {podcast.status}
-                                            </span>
-                                        </td>
-                                        <td><span className="date-text">{podcast.date}</span></td>
-                                        <td><span className="plays-text">{podcast.plays}</span></td>
-                                        <td>
-                                            <div className="podcast-actions">
-                                                <button className="p-icon-btn" title="Listen">🎧</button>
-                                                {podcast.status === 'Pending' && <button className="p-icon-btn check" title="Approve">✓</button>}
-                                                <button className="p-icon-btn edit" title="Edit">✏️</button>
-                                                <button className="p-icon-btn delete" title="Remove">🗑️</button>
-                                            </div>
-                                        </td>
+                    <div className="table-card-wrapper">
+                        {loading ? (
+                            <div className="sync-pulse">Synchronizing records...</div>
+                        ) : filteredPodcasts.length > 0 ? (
+                            <table className="admin-premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Podcast Info</th>
+                                        <th>Host</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Stats</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {filteredPodcasts.map(podcast => (
+                                        <tr key={podcast._id}>
+                                            <td>
+                                                <div className="t-pod-info">
+                                                    <div className="t-min-cover">
+                                                        {podcast.type === 'Audio' ? <Mic size={20} color="#3b82f6" /> : <Film size={20} color="#3b82f6" />}
+                                                    </div>
+                                                    <div>
+                                                        <p className="t-title">
+                                                            {podcast.title}
+                                                            <span className={`t-type-tag ${podcast.type.toLowerCase()}`}>
+                                                                {podcast.type === 'Audio' ? 'Audio' : 'Video'}
+                                                            </span>
+                                                        </p>
+                                                        <p className="t-date">{new Date(podcast.createdAt).toLocaleDateString()}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="t-host">
+                                                    <span className="t-name">{podcast.host?.name || 'Unknown'}</span>
+                                                </div>
+                                            </td>
+                                            <td><span className="t-cat">{podcast.category}</span></td>
+                                            <td>
+                                                <span className={`st-tag ${podcast.status.toLowerCase()}`}>
+                                                    {podcast.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div className="t-stats">
+                                                    <Play size={12} /> {podcast.plays || 0}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="t-actions">
+                                                    <button 
+                                                        className="t-act-btn watch" 
+                                                        title="Watch"
+                                                        onClick={() => navigate(`/podcast-detail/${podcast._id}`)}
+                                                    ><Play size={16} /></button>
+                                                    {podcast.host?.role === 'Admin' && (
+                                                        <button className="t-act-btn edit" title="Edit"><Edit size={16} /></button>
+                                                    )}
+                                                    <button 
+                                                        className="t-act-btn delete" 
+                                                        title="Delete" 
+                                                        onClick={() => handleDelete(podcast._id)}
+                                                    ><Trash2 size={16} /></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <div className="empty-results">No podcasts found matching your criteria.</div>
+                        )}
                     </div>
                 </section>
             </main>

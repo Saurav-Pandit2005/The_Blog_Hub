@@ -22,14 +22,14 @@ function UploadPodcasts({ isOpen, onClose }) {
         <div className="upload-modal-overlay">
             <div className="upload-modal-card">
                 <div className="um-header">
-                    <h2>🎙️ Publish New Podcast Episode</h2>
+                    <h2>🎙️ Publish New Podcast</h2>
                     <button className="um-close" onClick={onClose}>×</button>
                 </div>
 
                 <form className="um-form" onSubmit={handleUpload}>
                     <div className="um-grid">
                         <div className="um-group full">
-                            <label>Episode Title</label>
+                            <label>Podcast Title</label>
                             <input 
                                 type="text" 
                                 placeholder="e.g. Scaling React Apps in 2024" 
@@ -79,7 +79,7 @@ function UploadPodcasts({ isOpen, onClose }) {
                         </div>
 
                         <div className="um-group full">
-                            <label>Episode Description</label>
+                            <label>Podcast Description</label>
                             <textarea 
                                 rows="3" 
                                 placeholder="Write a brief overview..."
