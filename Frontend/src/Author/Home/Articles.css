@@ -88,33 +88,54 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 15px;
     margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #edf2f7;
-    color: #718096;
+}
+
+.left-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .author-info, .date-info {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
+    gap: 10px;
+    color: #64748b;
+    font-size: 14px;
 }
 
-.like-btn {
+.author-info span, .date-info span {
+    font-weight: 600;
+}
+
+.social-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.social-pill {
     display: flex;
     align-items: center;
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: #64748b;
+    gap: 6px;
+    color: #94a3b8;
+    transition: 0.2s;
 }
 
-.like-btn:hover {
+.social-pill:hover {
+    color: #3b82f6;
+}
+
+.social-count {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.liked {
+    fill: #ef4444;
     color: #ef4444;
-    transform: scale(1.1);
 }
 
 .read-more {

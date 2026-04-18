@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../../api';
 import './Resources.css';
 
 // Assets
@@ -8,46 +9,40 @@ import editIcon from '../../../assets/Images/Author/Dashboard/MyBlogs/edit.png';
 import deleteIcon from '../../../assets/Images/Author/Dashboard/MyBlogs/delete.png';
 
 function Resources() {
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
+    const [resourcesData, setResourcesData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const resourcesData = [
-        {
-            id: 1,
-            title: "Advanced Writing Templates",
-            type: "PDF / Link",
-            description: "A comprehensive set of templates for different blog formats and storytelling styles.",
-            downloads: 450,
-            date: "2024-01-20",
-            status: "published"
-        },
-        {
-            id: 2,
-            title: "Author's Brand Ebook",
-            type: "Ebook",
-            description: "Guide to building a personal brand as a professional writer or journalist.",
-            downloads: 1200,
-            date: "2024-02-15",
-            status: "published"
-        },
-        {
-            id: 3,
-            title: "SEO Checklist for Bloggers",
-            type: "Document",
-            description: "Step-by-step checklist to optimize your blog posts for search engines.",
-            downloads: 0,
-            date: "2024-03-01",
-            status: "draft"
-        },
-        {
-            id: 4,
-            title: "Content Planning Spreadsheet",
-            type: "Spreadsheet",
-            description: "Organize your editorial calendar and content pipeline efficiently.",
-            downloads: 890,
-            date: "2024-02-10",
-            status: "published"
+    useEffect(() => {
+        const fetchResources = async () => {
+            try {
+                const res = await api.get('/resources/my-resources');
+                if (res.data.success) {
+                    setResourcesData(res.data.data);
+                }
+            } catch (err) {
+                console.error("Error fetching resources:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchResources();
+    }, []);
+
+    const handleDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete this resource?")) {
+            try {
+                const res = await api.delete(`/resources/${id}`);
+                if (res.data.success) {
+                    setResourcesData(prev => prev.filter(r => r._id !== id));
+                }
+            } catch (err) {
+                console.error("Error deleting resource:", err);
+                alert("Failed to delete resource");
+            }
         }
-    ];
+    };
 
     const filteredResources = resourcesData.filter(res =>
         res.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -79,14 +74,14 @@ function Resources() {
                     </div>
                     <div className="filter-stats">
                         <span className="stat-tag total">Total: {resourcesData.length}</span>
-                        <span className="stat-tag published">Live: {resourcesData.filter(r => r.status === "published").length}</span>
-                        <span className="stat-tag downloads">Total Downloads: 2,540</span>
+                        <span className="stat-tag published">Live: {resourcesData.filter(r => r.status === "Published").length}</span>
+                        <span className="stat-tag downloads">Total Downloads: {resourcesData.reduce((acc, r) => acc + (r.downloads || 0), 0)}</span>
                     </div>
                 </div>
 
                 <div className="resources-list">
                     {filteredResources.map((res) => (
-                        <div className="resource-item-card" key={res.id}>
+                        <div className="resource-item-card" key={res._id}>
                             <div className="res-icon-box">
                                 <span className="type-badge">{res.type}</span>
                             </div>
@@ -94,21 +89,21 @@ function Resources() {
                             <div className="res-info">
                                 <div className="title-row">
                                     <h3>{res.title}</h3>
-                                    <span className={`status-pill ${res.status}`}>{res.status}</span>
+                                    <span className={`status-pill ${res.status?.toLowerCase()}`}>{res.status}</span>
                                 </div>
-                                <p className="res-desc">{res.description}</p>
+                                <p className="res-desc">{res.desc}</p>
                                 <div className="res-meta">
-                                    <span className="meta-item">📅 {res.date}</span>
+                                    <span className="meta-item">📅 {new Date(res.createdAt).toLocaleDateString()}</span>
                                     <span className="meta-divider">|</span>
-                                    <span className="meta-item">💾 {res.downloads} downloads</span>
+                                    <span className="meta-item">💾 {res.downloads || 0} downloads</span>
                                 </div>
                             </div>
 
                             <div className="res-actions">
-                                <button className="action-button edit" title="Edit Resource">
+                                <button className="action-button edit" title="Edit Resource" onClick={() => navigate(`/author/edit-resource/${res._id}`)}>
                                     <img src={editIcon} alt="Edit" />
                                 </button>
-                                <button className="action-button delete" title="Remove Resource">
+                                <button className="action-button delete" title="Remove Resource" onClick={() => handleDelete(res._id)}>
                                     <img src={deleteIcon} alt="Delete" />
                                 </button>
                             </div>
