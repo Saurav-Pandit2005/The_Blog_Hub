@@ -1,139 +1,272 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../../api';
 import './UploadPodcast.css';
 
 function UploadPodcast() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        category: '',
-        type: 'audio', // Default to audio, but prepared for video
-        file: null,
-        thumbnail: null
-    });
+    const [title, setTitle] = useState('');
+    const [desc, setDesc] = useState('');
+    const [category, setCategory] = useState('Technology');
+    const [duration, setDuration] = useState('');
+    const [type, setType] = useState('Video'); 
+    const [publishNow, setPublishNow] = useState(false);
+    const [uploadType, setUploadType] = useState('File'); // 'File' or 'Link'
+    const [externalLink, setExternalLink] = useState('');
+    
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    // File states
+    const [mediaFile, setMediaFile] = useState(null);
+    const [thumbnail, setThumbnail] = useState(null);
+    const [mediaPreview, setMediaPreview] = useState(null);
+    const [thumbPreview, setThumbPreview] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+    const extractYouTubeId = (url) => {
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[7].length === 11) ? match[7] : null;
     };
 
-    const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        setFormData(prev => ({ ...prev, [name]: files[0] }));
+    const handleLinkChange = (url) => {
+        setExternalLink(url);
+        const ytId = extractYouTubeId(url);
+        if (ytId) {
+            const ytThumb = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+            setThumbPreview(ytThumb);
+            setThumbnail(ytThumb); 
+        }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Here you would typically upload the data to your server
-        console.log("Podcast Data Submitted:", formData);
-        alert("Podcast uploaded successfully!");
-        navigate('/author/dashboard/podcasts');
+    const handleMediaChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setMediaFile(file);
+            setMediaPreview(file.name);
+        }
+    };
+
+    const handleThumbChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setThumbnail(file);
+            setThumbPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleSubmit = async (statusOverride) => {
+        if (!title.trim() || title.length < 5) {
+            alert("Please provide a title (min 5 characters).");
+            return;
+        }
+
+        if (!desc.trim() || desc.length < 20) {
+            alert("Please provide a description (min 20 characters).");
+            return;
+        }
+
+        if (uploadType === 'File' && !mediaFile) {
+            alert(`Please upload a ${type} file.`);
+            return;
+        }
+
+        if (uploadType === 'Link' && !externalLink) {
+            alert("Please provide an external stream link.");
+            return;
+        }
+
+        if (!thumbnail) {
+            alert("Please provide a cover thumbnail image.");
+            return;
+        }
+
+        try {
+            setIsSubmitting(true);
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('desc', desc);
+            formData.append('category', category);
+            formData.append('duration', duration);
+            formData.append('type', type);
+            formData.append('status', statusOverride || (publishNow ? 'Published' : 'Draft'));
+            formData.append('isExternal', uploadType === 'Link');
+
+            if (uploadType === 'Link') {
+                formData.append('audioUrl', externalLink);
+                formData.append('source', externalLink.includes('youtube.com') || externalLink.includes('youtu.be') ? 'YouTube' : 'External');
+                if (typeof thumbnail === 'string') {
+                    formData.append('coverImage', thumbnail);
+                } else if (thumbnail) {
+                    formData.append('coverImage', thumbnail);
+                }
+            } else {
+                formData.append('source', 'Upload');
+                if (mediaFile) formData.append('audio', mediaFile);
+                if (thumbnail) formData.append('coverImage', thumbnail);
+            }
+
+            const res = await api.post('/podcasts', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
+            if (res.data.success) {
+                alert(`Podcast ${statusOverride === 'Draft' ? 'draft saved' : 'published'} successfully!`);
+                navigate('/author/dashboard/podcasts');
+            }
+        } catch (err) {
+            console.error("Submission Error:", err);
+            alert(err.response?.data?.error || `Failed to process podcast. Try again.`);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
         <div className="upload-podcast-container">
             <Slidebar />
             
-            <main className="upload-podcast-main">
-                <header className="upload-header">
-                    <div className="header-text">
-                        <h1>Upload New Podcast</h1>
-                        <p>Share your stories and insights with the world.</p>
-                    </div>
-                </header>
+            <main className="upload-main-area">
+                <div className="upload-content-wrapper full-width">
+                    <header className="upload-header-minimal">
+                        <h1>New Podcast Episode</h1>
+                        <p>Share your voice with the world in a few clicks.</p>
+                    </header>
 
-                <form className="upload-form" onSubmit={handleSubmit}>
-                    <div className="form-section">
-                        <div className="input-group">
-                            <label>Podcast Title</label>
-                            <input 
-                                type="text" 
-                                name="title" 
-                                placeholder="Enter a catchy title..." 
-                                value={formData.title}
-                                onChange={handleChange}
-                                required 
-                            />
-                        </div>
-
-                        <div className="input-group">
-                            <label>Description</label>
-                            <textarea 
-                                name="description" 
-                                placeholder="What is this podcast about?"
-                                value={formData.description}
-                                onChange={handleChange}
-                                required
-                            ></textarea>
-                        </div>
-
-                        <div className="row">
-                            <div className="input-group half">
-                                <label>Category</label>
-                                <select name="category" value={formData.category} onChange={handleChange} required>
-                                    <option value="">Select Category</option>
-                                    <option value="tech">Technology</option>
-                                    <option value="lifestyle">Lifestyle</option>
-                                    <option value="business">Business</option>
-                                    <option value="education">Education</option>
-                                </select>
-                            </div>
-
-                            <div className="input-group half">
-                                <label>Content Type</label>
-                                <select name="type" value={formData.type} onChange={handleChange} required>
-                                    <option value="audio">Audio Podcast</option>
-                                    <option value="video">Video Podcast (Coming Soon)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="upload-section">
-                        <div className="upload-box-wrapper">
-                            <div className="upload-box">
-                                <label>Podcast File</label>
-                                <div className="file-drop-zone">
+                    <div className="upload-form-card-premium">
+                        <div className="form-section-main">
+                            
+                            <div className="form-row">
+                                <div className="form-group flex-2">
+                                    <label>Podcast Title</label>
                                     <input 
-                                        type="file" 
-                                        name="file" 
-                                        accept={formData.type === 'audio' ? "audio/*" : "video/*"}
-                                        onChange={handleFileChange}
-                                        required 
+                                        type="text" 
+                                        placeholder="Give your podcast a catchy title..." 
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        className="premium-input"
                                     />
-                                    <div className="drop-zone-content">
-                                        <span className="icon">{formData.type === 'audio' ? '🎙️' : '🎬'}</span>
-                                        <p>{formData.file ? formData.file.name : `Click or drag your ${formData.type} file here`}</p>
+                                </div>
+                                <div className="form-group flex-1">
+                                    <label>Duration</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder="e.g. 15:00" 
+                                        value={duration} 
+                                        onChange={(e) => setDuration(e.target.value)} 
+                                        className="premium-input"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Genre / Category</label>
+                                <input 
+                                    type="text" 
+                                    placeholder="e.g. Technology, Education, Music..." 
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    className="premium-input"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Podcast Description</label>
+                                <textarea 
+                                    placeholder="What is this episode about?"
+                                    rows="10"
+                                    value={desc}
+                                    onChange={(e) => setDesc(e.target.value)}
+                                    className="premium-textarea"
+                                ></textarea>
+                            </div>
+
+                            <div className="form-divider"></div>
+
+                            <div className="form-row">
+                                <div className="form-group flex-1">
+                                    <label>Podcast Format</label>
+                                    <div className="toggle-pills">
+                                        <button type="button" className={`pill ${type === 'Video' ? 'active' : ''}`} onClick={() => setType('Video')}>📹 Video</button>
+                                        <button type="button" className={`pill ${type === 'Audio' ? 'active' : ''}`} onClick={() => setType('Audio')}>🎙️ Audio</button>
+                                    </div>
+                                </div>
+                                <div className="form-group flex-1">
+                                    <label>Source Type</label>
+                                    <div className="toggle-pills">
+                                        <button type="button" className={`pill ${uploadType === 'File' ? 'active' : ''}`} onClick={() => setUploadType('File')}>📁 Upload</button>
+                                        <button type="button" className={`pill ${uploadType === 'Link' ? 'active' : ''}`} onClick={() => setUploadType('Link')}>🔗 Link</button>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="upload-box">
+                            {uploadType === 'File' ? (
+                                <div className="form-group">
+                                    <label>Upload {type} File</label>
+                                    <div className="media-upload-zone" onClick={() => document.getElementById('media-input').click()}>
+                                        <div className="zone-content">
+                                            <div className="zone-icon">{type === 'Video' ? '🎥' : '📻'}</div>
+                                            <p>{mediaPreview || `Drag & Drop your ${type} here`}</p>
+                                            <span>Maximum size: 100MB</span>
+                                        </div>
+                                        <input type="file" id="media-input" accept={type === 'Video' ? "video/*" : "audio/*"} style={{ display: 'none' }} onChange={handleMediaChange} />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="form-group">
+                                    <label>External Stream Link</label>
+                                    <div className="link-input-modern">
+                                        <span className="link-icon">🔗</span>
+                                        <input 
+                                            type="text" 
+                                            placeholder="Paste YouTube or Soundcloud URL..." 
+                                            value={externalLink}
+                                            onChange={(e) => handleLinkChange(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="form-group">
                                 <label>Cover Thumbnail</label>
-                                <div className="file-drop-zone thumbnail-zone">
-                                    <input 
-                                        type="file" 
-                                        name="thumbnail" 
-                                        accept="image/*"
-                                        onChange={handleFileChange}
-                                        required 
-                                    />
-                                    <div className="drop-zone-content">
-                                        <span className="icon">🖼️</span>
-                                        <p>{formData.thumbnail ? formData.thumbnail.name : "Upload cover image"}</p>
+                                <div className="thumb-grid-layout">
+                                    <div className="thumb-preview-box" onClick={() => document.getElementById('thumb-input').click()}>
+                                        {thumbPreview ? (
+                                            <img src={thumbPreview} alt="Preview" />
+                                        ) : (
+                                            <div className="thumb-placeholder">
+                                                <span>+ Browse</span>
+                                            </div>
+                                        )}
+                                        <input type="file" id="thumb-input" accept="image/*" style={{ display: 'none' }} onChange={handleThumbChange} />
+                                    </div>
+                                    <div className="thumb-info">
+                                        <p>Recommendation: 1280x720px</p>
+                                        <span>JPG, PNG preferred. URL-based fetching supported for YouTube.</span>
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="upload-footer-actions">
+                                <div className="publish-toggle">
+                                    <span>Publish Directly</span>
+                                    <label className="premium-switch">
+                                        <input type="checkbox" checked={publishNow} onChange={() => setPublishNow(!publishNow)} />
+                                        <span className="slider round"></span>
+                                    </label>
+                                </div>
+
+                                <div className="final-buttons">
+                                    <button className="btn-secondary" disabled={isSubmitting} onClick={() => handleSubmit('Draft')}>Save as Draft</button>
+                                    <button className="btn-primary" disabled={isSubmitting} onClick={() => handleSubmit('Published')}>
+                                        {isSubmitting ? 'Processing...' : `Confirm & Upload`}
+                                    </button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
-                    <div className="form-actions">
-                        <button type="button" className="cancel-btn" onClick={() => navigate('/author/dashboard/podcasts')}>Cancel</button>
-                        <button type="submit" className="submit-btn primary-btn">Publish Podcast</button>
-                    </div>
-                </form>
+                </div>
             </main>
         </div>
     );
