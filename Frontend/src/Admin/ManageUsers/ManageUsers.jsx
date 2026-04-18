@@ -1,48 +1,73 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../api';
 import './ManageUsers.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
 import AddUsers from './AddUsers';
+import { Search, Plus, Filter, User as UserIcon, Mail, Calendar, ShieldAlert, Trash2, Edit2, Users as UsersIcon, PenTool, ChevronDown } from 'lucide-react';
+import { UserContext } from '../../context/UserContext';
 
 function ManageUsers() {
+    const { user } = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [roleFilter, setRoleFilter] = useState('All Roles');
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+        fetchUsers();
     }, []);
 
-    const users = [
-        { id: 1, name: 'Saurav Pandit', email: 'saurav@bloghub.com', role: 'Admin', status: 'Active', joined: 'Mar 10, 2024' },
-        { id: 2, name: 'Rima Sah', email: 'rima@bloghub.com', role: 'Author', status: 'Active', joined: 'Mar 12, 2024' },
-        { id: 3, name: 'Surja Bist', email: 'surja@bloghub.com', role: 'Author', status: 'Pending', joined: 'Mar 14, 2024' },
-        { id: 4, name: 'John Doe', email: 'john@example.com', role: 'Visitor', status: 'Suspended', joined: 'Feb 20, 2024' },
-        { id: 5, name: 'Alice Smith', email: 'alice@bloghub.com', role: 'Author', status: 'Active', joined: 'Jan 05, 2024' },
-        { id: 6, name: 'Bob Wilson', email: 'bob@visitor.com', role: 'Visitor', status: 'Active', joined: 'Feb 28, 2024' },
-    ];
+    const fetchUsers = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/admin/users');
+            if (res.data.success) {
+                setUsers(res.data.data);
+            }
+        } catch (err) {
+            console.error('Error fetching users:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const filteredUsers = users.filter(user => {
-        const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                             user.email.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = (user.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                             (user.email || '').toLowerCase().includes(searchTerm.toLowerCase());
         const matchesRole = roleFilter === 'All Roles' || user.role === roleFilter;
-        return matchesSearch && matchesRole;
+        // Exclude Admin from management list
+        return matchesSearch && matchesRole && user.role !== 'Admin';
     });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const handleEditUser = (user) => {
+        setSelectedUser(user);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedUser(null);
+    };
+
+    const handleDeleteUser = async (userId) => {
+        if(window.confirm('Are you sure you want to delete this user?')) {
+            try {
+                const res = await api.delete(`/admin/users/${userId}`);
+                if (res.data.success) {
+                    alert('User Deleted!');
+                    fetchUsers();
+                }
+            } catch (err) {
+                alert(err.response?.data?.error || 'Error deleting user');
+            }
+        }
+    };
 
     return (
         <div className="manage-users-container">
@@ -51,115 +76,133 @@ function ManageUsers() {
             <main className="manage-users-main">
                 <header className="admin-header">
                     <div className="header-text">
-                        <h1>Manage Platform Users</h1>
-                        <p>Oversee roles, permissions, and account statuses.</p>
+                        <span className="breadcrumb">Platform Ecosystem</span>
+                        <h1>User Database Hub</h1>
+                        <p>Manage community members, moderate author roles, and monitor account registrations.</p>
                     </div>
                     <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
+                        <div className="header-date">
+                            <Calendar size={16} color="var(--admin-accent)" style={{marginRight: '10px'}} />
+                            <span className="live-clock">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                        <div className="admin-profile-container" onClick={() => navigate('/admin/profile')}>
+                            <div className="admin-profile-icon">
+                                <img src={user?.profilePic || adminProfileImg} alt="Admin Profile" />
                                 <span className="status-online"></span>
                             </div>
-
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </header>
 
-                <section className="users-stats-row">
-                    <div className="user-mini-stat">
-                        <span className="s-label">Total Users</span>
-                        <h3 className="s-value">1,240</h3>
+                <section className="users-overview-stats">
+                    <div className="overview-card total" style={{cursor:'pointer'}} onClick={() => setRoleFilter('All Roles')}>
+                        <div className="over-icon"><UsersIcon size={24} /></div>
+                        <div className="over-details">
+                            <span className="over-label">Total Registered</span>
+                            <h3 className="over-value">{users.filter(u => u.role !== 'Admin').length}</h3>
+                        </div>
                     </div>
-                    <div className="user-mini-stat">
-                        <span className="s-label">Active Authors</span>
-                        <h3 className="s-value">85</h3>
+                    <div className="overview-card authors" style={{cursor:'pointer'}} onClick={() => setRoleFilter('Author')}>
+                        <div className="over-icon"><PenTool size={20} /></div>
+                        <div className="over-details">
+                            <span className="over-label">Total Authors</span>
+                            <h3 className="over-value">{users.filter(u => u.role === 'Author').length}</h3>
+                        </div>
                     </div>
-                    <div className="user-mini-stat pending">
-                        <span className="s-label">Pending Approval</span>
-                        <h3 className="s-value">12</h3>
+                    <div className="overview-card visitors" style={{cursor:'pointer'}} onClick={() => setRoleFilter('Visitor')}>
+                        <div className="over-icon"><UserIcon size={20} /></div>
+                        <div className="over-details">
+                            <span className="over-label">Total Viewers</span>
+                            <h3 className="over-value">{users.filter(u => u.role === 'Visitor').length}</h3>
+                        </div>
                     </div>
                 </section>
 
-                <section className="users-list-card">
-                    <div className="list-controls">
-                        <div className="search-bar">
-                            <span>🔍</span>
+                <section className="users-management-hub">
+                    <div className="hub-controls">
+                        <div className="search-wrapper">
+                            <Search size={18} className="search-i" />
                             <input 
                                 type="text" 
-                                placeholder="Search by name or email..." 
+                                placeholder="Search users by name or credentials..." 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <select 
-                            className="role-select" 
-                            value={roleFilter}
-                            onChange={(e) => setRoleFilter(e.target.value)}
-                        >
-                            <option>All Roles</option>
-                            <option>Admin</option>
-                            <option>Author</option>
-                            <option>Visitor</option>
-                        </select>
-                        <button className="add-user-btn" onClick={() => setIsModalOpen(true)}>+ Add New User</button>
+                        <div className="hub-actions">
+                            <div className="filter-select-box">
+                                <Filter size={16} className="filter-i" />
+                                <select 
+                                    value={roleFilter}
+                                    onChange={(e) => setRoleFilter(e.target.value)}
+                                >
+                                    <option>All Roles</option>
+                                    <option>Author</option>
+                                    <option value="Visitor">Viewer</option>
+                                </select>
+                                <ChevronDown size={14} className="chevron-i" />
+                            </div>
+                            <button className="premium-add-btn" onClick={() => setIsModalOpen(true)}>
+                                <Plus size={18} /> Add User
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="table-responsive">
-                        <table className="user-table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Role</th>
-                                    <th>Joined Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredUsers.map(user => (
-                                    <tr key={user.id}>
-                                        <td>
-                                            <div className="user-info-cell">
-                                                <img src={`https://ui-avatars.com/api/?name=${user.name}&background=random&color=fff`} alt="user" />
-                                                <div className="u-meta">
-                                                    <p className="u-name">{user.name}</p>
-                                                    <p className="u-email">{user.email}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span className={`role-badge ${user.role.toLowerCase()}`}>
-                                                {user.role}
-                                            </span>
-                                        </td>
-                                        <td><span className="joined-date">{user.joined}</span></td>
-                                        <td>
-                                            <span className={`status-pill ${user.status.toLowerCase()}`}>
-                                                {user.status}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div className="action-btns">
-                                                <button className="t-btn edit" title="Edit">✏️</button>
-                                                <button className="t-btn delete" title="Suspend">🚫</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    <div className="users-grid-display">
+                        {loading ? (
+                            <div className="sync-pulse">Syncing user database...</div>
+                        ) : filteredUsers.length > 0 ? (
+                            filteredUsers.map(user => (
+                                <div className="user-profile-card" key={user._id}>
+                                    <div className="card-top">
+                                        <div className={`role-tag ${user.role.toLowerCase()}`}>
+                                            {user.role === 'Visitor' ? 'Viewer' : user.role}
+                                        </div>
+                                        <div className="user-options-trigger">...</div>
+                                    </div>
+                                    
+                                    <div className="card-body">
+                                        <div className="avatar-preview">
+                                            <img src={user.profilePic || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} alt="user" />
+                                            {user.role === 'Admin' && <ShieldAlert size={14} className="admin-warn-icon" />}
+                                        </div>
+                                        <h4 className="user-name-display">{user.name}</h4>
+                                        <p className="user-email-display"><Mail size={12} /> {user.email}</p>
+                                    </div>
+
+                                    <div className="card-footer">
+                                        <div className="joined-info">
+                                            <Calendar size={12} />
+                                            <span>Joined {new Date(user.createdAt).toLocaleDateString()}</span>
+                                        </div>
+                                        <div className="action-row">
+                                            <button 
+                                                className="act-btn edit-at" 
+                                                title="Edit Profile"
+                                                onClick={() => handleEditUser(user)}
+                                            ><Edit2 size={16} /></button>
+                                            <button 
+                                                className="act-btn delete-at" 
+                                                title="Delete Account"
+                                                onClick={() => handleDeleteUser(user._id)}
+                                            ><Trash2 size={16} /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="empty-results">No users found matching your criteria.</div>
+                        )}
                     </div>
                 </section>
             </main>
 
-            <AddUsers isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <AddUsers 
+                isOpen={isModalOpen} 
+                onClose={handleCloseModal} 
+                onUserAdded={fetchUsers} 
+                editUser={selectedUser}
+            />
         </div>
     );
 }
