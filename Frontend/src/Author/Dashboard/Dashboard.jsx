@@ -1,6 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from './Slidebar/Slidebar';
+import api from '../../api';
 import './Dashboard.css';
 
 // Assets from Slidebar (reusing for stats)
@@ -10,19 +11,43 @@ import podcastIcon from '../../assets/Images/Author/Dashboard/Slidebar/podcast.p
 import resourcesIcon from '../../assets/Images/Author/Dashboard/Slidebar/resouces.png';
 
 function Dashboard() {
-    const username = "Rima Sah"; // Dynamic in future
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    
+    // Get user from localStorage
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : { name: 'Author' };
+
+    useEffect(() => {
+        fetchAuthorStats();
+    }, []);
+
+    const fetchAuthorStats = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/author/stats');
+            if (res.data.success) {
+                setStats(res.data.data);
+            }
+        } catch (err) {
+            console.error('Error fetching author stats:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const statsData = [
-        { title: "Total Blogs", value: "12", icon: blogIcon },
-        { title: "Total Views", value: "917", icon: viewIcon },
-        { title: "Podcasts", value: "8", icon: podcastIcon },
-        { title: "Resources", value: "15", icon: resourcesIcon },
+        { title: "Total Blogs", value: stats?.totalBlogs || "0", icon: blogIcon },
+        { title: "Total Views", value: stats?.totalViews || "0", icon: viewIcon },
+        { title: "Podcasts", value: stats?.totalPodcasts || "0", icon: podcastIcon },
+        { title: "Resources", value: stats?.totalResources || "0", icon: resourcesIcon },
     ];
 
-    const recentPosts = [
-        { title: "Getting Started with Next.js", date: "2024-02-01", views: "523", status: "Published" },
-        { title: "Advanced JavaScript Patterns", date: "2024-01-15", views: "412", status: "Published" },
-    ];
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+    };
 
     return (
         <div className="dashboard-container">
@@ -30,20 +55,44 @@ function Dashboard() {
 
             <main className="main-content">
                 <header className="welcome-header">
-                    <h1>Welcome, {username} 👋</h1>
-                    <p>Here's an overview of your content and engagement.</p>
+                    <div className="header-top">
+                        <div className="welcome-text">
+                            <h1>Welcome back, {user.name} 👋</h1>
+                            <p>Here's a snapshot of your creative impact today.</p>
+                        </div>
+                        <div className="header-actions">
+                            <div className="profile-header-trigger">
+                                <span className="profile-name">{user.name}</span>
+                                <img 
+                                    src={user.profilePic || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} 
+                                    className="header-profile-img" 
+                                    alt="Profile" 
+                                />
+                                <div className="header-dropdown">
+                                    <Link to="/author/profile">My Profile</Link>
+                                    <button onClick={handleLogout} className="drop-logout-btn">Logout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </header>
 
                 <section className="stats-grid">
-                    {statsData.map((stat, index) => (
-                        <div className="stat-card" key={index}>
-                            <div className="card-top">
-                                <h3>{stat.title}</h3>
-                                <img src={stat.icon} alt={stat.title} />
+                    {loading ? (
+                        <div className="loading-shimmer-stats">Syncing your performance...</div>
+                    ) : (
+                        statsData.map((stat, index) => (
+                            <div className="stat-card" key={index}>
+                                <div className="card-header">
+                                    <h3>{stat.title}</h3>
+                                    <div className="card-icon-round">
+                                        <img src={stat.icon} alt={stat.title} />
+                                    </div>
+                                </div>
+                                <p className="stat-value">{stat.value}</p>
                             </div>
-                            <p className="stat-value">{stat.value}</p>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </section>
 
                 <section className="recent-posts-section">
@@ -53,18 +102,24 @@ function Dashboard() {
                     </div>
 
                     <div className="posts-list">
-                        {recentPosts.map((post, index) => (
-                            <div className="post-item" key={index}>
-                                <div className="post-info">
-                                    <span className="post-title">{post.title}</span><br />
-                                    <small className="post-date">{post.date}</small>
+                        {loading ? (
+                            <p>Loading your articles...</p>
+                        ) : stats?.recentBlogs?.length > 0 ? (
+                            stats.recentBlogs.map((post, index) => (
+                                <div className="post-item" key={index}>
+                                    <div className="post-info">
+                                        <span className="post-title">{post.title}</span><br />
+                                        <small className="post-date">{new Date(post.createdAt).toLocaleDateString()}</small>
+                                    </div>
+                                    <div className="post-meta">
+                                        <span className="views-count">{post.views} views</span>
+                                        <span className={`status-badge ${post.status.toLowerCase()}`}>{post.status}</span>
+                                    </div>
                                 </div>
-                                <div className="post-meta">
-                                    <span className="views-count">{post.views} views</span>
-                                    <span className="status-badge published">{post.status}</span>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <p className="no-posts">No posts yet. Start writing today!</p>
+                        )}
                     </div>
                 </section>
 
