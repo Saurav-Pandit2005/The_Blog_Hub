@@ -1,40 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import './WriteBlog.css';
+import { PenTool, Image as ImageIcon, Type, Sparkles, Send, Save, Calendar, ChevronLeft } from 'lucide-react';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
+import { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 function WriteBlog() {
+    const { user } = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [subtitle, setSubtitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('Technology');
     const [publishNow, setPublishNow] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
-
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, []);
+    const navigate = useNavigate();
 
     const handleAI = () => {
         setIsGenerating(true);
-        // Simulate AI generating content
         setTimeout(() => {
-            setContent("AI Generated Content Preview: The future of artificial intelligence is rapidly evolving. We are seeing breakthroughs in natural language processing and creative automation that were unimaginable a decade ago...");
+            setContent("AI-Powered Insight: The digital landscape is shifting towards integrated artificial intelligence solutions that prioritize user privacy while maximizing creative output. This shift represents the most significant architectural change in web development since the advent of mobile-first design...");
             setIsGenerating(false);
         }, 1500);
     };
@@ -46,116 +32,124 @@ function WriteBlog() {
             <main className="write-content-main">
                 <header className="admin-header">
                     <div className="header-text">
-                        <h1>Create New Blog</h1>
-                        <p>Draft and publish premium content for the platform.</p>
+                        <span className="breadcrumb">Content Management</span>
+                        <h1>Create New Article</h1>
+                        <p>Draft, refine, and publish your next masterpiece to the community.</p>
                     </div>
                     <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
+                        <div className="header-date">
+                            <Calendar size={16} color="var(--admin-accent)" style={{marginRight: '10px'}} />
+                            <span className="live-clock">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                        <div className="admin-profile-container" onClick={() => navigate('/admin/profile')}>
+                            <div className="admin-profile-icon">
+                                <img src={user?.profilePic || adminProfileImg} alt="Admin Profile" />
                                 <span className="status-online"></span>
                             </div>
-
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </header>
 
-                <section className="write-form-card">
-                    <div className="form-grid">
+                <section className="write-editor-card">
+                    <div className="form-layout-grid">
 
-                        {/* LEFT SECTION: Main Content */}
-                        <div className="form-left">
-                            <div className="form-group">
-                                <label>Blog Title</label>
+                        {/* LEFT: Editor Area */}
+                        <div className="editor-main-panel">
+                            <div className="input-field-group">
+                                <label><PenTool size={16} /> Blog Title</label>
                                 <input
                                     type="text"
-                                    placeholder="Enter blog title"
+                                    placeholder="Enter a compelling title..."
                                     value={title}
+                                    className="premium-input"
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>Sub Title</label>
+                            <div className="input-field-group">
+                                <label><Type size={16} /> Catchphrase / Subtitle</label>
                                 <input
                                     type="text"
-                                    placeholder="Enter catch-phrase or subtitle"
+                                    placeholder="Briefly describe the theme..."
                                     value={subtitle}
+                                    className="premium-input"
                                     onChange={(e) => setSubtitle(e.target.value)}
                                 />
                             </div>
 
-                            <div className="form-group relative">
-                                <div className="label-flex">
-                                    <label>Blog Content (Description)</label>
+                            <div className="input-field-group">
+                                <div className="label-with-action">
+                                    <label><PenTool size={16} /> Article Content</label>
                                     <button
-                                        className={`ai-btn ${isGenerating ? 'loading' : ''}`}
+                                        className={`ai-smart-btn ${isGenerating ? 'is-syncing' : ''}`}
                                         onClick={handleAI}
                                         disabled={isGenerating}
                                     >
-                                        <span className="sparkle">✨</span>
-                                        {isGenerating ? 'Generating...' : 'Generate with AI'}
+                                        <Sparkles size={14} className="spark-icon" />
+                                        {isGenerating ? 'Drafting...' : 'AI Compose'}
                                     </button>
                                 </div>
                                 <textarea
-                                    placeholder="Write your creative thoughts here..."
-                                    rows="12"
+                                    placeholder="Unleash your creativity here..."
+                                    rows="14"
                                     value={content}
+                                    className="premium-textarea"
                                     onChange={(e) => setContent(e.target.value)}
                                 ></textarea>
                             </div>
                         </div>
 
-                        {/* RIGHT SECTION: Settings & Thumbnail */}
-                        <div className="form-right">
-                            <div className="form-group">
-                                <label>Upload Thumbnail Image</label>
-                                <div className="thumbnail-upload-box">
-                                    <div className="upload-placeholder">
-                                        <div className="upload-icon">📁</div>
-                                        <span>Click to Upload</span>
-                                        <small>High resolution recommended</small>
+                        {/* RIGHT: Publishing Controls */}
+                        <div className="editor-side-panel">
+                            <div className="side-card-section">
+                                <label><ImageIcon size={16} /> Feature Image</label>
+                                <div className="premium-upload-zone">
+                                    <div className="upload-content">
+                                        <div className="upload-icon-box">
+                                            <ImageIcon size={32} />
+                                        </div>
+                                        <div className="upload-text">
+                                            <span>Drop thumbnail here</span>
+                                            <p>Optimized for 16:9 aspect ratio</p>
+                                        </div>
                                     </div>
-                                    <input type="file" className="file-input" />
+                                    <input type="file" className="hidden-file-input" />
                                 </div>
                             </div>
 
-                            <div className="form-group">
-                                <label>Select Category</label>
-                                <select
+                            <div className="side-card-section">
+                                <label><Type size={16} /> Category tag</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g., Development"
                                     value={category}
+                                    className="premium-input-side"
                                     onChange={(e) => setCategory(e.target.value)}
-                                >
-                                    <option>Technology</option>
-                                    <option>AI and Machine Learning</option>
-                                    <option>Business & Finance</option>
-                                    <option>Modern Design</option>
-                                    <option>Health & Lifestyle</option>
-                                </select>
+                                />
                             </div>
 
-                            <div className="form-group toggle-group">
-                                <span className="toggle-label">Publish Now</span>
-                                <label className="switch">
+                            <div className="side-card-section toggle-wrapper">
+                                <div className="toggle-info">
+                                    <h4>Instant Publish</h4>
+                                    <p>Live visibility upon submission</p>
+                                </div>
+                                <label className="premium-switch">
                                     <input
                                         type="checkbox"
                                         checked={publishNow}
                                         onChange={() => setPublishNow(!publishNow)}
                                     />
-                                    <span className="slider round"></span>
+                                    <span className="premium-slider"></span>
                                 </label>
                             </div>
 
-                            <div className="action-buttons-group">
-                                <button className="draft-btn">Save as Draft</button>
-                                <button className="submit-btn">Add Blog Post</button>
+                            <div className="publishing-actions">
+                                <button className="btn-secondary">
+                                    <Save size={18} /> Save Draft
+                                </button>
+                                <button className="btn-primary">
+                                    <Send size={18} /> Publish Blog
+                                </button>
                             </div>
                         </div>
 

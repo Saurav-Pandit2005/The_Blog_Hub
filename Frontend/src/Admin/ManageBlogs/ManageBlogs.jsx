@@ -1,41 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../api';
 import './ManageBlogs.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
+import { Search, Filter, Eye, Edit, Trash2, BookOpen, TrendingUp, ChevronDown, Mail, Calendar } from 'lucide-react';
+import { UserContext } from '../../context/UserContext';
 
 function ManageBlogs() {
+    const { user } = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+        fetchBlogs();
     }, []);
 
-    const blogs = [
-        { id: 1, title: 'The Future of React 19', author: 'Saurav Pandit', category: 'Technology', status: 'Published', date: 'Mar 10, 2024', views: '1.2k' },
-        { id: 2, title: 'UI Design Patterns for 2024', author: 'Rima Sah', category: 'Design', status: 'Pending', date: 'Mar 12, 2024', views: '-' },
-        { id: 3, title: 'Mastering Framer Motion', author: 'Surja Bist', category: 'Design', status: 'Published', date: 'Mar 14, 2024', views: '850' },
-        { id: 4, title: 'Understanding Node Streams', author: 'Alice Smith', category: 'Technology', status: 'Draft', date: 'Mar 15, 2024', views: '-' },
-        { id: 5, title: 'Healthy Lifestyle Tips', author: 'Bob Wilson', category: 'Lifestyle', status: 'Published', date: 'Mar 16, 2024', views: '2.4k' },
-    ];
+    const fetchBlogs = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/admin/blogs');
+            if (res.data.success) {
+                setBlogs(res.data.data);
+            }
+        } catch (err) {
+            console.error('Error fetching blogs:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this blog?')) {
+            try {
+                const res = await api.delete(`/blogs/${id}`);
+                if (res.data.success) {
+                    alert('Blog Deleted!');
+                    fetchBlogs();
+                }
+            } catch (err) {
+                alert('Error deleting blog');
+            }
+        }
+    };
 
     const filteredBlogs = blogs.filter(blog => {
         const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                             blog.author.toLowerCase().includes(searchTerm.toLowerCase());
+                             (blog.author?.name || '').toLowerCase().includes(searchTerm.toLowerCase());
         const matchesStatus = statusFilter === 'All' || blog.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
@@ -47,105 +61,122 @@ function ManageBlogs() {
             <main className="manage-blogs-main">
                 <header className="admin-header">
                     <div className="header-text">
-                        <h1>Content Moderation Center</h1>
-                        <p>Review, approve, and manage all platform publications.</p>
+                        <span className="breadcrumb">Content Management</span>
+                        <h1>Manage Published Blogs</h1>
+                        <p>Review, moderate, and manage all articles published on the platform.</p>
                     </div>
                     <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
+                        <div className="header-date">
+                            <Calendar size={16} color="var(--admin-accent)" style={{marginRight: '10px'}} />
+                            <span className="live-clock">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                        <div className="admin-profile-container" onClick={() => navigate('/admin/profile')}>
+                            <div className="admin-profile-icon">
+                                <img src={user?.profilePic || adminProfileImg} alt="Admin Profile" />
                                 <span className="status-online"></span>
                             </div>
-
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </header>
 
-                <section className="blogs-stats-row">
-                    <div className="stat-mini-pill">
-                        <span className="p-label">Total Posts</span>
-                        <h4 className="p-value">3,850</h4>
+                <section className="blogs-stats-grid">
+                    <div className="stat-premium-card total" onClick={() => setStatusFilter('All')} style={{cursor:'pointer'}}>
+                        <div className="stat-icon-box"><BookOpen size={24} /></div>
+                        <div className="stat-info">
+                            <span className="stat-label">Total Publications</span>
+                            <h3 className="stat-value">{blogs.length}</h3>
+                        </div>
                     </div>
-                    <div className="stat-mini-pill alert">
-                        <span className="p-label">Pending Approval</span>
-                        <h4 className="p-value">124</h4>
-                    </div>
-                    <div className="stat-mini-pill success">
-                        <span className="p-label">Published Today</span>
-                        <h4 className="p-value">28</h4>
+                    <div className="stat-premium-card published" onClick={() => setStatusFilter('Published')} style={{cursor:'pointer'}}>
+                        <div className="stat-icon-box"><TrendingUp size={24} /></div>
+                        <div className="stat-info">
+                            <span className="stat-label">Active Posts</span>
+                            <h3 className="stat-value">{blogs.filter(b => b.status === 'Published').length}</h3>
+                        </div>
                     </div>
                 </section>
 
-                <section className="blogs-list-card">
-                    <div className="list-filters">
-                        <div className="search-bar">
-                            <span>🔍</span>
+                <section className="blogs-management-hub">
+                    <div className="hub-controls">
+                        <div className="search-wrapper">
+                            <Search size={18} className="search-i" />
                             <input 
                                 type="text" 
-                                placeholder="Search by title or author..." 
+                                placeholder="Search by title, author or category..." 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div className="filter-group">
+                        <div className="filter-select-box">
+                            <Filter size={16} className="filter-i" />
                             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                                <option>All</option>
-                                <option>Published</option>
-                                <option>Pending</option>
-                                <option>Draft</option>
+                                <option value="All">All Status</option>
+                                <option value="Published">Published</option>
+                                <option value="Draft">Draft</option>
                             </select>
-                            <button className="bulk-action-btn">Bulk Actions</button>
+                            <ChevronDown size={14} className="chevron-i" />
                         </div>
                     </div>
 
-                    <div className="table-wrapper">
-                        <table className="admin-blog-table">
-                            <thead>
-                                <tr>
-                                    <th>Blog Details</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Views</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredBlogs.map(blog => (
-                                    <tr key={blog.id}>
-                                        <td>
-                                            <div className="blog-title-cell">
-                                                <p className="b-title">{blog.title}</p>
-                                                <p className="b-author">By {blog.author}</p>
-                                            </div>
-                                        </td>
-                                        <td><span className="cat-text">{blog.category}</span></td>
-                                        <td>
-                                            <span className={`status-tag ${blog.status.toLowerCase()}`}>
-                                                {blog.status}
-                                            </span>
-                                        </td>
-                                        <td><span className="date-text">{blog.date}</span></td>
-                                        <td><span className="views-text">{blog.views}</span></td>
-                                        <td>
-                                            <div className="blog-actions">
-                                                <button className="icon-btn" title="View">👁️</button>
-                                                {blog.status === 'Pending' && <button className="icon-btn check" title="Approve">✓</button>}
-                                                <button className="icon-btn edit" title="Edit">✏️</button>
-                                                <button className="icon-btn delete" title="Delete">🗑️</button>
-                                            </div>
-                                        </td>
+                    <div className="table-card-wrapper">
+                        {loading ? (
+                            <div className="sync-pulse">Synchronizing records...</div>
+                        ) : filteredBlogs.length > 0 ? (
+                            <table className="admin-premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Blog Info</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Stats</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {filteredBlogs.map(blog => (
+                                        <tr key={blog._id}>
+                                            <td>
+                                                <div className="t-blog-info">
+                                                    <img src={blog.coverImage || 'https://via.placeholder.com/40'} alt="cv" className="t-min-cover" />
+                                                    <div>
+                                                        <p className="t-title">{blog.title}</p>
+                                                        <p className="t-date">{new Date(blog.createdAt).toLocaleDateString()}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="t-author">
+                                                    <span className="t-name">{blog.author?.name || 'Unknown'}</span>
+                                                </div>
+                                            </td>
+                                            <td><span className="t-cat">{blog.category}</span></td>
+                                            <td>
+                                                <span className={`st-tag ${blog.status.toLowerCase()}`}>
+                                                    {blog.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div className="t-stats">
+                                                    <Eye size={12} /> {blog.views || 0}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="t-actions">
+                                                    <Link to={`/blog-detail/${blog.slug}`} className="t-act-btn view" title="View"><Eye size={16} /></Link>
+                                                    {blog.author?.role === 'Admin' && (
+                                                        <Link to={`/author/edit-post/${blog._id}`} className="t-act-btn edit" title="Edit"><Edit size={16} /></Link>
+                                                    )}
+                                                    <button className="t-act-btn delete" title="Delete" onClick={() => handleDelete(blog._id)}><Trash2 size={16} /></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <div className="empty-results">No blogs found matching your criteria.</div>
+                        )}
                     </div>
                 </section>
             </main>
