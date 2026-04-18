@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../../api';
 import './Podcasts.css';
 
 // Assets
@@ -10,48 +11,50 @@ import playIcon from '../../../assets/Images/Author/Dashboard/Podcasts/play.png'
 
 function Podcasts() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [podcasts, setPodcasts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const podcastsData = [
-        {
-            id: 1,
-            title: "Mastering the Craft of Writing",
-            description: "Deep dive into storytelling techniques and finding your unique author voice.",
-            duration: "45:20",
-            date: "2024-02-15",
-            listens: 1250,
-            status: "published"
-        },
-        {
-            id: 2,
-            title: "The Future of Digital Publishing",
-            description: "Discussing how AI and blockchain are changing the landscape for independent authors.",
-            duration: "32:15",
-            date: "2024-02-28",
-            listens: 840,
-            status: "published"
-        },
-        {
-            id: 3,
-            title: "Building an Audience from Scratch",
-            description: "Practical strategies for growing your email list and social media presence.",
-            duration: "55:00",
-            date: "2024-03-05",
-            listens: 0,
-            status: "draft"
-        },
-        {
-            id: 4,
-            title: "Interview with Best-Selling Authors",
-            description: "Exclusive insights from creators who have reached the top of the charts.",
-            duration: "1:15:30",
-            date: "2024-03-10",
-            listens: 2100,
-            status: "published"
+    useEffect(() => {
+        const fetchMyPodcasts = async () => {
+            try {
+                setLoading(true);
+                const res = await api.get('/podcasts/my-podcasts');
+                if (res.data.success) {
+                    setPodcasts(res.data.data);
+                }
+            } catch (err) {
+                console.error("Error fetching my podcasts:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchMyPodcasts();
+    }, []);
+
+    const handleDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete this podcast?")) {
+            try {
+                await api.delete(`/podcasts/${id}`);
+                setPodcasts(podcasts.filter(p => p._id !== id));
+            } catch (err) {
+                alert("Failed to delete podcast.");
+            }
         }
-    ];
+    };
 
-    const filteredPodcasts = podcastsData.filter(pod =>
+    const filteredPodcasts = podcasts.filter(pod =>
         pod.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const totalViews = podcasts.reduce((acc, curr) => acc + (curr.views || 0), 0);
+
+    if (loading) return (
+        <div className="author-podcasts-container">
+            <Slidebar />
+            <main className="podcasts-main-content">
+                <div style={{ padding: '40px', textAlign: 'center' }}>Syncing your audio stories...</div>
+            </main>
+        </div>
     );
 
     return (
@@ -61,11 +64,11 @@ function Podcasts() {
             <main className="podcasts-main-content">
                 <header className="podcasts-header">
                     <div className="header-left">
-                        <h1>Manage Your Podcasts</h1>
-                        <p>Track performance and manage your audio stories.</p>
+                        <h1>Manage Your Video Podcasts</h1>
+                        <p>Track performance and manage your video stories.</p>
                     </div>
                     <Link to="/author/upload-podcast" className="upload-btn">
-                        <span>🎙️</span> Upload New Podcast
+                        <span>🎞️</span> Upload New Video Podcast
                     </Link>
                 </header>
 
@@ -79,51 +82,52 @@ function Podcasts() {
                         />
                     </div>
                     <div className="filter-stats">
-                        <span className="stat-tag total">Total: {podcastsData.length}</span>
-                        <span className="stat-tag published">Live: {podcastsData.filter(p => p.status === "published").length}</span>
-                        <span className="stat-tag listeners">Total Listens: 4,190</span>
+                        <span className="stat-tag total">Total: {podcasts.length}</span>
+                        <span className="stat-tag published">Live: {podcasts.filter(p => p.status === "Published").length}</span>
+                        <span className="stat-tag listeners">Total Views: {totalViews.toLocaleString()}</span>
                     </div>
                 </div>
 
                 <div className="podcasts-list">
-                    {filteredPodcasts.map((pod) => (
-                        <div className="podcast-item-card" key={pod.id}>
-                            <div className="pod-play-indicator">
-                                <button className="mini-play-btn">
-                                    <img src={playIcon} alt="Play" />
-                                </button>
-                            </div>
-
-                            <div className="pod-info">
-                                <div className="title-row">
-                                    <h3>{pod.title}</h3>
-                                    <span className={`status-badge ${pod.status}`}>{pod.status}</span>
+                    {filteredPodcasts.length > 0 ? (
+                        filteredPodcasts.map((pod) => (
+                            <div className="podcast-item-card" key={pod._id}>
+                                <div className="pod-thumbnail">
+                                    <img src={pod.coverImage || 'https://via.placeholder.com/120x80'} alt="Thumb" />
+                                    <div className="pod-play-overlay">
+                                        <Link to={`/podcast-detail/${pod._id}`}>
+                                            <button className="mini-play-btn">
+                                                <img src={playIcon} alt="Play" />
+                                            </button>
+                                        </Link>
+                                    </div>
                                 </div>
-                                <p className="pod-desc">{pod.description}</p>
-                                <div className="pod-meta">
-                                    <span className="meta-item">⏱️ {pod.duration}</span>
-                                    <span className="meta-divider">|</span>
-                                    <span className="meta-item">🎧 {pod.listens} listens</span>
-                                    <span className="meta-divider">|</span>
-                                    <span className="meta-item">📅 {pod.date}</span>
+
+                                <div className="pod-info">
+                                    <div className="title-row">
+                                        <h3>{pod.title}</h3>
+                                        <span className={`status-badge ${pod.status?.toLowerCase()}`}>{pod.status}</span>
+                                    </div>
+                                    <p className="pod-desc">{pod.desc}</p>
+                                    <div className="pod-meta">
+                                        <span className="meta-item">📅 {new Date(pod.createdAt).toLocaleDateString()}</span>
+                                        <span className="meta-item">👁️ {pod.views || 0} Views</span>
+                                        <span className="meta-item">📁 {pod.category}</span>
+                                    </div>
+                                </div>
+
+                                <div className="pod-actions">
+                                    <Link to={`/author/edit-podcast/${pod._id}`} className="action-button edit" title="Edit">
+                                        <img src={editIcon} alt="Edit" />
+                                    </Link>
+                                    <button className="action-button delete" title="Delete" onClick={() => handleDelete(pod._id)}>
+                                        <img src={deleteIcon} alt="Delete" />
+                                    </button>
                                 </div>
                             </div>
-
-                            <div className="pod-actions">
-                                <button className="action-button edit" title="Edit Podcast">
-                                    <img src={editIcon} alt="Edit" />
-                                </button>
-                                <button className="action-button delete" title="Remove Podcast">
-                                    <img src={deleteIcon} alt="Delete" />
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-
-                    {filteredPodcasts.length === 0 && (
-                        <div className="no-data">
-                            <p>No podcasts found matching "{searchTerm}"</p>
-                        </div>
+                        ))
+                    ) : (
+                        <div className="no-data">No podcasts found. Start uploading!</div>
                     )}
                 </div>
             </main>
