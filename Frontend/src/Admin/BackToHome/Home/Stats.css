@@ -1,0 +1,40 @@
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    padding: 60px 80px;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    font-family: 'Merriweather', serif;
+}
+
+.stat-box {
+    text-align: center;
+}
+
+.stat-box h2 {
+    color: #3B82F6;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.stat-box p {
+    color: #475569;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .stats {
+        gap: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats {
+        flex-direction: column;
+        gap: 40px;
+        padding: 60px 20px;
+    }
+}
