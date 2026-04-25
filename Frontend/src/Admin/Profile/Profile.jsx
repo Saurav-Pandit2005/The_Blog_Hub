@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import './Profile.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
+import { UserContext } from '../../context/UserContext';
 
 function AdminProfile() {
+    const { user, updateUserData } = useContext(UserContext);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [saved, setSaved] = useState(false);
     const [pwSaved, setPwSaved] = useState(false);
     const [activeTab, setActiveTab] = useState('profile');
-    const [avatarSrc, setAvatarSrc] = useState(adminProfileImg);
+    const [avatarSrc, setAvatarSrc] = useState(user?.profilePic || adminProfileImg);
     const dropdownRef = useRef(null);
     const fileInputRef = useRef(null);
 
@@ -30,13 +32,13 @@ function AdminProfile() {
 
     // ── Profile Info State ──
     const [profile, setProfile] = useState({
-        name: 'Surja Bist',
-        email: 'admin@thebloghub.com',
-        phone: '+91 98765 43210',
-        location: 'Rajkot, India',
-        bio: 'Platform administrator responsible for managing content, users, and overall system integrity of The Blog Hub.',
-        role: 'Super Administrator',
-        joinDate: 'January 1, 2019',
+        name: user?.name || 'Admin User',
+        email: user?.email || 'admin@bloghub.com',
+        phone: user?.phone || '+91 00000 00000',
+        location: user?.location || 'Rajkot, India',
+        bio: user?.bio || 'Platform administrator...',
+        role: user?.role || 'Administrator',
+        joinDate: user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'January 1, 2024',
     });
 
     // ── Password State ──
@@ -48,6 +50,13 @@ function AdminProfile() {
 
     const handleProfileSave = (e) => {
         e.preventDefault();
+        updateUserData({
+            name: profile.name,
+            email: profile.email,
+            phone: profile.phone,
+            location: profile.location,
+            bio: profile.bio
+        });
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
     };
@@ -67,7 +76,11 @@ function AdminProfile() {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (ev) => setAvatarSrc(ev.target.result);
+            reader.onload = (ev) => {
+                const newImg = ev.target.result;
+                setAvatarSrc(newImg);
+                updateUserData({ profilePic: newImg });
+            };
             reader.readAsDataURL(file);
         }
     };
@@ -77,29 +90,6 @@ function AdminProfile() {
             <Slidebar />
 
             <main className="admin-profile-main">
-                {/* HEADER */}
-                <header className="admin-header">
-                    <div className="header-text">
-                        <h1>My Profile</h1>
-                        <p>Manage your account details and security settings.</p>
-                    </div>
-                    <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
-                                <span className="status-online"></span>
-                            </div>
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </header>
-
                 {/* PROFILE HERO CARD */}
                 <div className="profile-hero-card">
                     <div className="profile-hero-bg"></div>

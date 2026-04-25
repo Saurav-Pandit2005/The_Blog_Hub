@@ -19,6 +19,8 @@ import ProtectedRoute from './ProtectedRoute';
 
 // Author Pages
 import AuthorHome from './Author/Home/HomePage';
+import AuthorNavbar from './Author/Navbar/Navbar';
+import AuthorFooter from './Author/Footer/Footer';
 import AuthorAbout from './Author/About/AboutPage';
 import AuthorExplore from './Author/Explore/ExplorePage';
 import AuthorPodcasts from './Author/Podcasts/PodcastsPage';
@@ -61,6 +63,7 @@ function App() {
   const location = useLocation();
   const { user } = useContext(UserContext);
   const isAdmin = user?.role === 'Admin';
+  const isAuthor = user?.role === 'Author';
   
   // Paths where we don't want Visitor Navbar and Footer
   const isAuthorPath = location.pathname.startsWith('/author');
@@ -70,12 +73,16 @@ function App() {
   const isAdminBackToHome = ['/admin/home', '/admin/explore', '/admin/podcasts', '/admin/resources', '/admin/about', '/admin/contact'].includes(location.pathname) || 
                            (isAdmin && !isAuthorPath && !isAdminPath && !['/', '/login', '/register', '/forgot-password'].includes(location.pathname));
 
-  const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath || isAdminPath || isAdminBackToHome;
+  // Define which pages should show the Author UI on shared visitor routes
+  const isAuthorBackToHome = isAuthor && !isAuthorPath && !isAdminPath && !['/', '/login', '/register', '/forgot-password'].includes(location.pathname);
+
+  const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath || isAdminPath || isAdminBackToHome || isAuthorBackToHome;
 
   return (
     <>
       {!hideNavFooter && <Navbar />}
       {isAdminBackToHome && <AdminNavbar />}
+      {isAuthorBackToHome && <AuthorNavbar />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<HomePage />} />
@@ -139,6 +146,7 @@ function App() {
       </Routes>
       {!hideNavFooter && <Footer />}
       {isAdminBackToHome && <AdminFooter />}
+      {isAuthorBackToHome && <AuthorFooter />}
     </>
   )
 }

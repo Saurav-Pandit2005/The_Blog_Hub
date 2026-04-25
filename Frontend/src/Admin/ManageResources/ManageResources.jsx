@@ -1,52 +1,58 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
+import api from '../../api';
 import './ManageResources.css';
+import { Search, Filter, Folder, Download, Edit, Trash2, Eye, ChevronDown, Calendar } from 'lucide-react';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
+import { UserContext } from '../../context/UserContext';
 
 function ManageResources() {
+    const { user } = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [typeFilter, setTypeFilter] = useState('All');
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    const [resources, setResources] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+        fetchResources();
     }, []);
 
-    const resources = [
-        { id: 1, title: 'React Complete Guide 2024', author: 'Saurav Pandit', type: 'PDF', category: 'Coding', status: 'Published', date: 'Mar 10, 2024', downloads: '2.4k' },
-        { id: 2, title: 'UI/UX Design Principles', author: 'Rima Sah', type: 'eBook', category: 'Design', status: 'Pending', date: 'Mar 12, 2024', downloads: '-' },
-        { id: 3, title: 'Node.js Best Practices', author: 'Alice Smith', type: 'PDF', category: 'Coding', status: 'Published', date: 'Mar 14, 2024', downloads: '1.1k' },
-        { id: 4, title: 'Digital Marketing Starter Kit', author: 'Bob Wilson', type: 'Toolkit', category: 'Marketing', status: 'Draft', date: 'Mar 15, 2024', downloads: '-' },
-        { id: 5, title: 'CSS Animations Cheatsheet', author: 'Surja Bist', type: 'PDF', category: 'Design', status: 'Published', date: 'Mar 16, 2024', downloads: '890' },
-        { id: 6, title: 'Business Growth Templates', author: 'Saurav Pandit', type: 'Toolkit', category: 'Business', status: 'Published', date: 'Mar 17, 2024', downloads: '560' },
-    ];
+    const fetchResources = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/admin/resources');
+            if (res.data.success) {
+                setResources(res.data.data);
+            }
+        } catch (err) {
+            console.error('Error fetching resources:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this resource?')) {
+            try {
+                const res = await api.delete(`/resources/${id}`);
+                if (res.data.success) {
+                    alert('Resource Deleted!');
+                    fetchResources();
+                }
+            } catch (err) {
+                alert('Error deleting resource');
+            }
+        }
+    };
 
     const filteredResources = resources.filter(res => {
         const matchesSearch = res.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                              res.author.toLowerCase().includes(searchTerm.toLowerCase());
+                              (res.author?.name || '').toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = typeFilter === 'All' || res.type === typeFilter;
         return matchesSearch && matchesType;
     });
-
-    const typeIcon = (type) => {
-        if (type === 'PDF') return '📄';
-        if (type === 'eBook') return '📚';
-        if (type === 'Toolkit') return '🧰';
-        return '📁';
-    };
 
     return (
         <div className="manage-resources-container">
@@ -55,138 +61,131 @@ function ManageResources() {
             <main className="manage-resources-main">
                 <header className="admin-header">
                     <div className="header-text">
-                        <h1>Resource Library</h1>
-                        <p>Review, approve, and manage all platform resources.</p>
+                        <span className="breadcrumb">Resource Library</span>
+                        <h1>Manage Platform Assets</h1>
+                        <p>Organize, moderate, and monitor downloads for eBooks, toolkits, and guides.</p>
                     </div>
                     <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
+                        <div className="header-date">
+                            <Calendar size={16} color="var(--admin-accent)" style={{marginRight: '10px'}} />
+                            <span className="live-clock">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                        <div className="admin-profile-container" onClick={() => navigate('/admin/profile')}>
+                            <div className="admin-profile-icon">
+                                <img src={user?.profilePic || adminProfileImg} alt="Admin Profile" />
                                 <span className="status-online"></span>
                             </div>
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </header>
 
-                <section className="resources-stats-row">
-                    <div className="res-stat-card">
-                        <span className="rs-icon">📁</span>
-                        <div>
-                            <p className="rs-label">Total Resources</p>
-                            <h4 className="rs-value">1,284</h4>
+                <section className="resources-stats-grid">
+                    <div className="stat-premium-card total" onClick={() => setTypeFilter('All')} style={{cursor:'pointer'}}>
+                        <div className="stat-icon-box"><Folder size={24} /></div>
+                        <div className="stat-info">
+                            <span className="stat-label">Total Resources</span>
+                            <h3 className="stat-value">{resources.length}</h3>
                         </div>
                     </div>
-                    <div className="res-stat-card warning">
-                        <span className="rs-icon">⏳</span>
-                        <div>
-                            <p className="rs-label">Pending Review</p>
-                            <h4 className="rs-value">34</h4>
-                        </div>
-                    </div>
-                    <div className="res-stat-card success">
-                        <span className="rs-icon">⬇️</span>
-                        <div>
-                            <p className="rs-label">Total Downloads</p>
-                            <h4 className="rs-value">58.3k</h4>
-                        </div>
-                    </div>
-                    <div className="res-stat-card">
-                        <span className="rs-icon">📄</span>
-                        <div>
-                            <p className="rs-label">PDFs Published</p>
-                            <h4 className="rs-value">820</h4>
+                    <div className="stat-premium-card downloads">
+                        <div className="stat-icon-box"><Download size={24} /></div>
+                        <div className="stat-info">
+                            <span className="stat-label">Total Downloads</span>
+                            <h3 className="stat-value">{resources.reduce((acc, r) => acc + (r.downloads || 0), 0)}</h3>
                         </div>
                     </div>
                 </section>
 
-                <section className="resources-list-card">
-                    <div className="res-filters-row">
-                        <div className="search-bar">
-                            <span>🔍</span>
+                <section className="resources-management-hub">
+                    <div className="hub-controls">
+                        <div className="search-wrapper">
+                            <Search size={18} className="search-i" />
                             <input
                                 type="text"
-                                placeholder="Search by title or author..."
+                                placeholder="Search by title, author or category..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div className="res-filter-group">
-                            <select
-                                className="res-type-select"
-                                value={typeFilter}
-                                onChange={(e) => setTypeFilter(e.target.value)}
-                            >
-                                <option>All</option>
-                                <option>PDF</option>
-                                <option>eBook</option>
-                                <option>Toolkit</option>
+                        <div className="filter-select-box">
+                            <Filter size={16} className="filter-i" />
+                            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+                                <option value="All">All Types</option>
+                                <option value="PDF">PDF</option>
+                                <option value="eBook">eBook</option>
+                                <option value="Toolkit">Toolkit</option>
                             </select>
-                            <button
-                                className="res-export-btn"
-                                onClick={() => alert('Resource Report Exported!')}
-                            >
-                                📊 Export Report
-                            </button>
+                            <ChevronDown size={14} className="chevron-i" />
                         </div>
                     </div>
 
-                    <div className="res-table-wrapper">
-                        <table className="resources-table">
-                            <thead>
-                                <tr>
-                                    <th>Resource</th>
-                                    <th>Type</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Downloads</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredResources.map(res => (
-                                    <tr key={res.id}>
-                                        <td>
-                                            <div className="res-title-cell">
-                                                <div className="res-type-icon">{typeIcon(res.type)}</div>
-                                                <div className="res-text">
-                                                    <p className="res-title">{res.title}</p>
-                                                    <p className="res-author">By {res.author}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span className={`type-badge ${res.type.toLowerCase()}`}>
-                                                {res.type}
-                                            </span>
-                                        </td>
-                                        <td><span className="res-cat">{res.category}</span></td>
-                                        <td>
-                                            <span className={`res-status-pill ${res.status.toLowerCase()}`}>
-                                                {res.status}
-                                            </span>
-                                        </td>
-                                        <td><span className="res-date">{res.date}</span></td>
-                                        <td><span className="res-downloads">{res.downloads}</span></td>
-                                        <td>
-                                            <div className="res-action-btns">
-                                                <button className="r-btn" title="View">👁️</button>
-                                                {res.status === 'Pending' && <button className="r-btn approve" title="Approve">✓</button>}
-                                                <button className="r-btn edit" title="Edit">✏️</button>
-                                                <button className="r-btn delete" title="Delete">🗑️</button>
-                                            </div>
-                                        </td>
+                    <div className="table-card-wrapper">
+                        {loading ? (
+                            <div className="sync-pulse">Synchronizing records...</div>
+                        ) : filteredResources.length > 0 ? (
+                            <table className="resources-table">
+                                <thead>
+                                    <tr>
+                                        <th>Resource Info</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Stats</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {filteredResources.map(res => (
+                                        <tr key={res._id}>
+                                            <td>
+                                                <div className="t-res-info">
+                                                    <div className="t-min-icon"><Folder size={20} /></div>
+                                                    <div>
+                                                        <p className="t-title">{res.title}</p>
+                                                        <p className="t-date">{new Date(res.createdAt).toLocaleDateString()}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="t-author">
+                                                    <span className="t-name">{res.author?.name || 'Unknown'}</span>
+                                                </div>
+                                            </td>
+                                            <td><span className="t-cat">{res.category}</span></td>
+                                            <td>
+                                                <span className={`st-tag ${res.status.toLowerCase()}`}>
+                                                    {res.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div className="t-stats">
+                                                    <Download size={12} /> {res.downloads || 0}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="t-actions">
+                                                    <button 
+                                                        className="t-act-btn view" 
+                                                        title="View"
+                                                        onClick={() => navigate(`/resource-detail/${res._id}`)}
+                                                    ><Eye size={16} /></button>
+                                                    {res.author?.role === 'Admin' && (
+                                                        <button className="t-act-btn edit" title="Edit"><Edit size={16} /></button>
+                                                    )}
+                                                    <button 
+                                                        className="t-act-btn delete" 
+                                                        title="Delete" 
+                                                        onClick={() => handleDelete(res._id)}
+                                                    ><Trash2 size={16} /></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <div className="empty-results">No resources found matching your criteria.</div>
+                        )}
                     </div>
                 </section>
             </main>

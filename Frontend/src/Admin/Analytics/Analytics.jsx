@@ -72,29 +72,6 @@ function Analytics() {
             <Slidebar />
 
             <main className="analytics-main">
-                {/* HEADER */}
-                <header className="admin-header">
-                    <div className="header-text">
-                        <h1>Analytics Overview</h1>
-                        <p>Platform performance and content metrics at a glance.</p>
-                    </div>
-                    <div className="header-actions">
-                        <div className="admin-profile-container" ref={dropdownRef}>
-                            <div className="admin-profile-icon" onClick={toggleDropdown}>
-                                <img src={adminProfileImg} alt="Admin Profile" />
-                                <span className="status-online"></span>
-                            </div>
-                            {isDropdownOpen && (
-                                <div className="admin-profile-dropdown">
-                                    <Link to="/admin/profile" className="dropdown-item">👤 Profile</Link>
-                                    <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item logout-item">🚪 Logout</Link>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </header>
-
                 {/* OVERVIEW STAT CARDS */}
                 <section className="analytics-overview-grid">
                     {ANALYTICS_DATA.overview.map((stat, i) => (
