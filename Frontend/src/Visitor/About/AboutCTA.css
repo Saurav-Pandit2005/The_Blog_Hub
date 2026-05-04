@@ -1,6 +1,18 @@
 .about-cta {
     text-align: center;
-    padding: 90px 120px;
+    padding: 60px 20px;
+}
+
+.about-cta h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    font-family: 'Merriweather', serif;
+}
+
+.about-cta p {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 30px;
 }
 
 .about-cta .cta-buttons {
