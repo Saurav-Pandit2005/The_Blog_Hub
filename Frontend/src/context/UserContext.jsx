@@ -17,9 +17,11 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const updateUserData = (newData) => {
-        const updatedUser = { ...user, ...newData };
-        setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(prevUser => {
+            const updatedUser = { ...prevUser, ...newData };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            return updatedUser;
+        });
     };
 
     const logout = () => {
