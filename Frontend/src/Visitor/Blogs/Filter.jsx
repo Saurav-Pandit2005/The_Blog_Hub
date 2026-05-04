@@ -20,13 +20,13 @@ function Filter({ searchTerm, setSearchTerm, selectedCategory, setSelectedCatego
                 <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                     <option value="All Categories">All Categories</option>
                     <option value="Technology">Technology</option>
-                    <option value="Lifestyle">Lifestyle</option>
-                    <option value="Startup">Startup</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Fitness">Fitness</option>
+                    <option value="Geopolitics">Geopolitics</option>
+                    <option value="World News">World News</option>
                     <option value="Business">Business</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Defence">Defence</option>
                     <option value="Productivity">Productivity</option>
+                    <option value="Health">Health</option>
                 </select>
 
                 <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
