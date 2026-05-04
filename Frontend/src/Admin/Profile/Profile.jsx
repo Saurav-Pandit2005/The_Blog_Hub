@@ -4,16 +4,26 @@ import Slidebar from '../Slidebar/Slidebar';
 import './Profile.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
 import { UserContext } from '../../context/UserContext';
+import api from '../../api';
+import { CheckCircle, X } from 'lucide-react';
+import '../Dashboard/Dashboard.css'; // Global Toast styles
 
 function AdminProfile() {
     const { user, updateUserData } = useContext(UserContext);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [saved, setSaved] = useState(false);
-    const [pwSaved, setPwSaved] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const [activeTab, setActiveTab] = useState('profile');
     const [avatarSrc, setAvatarSrc] = useState(user?.profilePic || adminProfileImg);
     const dropdownRef = useRef(null);
     const fileInputRef = useRef(null);
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     const toggleDropdown = (e) => {
         e.stopPropagation();
@@ -48,40 +58,76 @@ function AdminProfile() {
         confirm: '',
     });
 
-    const handleProfileSave = (e) => {
+    const handleProfileSave = async (e) => {
         e.preventDefault();
-        updateUserData({
-            name: profile.name,
-            email: profile.email,
-            phone: profile.phone,
-            location: profile.location,
-            bio: profile.bio
-        });
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
+        try {
+            setIsSaving(true);
+            const res = await api.put('/auth/updatedetails', {
+                name: profile.name,
+                email: profile.email,
+                phone: profile.phone,
+                location: profile.location,
+                bio: profile.bio
+            });
+
+            if (res.data.success) {
+                updateUserData(res.data.data);
+                triggerToast('Profile information updated successfully!');
+            }
+        } catch (err) {
+            triggerToast(err.response?.data?.error || 'Failed to update profile.', 'error');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const handlePasswordSave = (e) => {
+    const handlePasswordSave = async (e) => {
         e.preventDefault();
         if (passwords.newPass !== passwords.confirm) {
-            alert('New passwords do not match!');
+            triggerToast('New passwords do not match!', 'error');
             return;
         }
-        setPwSaved(true);
-        setPasswords({ current: '', newPass: '', confirm: '' });
-        setTimeout(() => setPwSaved(false), 3000);
+
+        try {
+            setIsSaving(true);
+            const res = await api.put('/auth/updatepassword', {
+                currentPassword: passwords.current,
+                newPassword: passwords.newPass
+            });
+
+            if (res.data.success) {
+                triggerToast('Password updated successfully!');
+                setPasswords({ current: '', newPass: '', confirm: '' });
+            }
+        } catch (err) {
+            triggerToast(err.response?.data?.error || 'Failed to update password.', 'error');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const handleAvatarChange = (e) => {
+    const handleAvatarChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const newImg = ev.target.result;
-                setAvatarSrc(newImg);
-                updateUserData({ profilePic: newImg });
-            };
-            reader.readAsDataURL(file);
+            try {
+                setIsSaving(true);
+                const formData = new FormData();
+                formData.append('profilePic', file);
+
+                const res = await api.put('/auth/updateavatar', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+
+                if (res.data.success) {
+                    setAvatarSrc(res.data.profilePic);
+                    updateUserData({ profilePic: res.data.profilePic });
+                    triggerToast('Profile picture updated!');
+                }
+            } catch (err) {
+                triggerToast('Failed to upload avatar.', 'error');
+            } finally {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -199,8 +245,8 @@ function AdminProfile() {
                             </div>
                         </div>
                         <div className="pfc-footer">
-                            <button type="submit" className={`pf-save-btn ${saved ? 'saved' : ''}`}>
-                                {saved ? '✅ Profile Updated!' : '💾 Save Changes'}
+                            <button type="submit" className="pf-save-btn" disabled={isSaving}>
+                                {isSaving ? '⏳ Saving...' : '💾 Save Changes'}
                             </button>
                         </div>
                     </form>
@@ -254,13 +300,24 @@ function AdminProfile() {
                             </div>
                         </div>
                         <div className="pfc-footer">
-                            <button type="submit" className={`pf-save-btn ${pwSaved ? 'saved' : ''}`}>
-                                {pwSaved ? '✅ Password Updated!' : '🔒 Update Password'}
+                            <button type="submit" className="pf-save-btn" disabled={isSaving}>
+                                {isSaving ? '⏳ Updating...' : '🔒 Update Password'}
                             </button>
                         </div>
                     </form>
                 )}
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }
