@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { User, Globe, Lock, Camera, Shield, Check, Mail, Info } from 'lucide-react';
+import { User, Globe, Lock, Camera, Shield, Check, Mail, Info, CheckCircle, X } from 'lucide-react';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './Profile.css';
@@ -20,6 +21,14 @@ function Profile() {
         profilePic: "",
         role: ""
     });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         fetchMe();
@@ -63,26 +72,26 @@ function Profile() {
         try {
             const res = await api.put('/auth/updatedetails', authorData);
             if (res.data.success) {
-                alert("Profile Updated Successfully!");
+                triggerToast("Profile Updated Successfully!");
                 setIsEditing(false);
                 const user = JSON.parse(localStorage.getItem('user'));
                 localStorage.setItem('user', JSON.stringify({ ...user, name: authorData.name, profilePic: authorData.profilePic }));
             }
         } catch (err) {
             console.error("Error updating profile:", err);
-            alert("Failed to update profile.");
+            triggerToast(err.response?.data?.error || "Failed to update profile.", "error");
         }
     };
 
     const handlePasswordUpdate = async () => {
         if (!passwords.currentPassword || !passwords.newPassword || !passwords.confirmNewPassword) {
-            return alert("Please fill in all password fields.");
+            return triggerToast("Please fill in all password fields.", "error");
         }
         if (passwords.newPassword !== passwords.confirmNewPassword) {
-            return alert("New passwords do not match!");
+            return triggerToast("New passwords do not match!", "error");
         }
         if (passwords.newPassword.length < 6) {
-            return alert("New password must be at least 6 characters.");
+            return triggerToast("New password must be at least 6 characters.", "error");
         }
 
         try {
@@ -92,11 +101,11 @@ function Profile() {
             });
             
             if (res.data.success) {
-                alert("Password updated successfully!");
+                triggerToast("Password updated successfully!");
                 setPasswords({ currentPassword: "", newPassword: "", confirmNewPassword: "" });
             }
         } catch (err) {
-            alert(err.response?.data?.error || "Failed to update password.");
+            triggerToast(err.response?.data?.error || "Failed to update password.", "error");
         }
     };
 
@@ -117,11 +126,11 @@ function Profile() {
                 setAuthorData(prev => ({ ...prev, profilePic: res.data.profilePic }));
                 const user = JSON.parse(localStorage.getItem('user'));
                 localStorage.setItem('user', JSON.stringify({ ...user, profilePic: res.data.profilePic }));
-                alert("Avatar updated!");
+                triggerToast("Avatar updated!");
             }
         } catch (err) {
             console.error("Error uploading avatar:", err);
-            alert("Failed to upload avatar.");
+            triggerToast("Failed to upload avatar.", "error");
         } finally {
             setUploading(false);
         }
@@ -346,6 +355,17 @@ function Profile() {
                     </div>
                 </div>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

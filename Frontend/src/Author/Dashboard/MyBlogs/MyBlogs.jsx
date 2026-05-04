@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './MyBlogs.css';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
+import { CheckCircle, X } from 'lucide-react';
 
 // Assets
 import editIcon from '../../../assets/Images/Author/Dashboard/MyBlogs/edit.png';
@@ -13,6 +15,14 @@ function MyBlogs() {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         fetchMyBlogs();
@@ -38,12 +48,12 @@ function MyBlogs() {
             try {
                 const res = await api.delete(`/blogs/${id}`);
                 if (res.data.success) {
-                    alert('Blog deleted successfully!');
+                    triggerToast('Blog deleted successfully!');
                     fetchMyBlogs();
                 }
             } catch (err) {
                 console.error('Error deleting blog:', err);
-                alert('Failed to delete blog.');
+                triggerToast('Failed to delete blog.', 'error');
             }
         }
     };
@@ -136,6 +146,17 @@ function MyBlogs() {
                     </div>
                 )}
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

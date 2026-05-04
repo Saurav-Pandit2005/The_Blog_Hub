@@ -209,7 +209,7 @@
     flex-direction: column;
 }
 
-.skeleton-image { height: 220px; border-radius: 20px; mragin: 10px; background: #f1f5f9; }
+.skeleton-image { height: 220px; border-radius: 20px; margin: 10px; background: #f1f5f9; }
 .skeleton-content { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 15px; }
 .skeleton-line { height: 12px; border-radius: 6px; background: #f1f5f9; }
 .skeleton-line.full { width: 100%; }
