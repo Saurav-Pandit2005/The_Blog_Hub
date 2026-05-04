@@ -66,7 +66,9 @@ function FeaturedArticles({ selectedCategory }) {
 
     const filteredBlogs = selectedCategory === "All"
         ? blogs.slice(0, 6)
-        : blogs.filter(blog => blog.category === selectedCategory).slice(0, 6);
+        : blogs.filter(blog => 
+            blog.category?.toLowerCase().trim() === selectedCategory.toLowerCase().trim()
+          ).slice(0, 6);
 
     if (loading) {
         return <div className="loading-featured">Fetching the latest highlights...</div>;

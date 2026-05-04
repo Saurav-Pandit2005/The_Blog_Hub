@@ -3,8 +3,8 @@ import './ExploreCategories.css';
 
 function ExploreCategories({ selectedCategory, setSelectedCategory }) {
     const categories = [
-        "All", "Technology", "Design", "Lifestyle", "Productivity",
-        "Travel", "Food", "Health", "Finance"
+        "All", "Technology", "Geopolitics", "Sports", "Productivity",
+        "Defence", "World News", "Health", "Business"
     ];
 
     return (
