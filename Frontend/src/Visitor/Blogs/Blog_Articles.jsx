@@ -69,7 +69,8 @@ function Blog_Articles({ searchTerm, selectedCategory, sortBy, currentPage, setT
             article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (article.summary && article.summary.toLowerCase().includes(searchTerm.toLowerCase())) ||
             article.content.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCategory = selectedCategory === "All Categories" || article.category === selectedCategory;
+        const matchesCategory = selectedCategory === "All Categories" || 
+            article.category?.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
         return matchesSearch && matchesCategory;
     });
 

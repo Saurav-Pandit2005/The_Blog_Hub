@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api';
+import { UserContext } from '../../context/UserContext';
 import './Login.css';
 
 function Login() {
@@ -9,6 +10,7 @@ function Login() {
     const [role, setRole] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,6 +25,9 @@ function Login() {
                 // Store in localStorage
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
+                
+                // Update Global User State
+                setUser(user);
 
                 // Navigate based on role
                 if (user.role === 'Admin') {
