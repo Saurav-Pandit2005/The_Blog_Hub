@@ -252,6 +252,112 @@
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08);
 }
 
+/* NEW RICH EDITOR STYLES */
+.content-area-group-new {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.content-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.premium-editor-container {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.premium-editor-container:focus-within {
+    border-color: var(--admin-accent);
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.15);
+}
+
+.editor-toolbar {
+    background: #f8fafc;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 4px;
+}
+
+.toolbar-group button {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.toolbar-group button:hover {
+    background: #eff6ff;
+    color: var(--admin-accent);
+    border-color: var(--admin-accent);
+    transform: translateY(-1px);
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 24px;
+    background: #e2e8f0;
+    margin: 0 4px;
+}
+
+.rich-editor-admin {
+    min-height: 400px;
+    padding: 25px;
+    outline: none;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #334155;
+    background: white;
+    overflow-y: auto;
+}
+
+.rich-editor-admin h1 { font-size: 2em; margin-bottom: 0.5em; color: #1e293b; font-family: 'Merriweather', serif; }
+.rich-editor-admin h2 { font-size: 1.5em; margin-top: 1em; margin-bottom: 0.5em; color: #334155; }
+.rich-editor-admin blockquote {
+    border-left: 4px solid var(--admin-accent);
+    padding-left: 20px;
+    margin: 20px 0;
+    font-style: italic;
+    color: #64748b;
+    background: #f8fafc;
+    padding: 15px 20px;
+    border-radius: 0 12px 12px 0;
+}
+
+.admin-thumb-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.premium-upload-zone.has-preview {
+    border: none;
+}
+
 /* SIDE PANEL (RIGHT) */
 .editor-side-panel {
     display: flex;
