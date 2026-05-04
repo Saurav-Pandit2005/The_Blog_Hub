@@ -54,10 +54,63 @@
 
 .resource-thumbnail {
     width: 100%;
-    max-height: 380px;
-    object-fit: contain;
+    max-height: 420px;
+    object-fit: cover;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* Simple PDF Document Placeholder */
+.pdf-document-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.pdf-icon-wrapper {
+    position: relative;
+    width: 120px;
+    height: 160px;
+    background: #e2e8f0; /* Simple gray/blue background */
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Document lines for 'normal' look */
+.pdf-icon-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 2px;
+    background: #94a3b8;
+    box-shadow: 
+        0 8px 0 #94a3b8,
+        0 16px 0 #94a3b8,
+        0 24px 0 #94a3b8;
+    top: 60px;
+}
+
+.pdf-corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: #cbd5e1;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.pdf-label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4f46e5;
+    letter-spacing: 1px;
+    font-family: 'Merriweather', serif;
 }
 
 /* Right: Info */

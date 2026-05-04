@@ -86,11 +86,20 @@ function ResourceDetailPage() {
                 {/* THE MASTER RESOURCE CARD */}
                 <div className="resource-master-card">
                     <div className="card-media">
-                        <img 
-                            src={resource.coverImage || 'https://via.placeholder.com/400x550'} 
-                            alt={resource.title} 
-                            className="resource-thumbnail"
-                        />
+                        {(resource.type?.includes('PDF') || !resource.coverImage) ? (
+                            <div className="pdf-document-placeholder">
+                                <div className="pdf-icon-wrapper">
+                                    <div className="pdf-corner"></div>
+                                </div>
+                                <span className="pdf-label">PDF DOCUMENT</span>
+                            </div>
+                        ) : (
+                            <img 
+                                src={resource.coverImage} 
+                                alt={resource.title} 
+                                className="resource-thumbnail"
+                            />
+                        )}
                     </div>
 
                     <div className="card-info-side">
