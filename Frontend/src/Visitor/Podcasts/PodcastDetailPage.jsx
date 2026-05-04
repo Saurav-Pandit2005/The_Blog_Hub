@@ -96,24 +96,28 @@ function PodcastDetailPage() {
 
                 <div className="platform-video-info">
                     <h1 className="platform-video-title">{podcast.title}</h1>
-                    <div className="platform-video-primary-info">
-                        <div className="platform-channel-info">
-                            <img src={hostPic} alt="Host" className="platform-channel-avatar" />
-                            <div className="platform-channel-details">
-                                <span className="platform-channel-name">{hostName}</span>
-                                <span className="platform-channel-subs">{hostRole}</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div className="platform-video-description-box">
                     <div className="platform-desc-meta">
-                        <span>{podcast.category}</span>
-                        <span className="platform-dot">•</span>
+                        <span className="platform-category-badge">{podcast.category}</span>
+                        <div className="platform-dot"></div>
                         <span>{new Date(podcast.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                     </div>
-                    <p className="platform-desc-text">{podcast.desc}</p>
+                    
+                    <div className="platform-desc-text-wrapper">
+                        <p className="platform-desc-text">{podcast.desc}</p>
+                    </div>
+
+                    <div className="platform-author-integration">
+                        <img src={hostPic} alt={hostName} className="platform-author-mini-pic" />
+                        <div className="platform-author-mini-info">
+                            <h4 className="platform-author-mini-name">Hosted by {hostName}</h4>
+                            <p className="platform-author-mini-bio">
+                                {podcast.host?.bio || "Expert contributor at The Blog Hub, sharing insights and deep-dives into the latest trends and stories."}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
