@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { 
+    Sparkles, Bold, Italic, Underline, List, ListOrdered, 
+    AlignCenter, AlignLeft, AlignRight, Quote, Link as LinkIcon, 
+    Type, Heading1, Heading2, Eraser, CheckCircle, X, Image as ImageIcon
+} from 'lucide-react';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './WritePost.css';
+import '../Dashboard.css';
+import { useRef } from 'react';
 
 function EditPost() {
     const { id } = useParams();
@@ -18,6 +25,19 @@ function EditPost() {
     const [isLoading, setIsLoading] = useState(true);
     const [thumbnail, setThumbnail] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+    const editorRef = useRef(null);
+
+    const formatText = (command, value = null) => {
+        document.execCommand(command, false, value);
+    };
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         const fetchBlogDetails = async () => {
@@ -37,8 +57,8 @@ function EditPost() {
                 }
             } catch (err) {
                 console.error('Error fetching blog:', err);
-                alert('Could not load blog details.');
-                navigate('/author/my-blogs');
+                triggerToast('Could not load blog details.', 'error');
+                setTimeout(() => navigate('/author/dashboard/my-blogs'), 1500);
             } finally {
                 setIsLoading(false);
             }
@@ -46,10 +66,21 @@ function EditPost() {
         fetchBlogDetails();
     }, [id, navigate]);
 
+    // Update editor content when it loads
+    useEffect(() => {
+        if (!isLoading && editorRef.current) {
+            editorRef.current.innerHTML = content;
+        }
+    }, [isLoading, content]);
+
     const handleAI = () => {
         setIsGenerating(true);
         setTimeout(() => {
-            setContent(prev => prev + "\n\nAI Enhanced Content: Exploring " + category + " requires a deep understanding of current market trends and technological shifts. By integrating these systems, we can achieve greater efficiency and scalability in our production environments.");
+            const aiText = `<p><strong>AI Enhanced Insight:</strong> Exploring the depths of ${category} reveals a landscape rich with opportunity. By leveraging modern frameworks and data-driven strategies, we can unlock new levels of performance and user engagement.</p>`;
+            if (editorRef.current) {
+                editorRef.current.innerHTML += aiText;
+                setContent(editorRef.current.innerHTML);
+            }
             setIsGenerating(false);
         }, 1500);
     };
@@ -65,7 +96,7 @@ function EditPost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!title || !content) {
-            alert('Please fill in at least the title and content.');
+            triggerToast('Please fill in at least the title and content.', 'error');
             return;
         }
 
@@ -87,12 +118,12 @@ function EditPost() {
             });
 
             if (res.data.success) {
-                alert('Blog updated successfully!');
-                navigate('/author/my-blogs');
+                triggerToast('Blog updated successfully!');
+                setTimeout(() => navigate('/author/dashboard/my-blogs'), 1500);
             }
         } catch (err) {
             console.error('Update Error:', err);
-            alert(err.response?.data?.error || 'Failed to update blog.');
+            triggerToast(err.response?.data?.error || 'Failed to update blog.', 'error');
         } finally {
             setIsSubmitting(false);
         }
@@ -147,25 +178,58 @@ function EditPost() {
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <div className="label-flex">
-                                    <label>Blog Content</label>
+                            <div className="content-area-group">
+                                <div className="content-header">
+                                    <label className="field-label">Main Body Content</label>
                                     <button
                                         type="button"
-                                        className={`ai-btn ${isGenerating ? 'loading' : ''}`}
+                                        className={`ai-generate-btn ${isGenerating ? 'is-spinning' : ''}`}
                                         onClick={handleAI}
                                         disabled={isGenerating}
                                     >
-                                        ✨ {isGenerating ? 'Refining...' : 'Enhance with AI'}
+                                        <Sparkles size={16} />
+                                        {isGenerating ? 'AI Crafting...' : 'Magic Write with AI'}
                                     </button>
                                 </div>
-                                <textarea
-                                    placeholder="Edit your article content..."
-                                    rows="12"
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    required
-                                ></textarea>
+                                <div className="premium-editor-container">
+                                    <div className="editor-toolbar">
+                                        <div className="toolbar-group">
+                                            <button type="button" onClick={() => formatText('formatBlock', 'H1')} title="Heading 1"><Heading1 size={16} /></button>
+                                            <button type="button" onClick={() => formatText('formatBlock', 'H2')} title="Heading 2"><Heading2 size={16} /></button>
+                                            <button type="button" onClick={() => formatText('formatBlock', 'P')} title="Paragraph"><Type size={16} /></button>
+                                        </div>
+                                        <div className="toolbar-divider"></div>
+                                        <div className="toolbar-group">
+                                            <button type="button" onClick={() => formatText('bold')} title="Bold"><Bold size={16} /></button>
+                                            <button type="button" onClick={() => formatText('italic')} title="Italic"><Italic size={16} /></button>
+                                            <button type="button" onClick={() => formatText('underline')} title="Underline"><Underline size={16} /></button>
+                                        </div>
+                                        <div className="toolbar-divider"></div>
+                                        <div className="toolbar-group">
+                                            <button type="button" onClick={() => formatText('justifyLeft')} title="Align Left"><AlignLeft size={16} /></button>
+                                            <button type="button" onClick={() => formatText('justifyCenter')} title="Align Center"><AlignCenter size={16} /></button>
+                                            <button type="button" onClick={() => formatText('justifyRight')} title="Align Right"><AlignRight size={16} /></button>
+                                        </div>
+                                        <div className="toolbar-divider"></div>
+                                        <div className="toolbar-group">
+                                            <button type="button" onClick={() => formatText('insertUnorderedList')} title="Bullet List"><List size={16} /></button>
+                                            <button type="button" onClick={() => formatText('insertOrderedList')} title="Numbered List"><ListOrdered size={16} /></button>
+                                            <button type="button" onClick={() => formatText('formatBlock', 'BLOCKQUOTE')} title="Quote"><Quote size={16} /></button>
+                                        </div>
+                                        <div className="toolbar-divider"></div>
+                                        <div className="toolbar-group">
+                                            <button type="button" onClick={() => formatText('createLink')} title="Insert Link"><LinkIcon size={16} /></button>
+                                            <button type="button" onClick={() => formatText('removeFormat')} title="Clear Formatting"><Eraser size={16} /></button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        id="main-editor"
+                                        ref={editorRef}
+                                        contentEditable="true"
+                                        onInput={(e) => setContent(e.currentTarget.innerHTML)}
+                                        className="rich-editor"
+                                    ></div>
+                                </div>
                             </div>
                         </div>
 
@@ -231,6 +295,17 @@ function EditPost() {
                     </form>
                 </section>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

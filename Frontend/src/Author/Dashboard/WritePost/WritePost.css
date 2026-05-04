@@ -154,24 +154,88 @@
     padding-left: 45px;
 }
 
-/* CONTENT AREA */
 .content-area-group {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
 .content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 5px;
 }
 
-.content-header label {
+.field-label {
     font-size: 14px;
     font-weight: 800;
     color: #475569;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.premium-editor-container {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 20px;
+    background: #F8FAFC;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.premium-editor-container:focus-within {
+    border-color: #6366F1;
+    box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.1);
+    background: white;
+}
+
+.editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #F1F5F9;
+    padding: 10px 15px;
+    border-bottom: 1px solid #E2E8F0;
+    flex-wrap: wrap;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background: #E2E8F0;
+    margin: 0 4px;
+}
+
+.editor-toolbar button {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editor-toolbar button:hover {
+    background: #6366F1;
+    color: white;
+    border-color: #6366F1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.editor-toolbar button:active {
+    transform: translateY(0);
 }
 
 .ai-generate-btn {
@@ -216,6 +280,25 @@
     outline: none;
     box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.1);
 }
+
+.rich-editor {
+    height: auto;
+    min-height: 400px;
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 25px;
+    cursor: text;
+    background: transparent;
+    font-size: 17px;
+    line-height: 1.7;
+    outline: none;
+}
+
+.rich-editor h1 { font-size: 2em; margin-bottom: 0.5em; }
+.rich-editor h2 { font-size: 1.5em; margin-bottom: 0.5em; }
+.rich-editor h3 { font-size: 1.17em; margin-bottom: 0.5em; }
+.rich-editor b { font-weight: bold; }
+.rich-editor i { font-style: italic; }
 
 /* SIDEBAR COMPONENTS */
 .section-title {
@@ -421,4 +504,88 @@
     .write-content-main { padding: 30px 20px; }
     .editor-body { padding: 30px 20px; }
     .field-row { grid-template-columns: 1fr; }
-}
+}
+
+/* ===== PREMIUM TOAST NOTIFICATION ===== */
+.premium-toast-container {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    min-width: 320px;
+    background: white;
+    padding: 16px 24px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid #E2E8F0;
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.premium-toast-container.success {
+    border-left: 5px solid #10B981;
+}
+
+.premium-toast-container.error {
+    border-left: 5px solid #EF4444;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.premium-toast-container.success .toast-content svg {
+    color: #10B981;
+}
+
+.premium-toast-container.error .toast-content svg {
+    color: #EF4444;
+}
+
+.toast-content span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.toast-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #E2E8F0;
+    width: 100%;
+}
+
+.premium-toast-container.success .toast-progress-bar {
+    background: #10B981;
+}
+
+.premium-toast-container.error .toast-progress-bar {
+    background: #EF4444;
+}
+
+.toast-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,0.3);
+    animation: toastProgress 3s linear forwards;
+}
+
+@keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
