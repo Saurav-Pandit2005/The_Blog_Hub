@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './UploadPodcast.css'; // Reusing the same styles
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
+import { CheckCircle, X } from 'lucide-react';
 
 function EditPodcast() {
     const { id } = useParams();
@@ -25,6 +27,14 @@ function EditPodcast() {
     const [thumbnail, setThumbnail] = useState(null);
     const [mediaPreview, setMediaPreview] = useState(null);
     const [thumbPreview, setThumbPreview] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         const fetchPodcast = async () => {
@@ -45,8 +55,8 @@ function EditPodcast() {
                 }
             } catch (err) {
                 console.error("Error fetching podcast:", err);
-                alert("Failed to load podcast data.");
-                navigate('/author/dashboard/podcasts');
+                triggerToast("Failed to load podcast data.", "error");
+                setTimeout(() => navigate('/author/dashboard/podcasts'), 1500);
             } finally {
                 setIsLoading(false);
             }
@@ -88,12 +98,12 @@ function EditPodcast() {
 
     const handleSubmit = async (statusOverride) => {
         if (!title.trim() || title.length < 5) {
-            alert("Please provide a title (min 5 characters).");
+            triggerToast("Please provide a title (min 5 characters).", "error");
             return;
         }
 
         if (!desc.trim() || desc.length < 20) {
-            alert("Please provide a description (min 20 characters).");
+            triggerToast("Please provide a description (min 20 characters).", "error");
             return;
         }
 
@@ -127,12 +137,12 @@ function EditPodcast() {
             });
 
             if (res.data.success) {
-                alert(`Podcast updated successfully!`);
-                navigate('/author/dashboard/podcasts');
+                triggerToast(`Podcast updated successfully!`);
+                setTimeout(() => navigate('/author/dashboard/podcasts'), 1500);
             }
         } catch (err) {
             console.error("Update Error:", err);
-            alert(err.response?.data?.error || `Failed to update podcast. Try again.`);
+            triggerToast(err.response?.data?.error || `Failed to update podcast. Try again.`, "error");
         } finally {
             setIsSubmitting(false);
         }
@@ -291,6 +301,17 @@ function EditPodcast() {
                     </div>
                 </div>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './UploadPodcast.css';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
+import { CheckCircle, X } from 'lucide-react';
 
 function UploadPodcast() {
     const navigate = useNavigate();
@@ -22,6 +24,14 @@ function UploadPodcast() {
     const [thumbnail, setThumbnail] = useState(null);
     const [mediaPreview, setMediaPreview] = useState(null);
     const [thumbPreview, setThumbPreview] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     const extractYouTubeId = (url) => {
         const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -57,27 +67,27 @@ function UploadPodcast() {
 
     const handleSubmit = async (statusOverride) => {
         if (!title.trim() || title.length < 5) {
-            alert("Please provide a title (min 5 characters).");
+            triggerToast("Please provide a title (min 5 characters).", "error");
             return;
         }
 
         if (!desc.trim() || desc.length < 20) {
-            alert("Please provide a description (min 20 characters).");
+            triggerToast("Please provide a description (min 20 characters).", "error");
             return;
         }
 
         if (uploadType === 'File' && !mediaFile) {
-            alert(`Please upload a ${type} file.`);
+            triggerToast(`Please upload a ${type} file.`, "error");
             return;
         }
 
         if (uploadType === 'Link' && !externalLink) {
-            alert("Please provide an external stream link.");
+            triggerToast("Please provide an external stream link.", "error");
             return;
         }
 
         if (!thumbnail) {
-            alert("Please provide a cover thumbnail image.");
+            triggerToast("Please provide a cover thumbnail image.", "error");
             return;
         }
 
@@ -111,12 +121,12 @@ function UploadPodcast() {
             });
 
             if (res.data.success) {
-                alert(`Podcast ${statusOverride === 'Draft' ? 'draft saved' : 'published'} successfully!`);
-                navigate('/author/dashboard/podcasts');
+                triggerToast(`Podcast ${statusOverride === 'Draft' ? 'draft saved' : 'published'} successfully!`);
+                setTimeout(() => navigate('/author/dashboard/podcasts'), 1500);
             }
         } catch (err) {
             console.error("Submission Error:", err);
-            alert(err.response?.data?.error || `Failed to process podcast. Try again.`);
+            triggerToast(err.response?.data?.error || `Failed to process podcast. Try again.`, "error");
         } finally {
             setIsSubmitting(false);
         }
@@ -268,6 +278,17 @@ function UploadPodcast() {
                     </div>
                 </div>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

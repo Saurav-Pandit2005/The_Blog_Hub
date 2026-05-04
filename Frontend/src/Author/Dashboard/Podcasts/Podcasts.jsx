@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './Podcasts.css';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
+import { CheckCircle, X } from 'lucide-react';
 
 // Assets
 import editIcon from '../../../assets/Images/Author/Dashboard/MyBlogs/edit.png';
@@ -13,6 +15,14 @@ function Podcasts() {
     const [searchTerm, setSearchTerm] = useState('');
     const [podcasts, setPodcasts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         const fetchMyPodcasts = async () => {
@@ -36,8 +46,9 @@ function Podcasts() {
             try {
                 await api.delete(`/podcasts/${id}`);
                 setPodcasts(podcasts.filter(p => p._id !== id));
+                triggerToast("Podcast deleted successfully!");
             } catch (err) {
-                alert("Failed to delete podcast.");
+                triggerToast("Failed to delete podcast.", "error");
             }
         }
     };
@@ -131,6 +142,17 @@ function Podcasts() {
                     )}
                 </div>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }
