@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import '../WritePost/WritePost.css';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
+import { CheckCircle, X } from 'lucide-react';
 
 function EditResource() {
     const navigate = useNavigate();
@@ -18,6 +20,14 @@ function EditResource() {
         type: 'PDF',
         status: 'Published'
     });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -75,12 +85,12 @@ function EditResource() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if (res.data.success) {
-                alert("Resource Updated Successfully!");
-                navigate('/author/dashboard/resources');
+                triggerToast("Resource Updated Successfully!");
+                setTimeout(() => navigate('/author/dashboard/resources'), 1500);
             }
         } catch (err) {
             console.error("Error uploading resource:", err);
-            alert("Failed to add resource. Please verify category and type.");
+            triggerToast(err.response?.data?.error || "Failed to update resource. Please verify category and type.", "error");
         } finally {
             setSubmitting(false);
         }
@@ -212,6 +222,17 @@ function EditResource() {
                     </form>
                 </section>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

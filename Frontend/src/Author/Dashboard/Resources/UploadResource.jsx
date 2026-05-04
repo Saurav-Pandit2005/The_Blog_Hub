@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Tag, Layers, Send, X, UploadCloud, Info, BookOpen } from 'lucide-react';
+import { FileText, Tag, Layers, Send, X, UploadCloud, Info, BookOpen, CheckCircle } from 'lucide-react';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import '../WritePost/WritePost.css';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
 
 function UploadResource() {
     const navigate = useNavigate();
     const [resourceFile, setResourceFile] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
     const [formData, setFormData] = useState({
         title: '',
         desc: '',
@@ -32,17 +41,17 @@ function UploadResource() {
         e.preventDefault();
 
         if (!formData.title.trim() || formData.title.length < 10) {
-            alert("Please provide a title (min 10 characters).");
+            triggerToast("Please provide a title (min 10 characters).", "error");
             return;
         }
 
         if (!formData.desc.trim() || formData.desc.length < 30) {
-            alert("Please provide a description (min 30 characters).");
+            triggerToast("Please provide a description (min 30 characters).", "error");
             return;
         }
 
         if (!resourceFile) {
-            alert("Please upload a PDF document.");
+            triggerToast("Please upload a PDF document.", "error");
             return;
         }
 
@@ -57,12 +66,12 @@ function UploadResource() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if (res.data.success) {
-                alert("Resource Added Successfully!");
-                navigate('/author/dashboard/resources');
+                triggerToast("Resource Added Successfully!");
+                setTimeout(() => navigate('/author/dashboard/resources'), 1500);
             }
         } catch (err) {
             console.error("Error uploading resource:", err);
-            alert("Failed to add resource. Please verify category and type.");
+            triggerToast(err.response?.data?.error || "Failed to add resource. Please verify category and type.", "error");
         } finally {
             setSubmitting(false);
         }
@@ -196,6 +205,17 @@ function UploadResource() {
                     </form>
                 </div>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }

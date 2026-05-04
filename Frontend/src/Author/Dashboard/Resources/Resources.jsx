@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './Resources.css';
+import '../Dashboard.css'; // Global Dashboard styles for Toasts
+import { CheckCircle, X } from 'lucide-react';
 
 // Assets
 import editIcon from '../../../assets/Images/Author/Dashboard/MyBlogs/edit.png';
@@ -13,6 +15,14 @@ function Resources() {
     const [searchTerm, setSearchTerm] = useState('');
     const [resourcesData, setResourcesData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         const fetchResources = async () => {
@@ -36,10 +46,11 @@ function Resources() {
                 const res = await api.delete(`/resources/${id}`);
                 if (res.data.success) {
                     setResourcesData(prev => prev.filter(r => r._id !== id));
+                    triggerToast("Resource deleted successfully!");
                 }
             } catch (err) {
                 console.error("Error deleting resource:", err);
-                alert("Failed to delete resource");
+                triggerToast("Failed to delete resource", "error");
             }
         }
     };
@@ -117,6 +128,17 @@ function Resources() {
                     )}
                 </div>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }
