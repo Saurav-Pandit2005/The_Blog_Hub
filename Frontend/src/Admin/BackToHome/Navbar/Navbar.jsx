@@ -72,7 +72,7 @@ function AdminNavbar() {
                     <Link to="/admin/profile" className="auth-dropdown-item">
                         <UserIcon size={16} /> My Profile
                     </Link>
-                    <Link to="/admin/home" className="auth-dropdown-item">
+                    <Link to="/admin/dashboard" className="auth-dropdown-item">
                         <LayoutDashboard size={16} /> Admin Panel
                     </Link>
 
