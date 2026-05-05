@@ -4,8 +4,9 @@ import Slidebar from '../Slidebar/Slidebar';
 import api from '../../api';
 import './ManageBlogs.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
-import { Search, Filter, Eye, Edit, Trash2, BookOpen, TrendingUp, ChevronDown, Mail, Calendar } from 'lucide-react';
+import { Search, Filter, Eye, Edit, Trash2, BookOpen, TrendingUp, ChevronDown, Mail, Calendar, CheckCircle, X } from 'lucide-react';
 import { UserContext } from '../../context/UserContext';
+import '../Dashboard/Dashboard.css'; // Global Toast styles
 
 function ManageBlogs() {
     const { user } = useContext(UserContext);
@@ -13,7 +14,15 @@ function ManageBlogs() {
     const [statusFilter, setStatusFilter] = useState('All');
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const navigate = useNavigate();
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         fetchBlogs();
@@ -38,11 +47,11 @@ function ManageBlogs() {
             try {
                 const res = await api.delete(`/blogs/${id}`);
                 if (res.data.success) {
-                    alert('Blog Deleted!');
+                    triggerToast('Blog Deleted Successfully!');
                     fetchBlogs();
                 }
             } catch (err) {
-                alert('Error deleting blog');
+                triggerToast('Error deleting blog', 'error');
             }
         }
     };
@@ -180,6 +189,17 @@ function ManageBlogs() {
                     </div>
                 </section>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }
