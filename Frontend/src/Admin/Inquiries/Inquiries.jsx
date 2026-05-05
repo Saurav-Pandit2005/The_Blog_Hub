@@ -6,6 +6,7 @@ import { Search, Mail, MessageSquare, Trash2, Send, CheckCircle, Clock, X, Chevr
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
 import { UserContext } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import '../Dashboard/Dashboard.css'; // Global Toast styles
 
 function Inquiries() {
     const { user } = useContext(UserContext);
@@ -16,6 +17,14 @@ function Inquiries() {
     const [replyText, setReplyText] = useState('');
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         fetchInquiries();
@@ -36,17 +45,17 @@ function Inquiries() {
     };
 
     const handleReply = async (id) => {
-        if (!replyText.trim()) return alert("Please type a reply.");
+        if (!replyText.trim()) return triggerToast("Please type a reply.", "error");
         try {
             const res = await api.put(`/inquiries/${id}/reply`, { replyMessage: replyText });
             if (res.data.success) {
-                alert("Reply sent successfully via Email!");
+                triggerToast("Reply sent successfully via Email!");
                 setReplyText('');
                 setSelectedMessage(null);
                 fetchInquiries();
             }
         } catch (err) {
-            alert("Failed to send reply.");
+            triggerToast("Failed to send reply.", "error");
         }
     };
 
@@ -54,10 +63,11 @@ function Inquiries() {
         if (!window.confirm("Delete this inquiry?")) return;
         try {
             await api.delete(`/inquiries/${id}`);
+            triggerToast("Inquiry deleted successfully.");
             setMessages(messages.filter(m => m._id !== id));
             setSelectedMessage(null);
         } catch (err) {
-            alert("Delete failed.");
+            triggerToast("Delete failed.", "error");
         }
     };
 
@@ -218,6 +228,17 @@ function Inquiries() {
                             )}
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
                 </div>
             )}
         </div>
