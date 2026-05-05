@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import './AddUsers.css';
 
-function AddUsers({ isOpen, onClose, onUserAdded, editUser = null }) {
+function AddUsers({ isOpen, onClose, onUserAdded, editUser = null, triggerToast }) {
     const defaultData = { name: '', username: '', email: '', password: '', role: 'Visitor' };
     const [user, setUser] = useState(defaultData);
     const [loading, setLoading] = useState(false);
@@ -35,13 +35,13 @@ function AddUsers({ isOpen, onClose, onUserAdded, editUser = null }) {
             }
             
             if (res.data.success) {
-                alert(`User account ${editUser ? 'updated' : 'created'} successfully!`);
+                triggerToast(`User account ${editUser ? 'updated' : 'created'} successfully!`);
                 onUserAdded(); // Refresh list
                 onClose();
                 setUser(defaultData);
             }
         } catch (err) {
-            alert(err.response?.data?.error || 'Operation failed');
+            triggerToast(err.response?.data?.error || 'Operation failed', 'error');
         } finally {
             setLoading(false);
         }

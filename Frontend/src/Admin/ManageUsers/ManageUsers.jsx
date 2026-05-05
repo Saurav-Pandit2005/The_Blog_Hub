@@ -5,8 +5,9 @@ import api from '../../api';
 import './ManageUsers.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
 import AddUsers from './AddUsers';
-import { Search, Plus, Filter, User as UserIcon, Mail, Calendar, ShieldAlert, Trash2, Edit2, Users as UsersIcon, PenTool, ChevronDown } from 'lucide-react';
+import { Search, Plus, Filter, User as UserIcon, Mail, Calendar, ShieldAlert, Trash2, Edit2, Users as UsersIcon, PenTool, ChevronDown, CheckCircle, X } from 'lucide-react';
 import { UserContext } from '../../context/UserContext';
+import '../Dashboard/Dashboard.css'; // Global Toast styles
 
 function ManageUsers() {
     const { user } = useContext(UserContext);
@@ -14,7 +15,15 @@ function ManageUsers() {
     const [roleFilter, setRoleFilter] = useState('All Roles');
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const navigate = useNavigate();
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         fetchUsers();
@@ -60,11 +69,11 @@ function ManageUsers() {
             try {
                 const res = await api.delete(`/admin/users/${userId}`);
                 if (res.data.success) {
-                    alert('User Deleted!');
+                    triggerToast('User Deleted Successfully!');
                     fetchUsers();
                 }
             } catch (err) {
-                alert(err.response?.data?.error || 'Error deleting user');
+                triggerToast(err.response?.data?.error || 'Error deleting user', 'error');
             }
         }
     };
@@ -202,7 +211,19 @@ function ManageUsers() {
                 onClose={handleCloseModal} 
                 onUserAdded={fetchUsers} 
                 editUser={selectedUser}
+                triggerToast={triggerToast}
             />
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }
