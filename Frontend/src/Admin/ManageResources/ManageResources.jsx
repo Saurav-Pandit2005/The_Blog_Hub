@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../api';
 import './ManageResources.css';
-import { Search, Filter, Folder, Download, Edit, Trash2, Eye, ChevronDown, Calendar } from 'lucide-react';
+import { Search, Filter, Folder, Download, Edit, Trash2, Eye, ChevronDown, Calendar, CheckCircle, X } from 'lucide-react';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
 import { UserContext } from '../../context/UserContext';
+import '../Dashboard/Dashboard.css'; // Global Toast styles
 
 function ManageResources() {
     const { user } = useContext(UserContext);
@@ -13,7 +14,15 @@ function ManageResources() {
     const [typeFilter, setTypeFilter] = useState('All');
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const navigate = useNavigate();
+
+    const triggerToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 3000);
+    };
 
     useEffect(() => {
         fetchResources();
@@ -38,11 +47,11 @@ function ManageResources() {
             try {
                 const res = await api.delete(`/resources/${id}`);
                 if (res.data.success) {
-                    alert('Resource Deleted!');
+                    triggerToast('Resource Deleted Successfully!');
                     fetchResources();
                 }
             } catch (err) {
-                alert('Error deleting resource');
+                triggerToast('Error deleting resource', 'error');
             }
         }
     };
@@ -189,6 +198,17 @@ function ManageResources() {
                     </div>
                 </section>
             </main>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div className={`premium-toast-container ${toast.type}`}>
+                    <div className="toast-content">
+                        {toast.type === 'success' ? <CheckCircle size={20} /> : <X size={20} />}
+                        <span>{toast.message}</span>
+                    </div>
+                    <div className="toast-progress-bar"></div>
+                </div>
+            )}
         </div>
     );
 }
