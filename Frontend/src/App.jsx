@@ -70,11 +70,10 @@ function App() {
   const isAdminPath = location.pathname.startsWith('/admin');
   
   // Define which pages should show the Admin "Back to Home" UI
-  const isAdminBackToHome = ['/admin/home', '/admin/explore', '/admin/podcasts', '/admin/resources', '/admin/about', '/admin/contact'].includes(location.pathname) || 
-                           (isAdmin && !isAuthorPath && !isAdminPath && !['/', '/login', '/register', '/forgot-password'].includes(location.pathname));
+  const isAdminBackToHome = ['/admin/home', '/admin/explore', '/admin/podcasts', '/admin/resources', '/admin/about', '/admin/contact'].includes(location.pathname);
 
   // Define which pages should show the Author UI on shared visitor routes
-  const isAuthorBackToHome = isAuthor && !isAuthorPath && !isAdminPath && !['/', '/login', '/register', '/forgot-password'].includes(location.pathname);
+  const isAuthorBackToHome = false;
 
   const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath || isAdminPath || isAdminBackToHome || isAuthorBackToHome;
 
