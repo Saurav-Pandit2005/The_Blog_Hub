@@ -58,7 +58,9 @@ function AdminArticles({ selectedCategory = "All" }) {
 
     const filteredBlogs = selectedCategory === "All" || !selectedCategory
         ? blogs.slice(0, 6)
-        : blogs.filter(blog => blog.category === selectedCategory).slice(0, 6);
+        : blogs.filter(blog => 
+            blog.category?.toLowerCase().trim() === selectedCategory.toLowerCase().trim()
+          ).slice(0, 6);
 
     const stripHtml = (html) => {
         if (!html) return '';
