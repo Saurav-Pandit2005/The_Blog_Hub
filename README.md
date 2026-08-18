@@ -4,13 +4,6 @@
 
 ---
 
-## 🚀 Live Demo
-*(Deployment in progress... Stay tuned!)*
-> [!NOTE]  
-> To view the project locally, follow the **Installation** steps and open `http://localhost:5173/` in your browser.
-
----
-
 ## ✨ Features & Ecosystem
 
 ### 🧑‍💻 Normal User & Visitor Portal (Reading Excellence)
