@@ -1,4 +1,4 @@
-# ✍️ The Blog Hub
+# The Blog Hub
 
 **The Blog Hub** is a premium, high-performance blogging ecosystem built on the **MERN Stack** (MongoDB, Express, React, Node.js) with a **Vite** frontend. It provides a sophisticated reading experience for visitors, a robust AI-powered workspace for authors, and a comprehensive command center for administrators.
 
@@ -6,7 +6,7 @@
 
 ## ✨ Features & Ecosystem
 
-### 🧑‍💻 Normal User & Visitor Portal (Reading Excellence)
+### Normal User & Visitor Portal (Reading Excellence)
 - **Fluid UI**: Custom-styled with Glassmorphism, smooth micro-animations, and a premium SaaS aesthetic.
 - **Dynamic Content**: Explore featured articles, podcasts, and resource libraries in a rich media environment.
 - **Interactive Engagement**: Authenticated users can engage with content by liking and commenting on blogs.
@@ -14,19 +14,19 @@
 - **Premium Gatekeeping**: Important actions, like downloading premium resources and books, are securely gated for authenticated users.
 - **Contact & Inquiries**: Integrated contact forms allowing users to reach out directly.
 
-### ✍️ Author Workspace (Creator Hub)
+### Author Workspace (Creator Hub)
 - **AI-Powered Generation**: Built-in Groq & Google Gemini hybrid architecture for high-performance AI content generation, idea brainstorming, and writing assistance.
 - **Post Management**: Full CRUD capabilities for writing, formatting, and editing informative articles and media-rich blogs.
 - **Author Dashboard**: Centralized control for managing published content, analyzing audience engagement, and tracking article lifecycle.
 - **Profile Customization**: Professional author profiles with editable details and bios.
 
-### 👑 Admin Command Center (Moderation & Control)
+### Admin Command Center (Moderation & Control)
 - **Full Scope Management**: Granular control over the platform's visual identity, including dynamic management for updating Home & Hero sections (About page data, Resources, Explore content metadata).
 - **Global Media Library**: Full CRUD and oversight for **Podcasts**, **Books**, and **Resources**. 
 - **User Moderation & Access Control**: Monitor registered users, handle inquiries, and manage roles globally.
 - **Site Analytics (Coming Soon)**: Statistics and platform growth at a glance.
 
-### 🔐 Security & Architecture
+### Security & Architecture
 - **Robust Authentication**: JWT and Session-based login with a highly secure, email-verified OTP flow (via Nodemailer) for forgotten passwords.
 - **Role-Based Access Control**: Four-tier differentiated logic separating logic efficiently for Visitors, Normal Users, Authors, and Admins.
 - **Secure Image Management**: Cloudinary integration for scalable, resilient media storage.
@@ -34,7 +34,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
@@ -121,15 +121,15 @@ The_Blog_Hub/
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
-### 🖥️ Discover the Hub
+### Discover the Hub
 *(Screenshots coming soon...)*
 <!-- ![Hero Section](https://raw.githubusercontent.com/Saurav-Pandit2005/The_Blog_Hub/main/Frontend/src/assets/Images/Visitor/HomePage/hero.jpg) -->
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to:
 1. Fork the project.
