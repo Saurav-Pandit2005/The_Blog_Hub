@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://the-blog-hub-l2h6-xi.vercel.app"
+    "https://the-blog-hub-h6-xi.vercel.app"
   ],
   credentials: true
 }));
