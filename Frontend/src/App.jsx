@@ -47,7 +47,7 @@ import Inquiries from './Admin/Inquiries/Inquiries';
 import EditAbout from './Admin/EditAbout/EditAbout';
 import AdminProfile from './Admin/Profile/Profile';
 
-import Navbar from './Visitor/Authentication/navbar.jsx';
+import Navbar from './Visitor/Authentication/Navbar.jsx';
 import Footer from './Visitor/Authentication/footer.jsx';
 
 import AdminNavbar from './Admin/BackToHome/Navbar/Navbar';
