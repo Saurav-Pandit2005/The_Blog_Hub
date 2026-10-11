@@ -17,7 +17,13 @@ const app = express();
 app.use(express.json());
 
 // Enable CORS
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://the-blog-hub-l2h6-xi.vercel.app"
+  ],
+  credentials: true
+}));
 
 // Set security headers
 app.use(helmet());
