@@ -1,18 +1,19 @@
 const express = require('express');
-const router = express.Router();
-const { 
-  register, 
-  login, 
-  getMe, 
-  updateDetails, 
-  updateAvatar, 
+const {
+  register,
+  login,
+  getMe,
+  updateDetails,
+  updateAvatar,
   updatePassword,
   forgotPassword,
   verifyOtp,
-  resetPassword 
+  resetPassword,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 const { upload } = require('../middleware/upload');
+
+const router = express.Router();
 
 router.post('/register', register);
 router.post('/login', login);
@@ -21,7 +22,7 @@ router.put('/updatedetails', protect, updateDetails);
 router.put('/updatepassword', protect, updatePassword);
 router.put('/updateavatar', protect, upload.single('profilePic'), updateAvatar);
 
-// Forgot Password Flow
+// Forgot password flow
 router.post('/forgotpassword', forgotPassword);
 router.post('/verifyotp', verifyOtp);
 router.put('/resetpassword', resetPassword);

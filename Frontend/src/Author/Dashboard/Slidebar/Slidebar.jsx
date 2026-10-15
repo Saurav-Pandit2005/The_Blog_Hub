@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
     LayoutDashboard, 
@@ -12,7 +11,8 @@ import {
     Sparkles
 } from 'lucide-react';
 import './Slidebar.css';
-import logoImg from '../../../assets/Images/Visitor/Navbar/logo.png';
+import ThemeToggle from '../../../components/ThemeToggle/ThemeToggle';
+import Logo from '../../../components/Logo/Logo';
 
 function Slidebar() {
     const location = useLocation();
@@ -33,8 +33,8 @@ function Slidebar() {
         <aside className="sidebar">
             <div className="sidebar-top-content">
                 <Link to="/author/home" className="sidebar-logo-simple">
-                    <img src={logoImg} alt="Logo" />
-                    <span>The Blog Hub</span>
+                    <Logo />
+                    <Logo variant="icon" />
                 </Link>
 
                 <div className="sidebar-nav-section">
@@ -73,6 +73,8 @@ function Slidebar() {
                         <p className="brief-role">Author</p>
                     </div>
                 </div>
+
+                <ThemeToggle variant="sidebar" />
 
                 <Link to="/login" className="sidebar-logout-trigger">
                     <LogOut size={18} />

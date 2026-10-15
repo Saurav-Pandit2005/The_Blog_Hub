@@ -1,4 +1,3 @@
-import React from 'react';
 import ResourcesHero from './ResourcesHero';
 import FeaturedResource from './FeaturedResource';
 import ResourcesGrid from './ResourcesGrid';

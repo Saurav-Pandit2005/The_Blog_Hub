@@ -1,4 +1,3 @@
-import React from 'react';
 import './News_letter.css';
 
 function News_letter() {

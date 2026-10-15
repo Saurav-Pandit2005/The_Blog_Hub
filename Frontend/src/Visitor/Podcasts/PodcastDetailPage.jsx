@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import './PodcastDetailPage.css';
@@ -43,7 +43,6 @@ function PodcastDetailPage() {
 
     const hostName = podcast.host?.name || 'Hub Expert';
     const hostPic = podcast.host?.profilePic || `https://ui-avatars.com/api/?name=${hostName}&background=eff6ff&color=3b82f6`;
-    const hostRole = podcast.host?.role || 'Expert Content Creator';
 
     return (
         <div className="platform-layout-container">

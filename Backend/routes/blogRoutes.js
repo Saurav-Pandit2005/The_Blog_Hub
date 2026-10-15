@@ -1,20 +1,31 @@
 const express = require('express');
-const router = express.Router();
-const { createBlog, getBlogs, getSingleBlog, updateBlog, deleteBlog, getBlogById, likeBlog, addComment, getCommentsByBlog } = require('../controllers/blogController');
+const {
+  createBlog,
+  getBlogs,
+  getSingleBlog,
+  getBlogById,
+  updateBlog,
+  deleteBlog,
+  likeBlog,
+  addComment,
+  getCommentsByBlog,
+} = require('../controllers/blogController');
 const { protect, authorize } = require('../middleware/auth');
 const { upload } = require('../middleware/upload');
 
-// Publicly fetch blogs
-router.get('/', getBlogs);
-router.get('/:slug', getSingleBlog);
-router.get('/id/:id', getBlogById); 
+const router = express.Router();
 
-// Social Actions
-router.put('/:id/like', protect, likeBlog);
-router.post('/:id/comment', protect, addComment);
+// Public
+router.get('/', getBlogs);
+router.get('/id/:id', getBlogById);
+router.get('/:slug', getSingleBlog);
 router.get('/:id/comments', getCommentsByBlog);
 
-// Role-protected Content Management
+// Logged-in users
+router.put('/:id/like', protect, likeBlog);
+router.post('/:id/comment', protect, addComment);
+
+// Author / Admin
 router.post('/', protect, authorize('Author', 'Admin'), upload.single('coverImage'), createBlog);
 router.put('/:id', protect, authorize('Author', 'Admin'), upload.single('coverImage'), updateBlog);
 router.delete('/:id', protect, authorize('Author', 'Admin'), deleteBlog);

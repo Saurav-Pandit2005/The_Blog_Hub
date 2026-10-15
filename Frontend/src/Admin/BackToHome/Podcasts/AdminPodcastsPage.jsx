@@ -1,4 +1,3 @@
-import React from 'react';
 import AdminHero from './Hero';
 import AdminPodcasts from './Podcasts';
 

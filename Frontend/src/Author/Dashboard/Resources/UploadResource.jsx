@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Tag, Layers, Send, X, UploadCloud, Info, BookOpen, CheckCircle } from 'lucide-react';
 import Slidebar from '../Slidebar/Slidebar';

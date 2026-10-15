@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
@@ -108,7 +108,7 @@ function Podcasts() {
                                     <div className="pod-play-overlay">
                                         <Link to={`/podcast-detail/${pod._id}`}>
                                             <button className="mini-play-btn">
-                                                <img src={playIcon} alt="Play" />
+                                                <img src={playIcon} alt="Play" className="icon-adaptive" />
                                             </button>
                                         </Link>
                                     </div>
@@ -129,7 +129,7 @@ function Podcasts() {
 
                                 <div className="pod-actions">
                                     <Link to={`/author/edit-podcast/${pod._id}`} className="action-button edit" title="Edit">
-                                        <img src={editIcon} alt="Edit" />
+                                        <img src={editIcon} alt="Edit" className="icon-adaptive" />
                                     </Link>
                                     <button className="action-button delete" title="Delete" onClick={() => handleDelete(pod._id)}>
                                         <img src={deleteIcon} alt="Delete" />

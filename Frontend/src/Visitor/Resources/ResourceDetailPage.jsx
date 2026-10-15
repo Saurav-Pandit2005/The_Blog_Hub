@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Calendar, DownloadCloud, User, FileText, ArrowLeft, CheckCircle } from 'lucide-react';
+import { DownloadCloud, FileText, ArrowLeft, CheckCircle } from 'lucide-react';
 import api from '../../api';
 import './ResourceDetailPage.css';
 

@@ -1,16 +1,16 @@
 .newsletter {
     text-align: center;
     padding: 60px 80px 40px 80px;
-    background: #f9fafb;
+    background: var(--bg-f9fafb);
 }
 
 .newsletter h2 {
     margin-bottom: 10px;
-    color: #1E293B;
+    color: var(--tx-1e293b);
 }
 
 .newsletter p {
-    color: #555;
+    color: var(--tx-555555);
     margin-bottom: 25px;
 }
 
@@ -39,7 +39,7 @@
 .newsletter-box input {
     padding: 10px 15px;
     width: 250px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--bd-cccccc);
     border-radius: 8px;
     font-family: 'Merriweather', serif;
     outline: none;

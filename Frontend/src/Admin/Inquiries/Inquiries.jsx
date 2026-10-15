@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../api';
 import './Inquiries.css';

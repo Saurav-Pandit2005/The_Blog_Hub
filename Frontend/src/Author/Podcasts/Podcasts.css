@@ -2,7 +2,7 @@
 
 .author-podcast-section {
     padding: 60px 5%;
-    background-color: #fafafa;
+    background-color: var(--bg-fafafa);
 }
 
 .podcast-grid {
@@ -14,7 +14,7 @@
 }
 
 .podcast-card {
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 10px 40px rgba(0,0,0,0.04);
@@ -104,7 +104,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 800;
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     background: rgba(59, 130, 246, 0.08);
     padding: 4px 12px;
     border-radius: 100px;
@@ -115,13 +115,13 @@
     align-items: center;
     gap: 6px;
     font-size: 13px;
-    color: #64748b;
+    color: var(--tx-64748b);
     font-weight: 600;
 }
 
 .podcast-title {
     font-size: 1.25rem;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     margin-bottom: 10px;
     font-weight: 800;
     line-height: 1.4;
@@ -130,7 +130,7 @@
 
 .podcast-description {
     font-size: 0.95rem;
-    color: #475569;
+    color: var(--tx-475569);
     line-height: 1.6;
     margin-bottom: 24px;
     display: -webkit-box;
@@ -145,7 +145,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--bd-f1f5f9);
 }
 
 .podcast-author {
@@ -159,7 +159,7 @@
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #fff;
+    border: 2px solid var(--bd-ffffff);
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
@@ -171,13 +171,13 @@
 .author-text .by {
     font-size: 10px;
     text-transform: uppercase;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
     font-weight: 700;
 }
 
 .author-text .name {
     font-size: 13px;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     font-weight: 700;
 }
 
@@ -201,7 +201,7 @@
 
 /* SKELETON LOADERS */
 .podcast-skeleton-card {
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 24px;
     overflow: hidden;
     height: 450px;
@@ -209,17 +209,17 @@
     flex-direction: column;
 }
 
-.skeleton-image { height: 220px; border-radius: 20px; margin: 10px; background: #f1f5f9; }
+.skeleton-image { height: 220px; border-radius: 20px; margin: 10px; background: var(--bg-f1f5f9); }
 .skeleton-content { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 15px; }
-.skeleton-line { height: 12px; border-radius: 6px; background: #f1f5f9; }
+.skeleton-line { height: 12px; border-radius: 6px; background: var(--bg-f1f5f9); }
 .skeleton-line.full { width: 100%; }
 .skeleton-line.half { width: 50%; }
 .skeleton-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
-.skeleton-circle { width: 36px; height: 36px; border-radius: 50%; background: #f1f5f9; }
-.skeleton-btn { width: 100px; height: 36px; border-radius: 12px; background: #f1f5f9; }
+.skeleton-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-f1f5f9); }
+.skeleton-btn { width: 100px; height: 36px; border-radius: 12px; background: var(--bg-f1f5f9); }
 
 .shine {
-    background: linear-gradient(90deg, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%);
+    background: linear-gradient(90deg, var(--bg-f8fafc) 25%, var(--bg-f1f5f9) 50%, var(--bg-f8fafc) 75%);
     background-size: 200% 100%;
     animation: shine 1.5s infinite linear;
 }
@@ -232,7 +232,7 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: 80px 40px;
-    color: #64748b;
+    color: var(--tx-64748b);
 }
 
 @media (max-width: 600px) {

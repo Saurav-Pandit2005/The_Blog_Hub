@@ -1,4 +1,3 @@
-import React from 'react';
 import './Story.css';
 
 function AdminStory() {

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../api';
 import './ManagePodcasts.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
-import { Search, Filter, Play, Edit, Trash2, Mic, Film, Eye, ChevronDown, Calendar, CheckCircle, X } from 'lucide-react';
+import { Search, Filter, Play, Edit, Trash2, Mic, Film, ChevronDown, Calendar, CheckCircle, X } from 'lucide-react';
 import { UserContext } from '../../context/UserContext';
 import '../Dashboard/Dashboard.css'; // Global Toast styles
 

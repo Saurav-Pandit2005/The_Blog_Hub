@@ -1,0 +1,243 @@
+/* =========================================================================
+   THEME (light / dark)
+   - The theme is stored on <html data-theme="light|dark"> (see ThemeContext.jsx).
+   - Every colour variable below is named --<type>-<original hex>:
+       --bg-*  backgrounds    --tx-*  text / icon colours    --bd-*  borders
+     The light value is the original colour, so light mode is unchanged.
+     The dark value lives in the html[data-theme="dark"] block - edit it there
+     to tune dark mode.
+   ========================================================================= */
+
+:root {
+  color-scheme: light;
+  --surface-rgb: 255 255 255; /* translucent "white" surfaces */
+  --ink-rgb: 0 0 0;           /* subtle hover / overlay tint */
+
+  /* Backgrounds */
+  --bg-94a3b8: #94a3b8;
+  --bg-cbd5e1: #cbd5e1;
+  --bg-d1fae5: #d1fae5;
+  --bg-d5e2f3: #d5e2f3;
+  --bg-dbeafe: #dbeafe;
+  --bg-dcfce7: #dcfce7;
+  --bg-e0e7ff: #e0e7ff;
+  --bg-e2e8f0: #e2e8f0;
+  --bg-e8dff7: #e8dff7;
+  --bg-eaedff: #eaedff;
+  --bg-eaf2ff: #eaf2ff;
+  --bg-ecfdf5: #ecfdf5;
+  --bg-eef2ff: #eef2ff;
+  --bg-eef4ff: #eef4ff;
+  --bg-eef5ff: #eef5ff;
+  --bg-eff6ff: #eff6ff;
+  --bg-f0f7ff: #f0f7ff;
+  --bg-f0f9ff: #f0f9ff;
+  --bg-f0fdf4: #f0fdf4;
+  --bg-f1f5f9: #f1f5f9;
+  --bg-f4f8ff: #f4f8ff;
+  --bg-f5f7ff: #f5f7ff;
+  --bg-f5f9ff: #f5f9ff;
+  --bg-f8fafc: #f8fafc;
+  --bg-f8faff: #f8faff;
+  --bg-f8fbff: #f8fbff;
+  --bg-f9fafb: #f9fafb;
+  --bg-f9fbff: #f9fbff;
+  --bg-fafafa: #fafafa;
+  --bg-fafaff: #fafaff;
+  --bg-fafcff: #fafcff;
+  --bg-fcfdfe: #fcfdfe;
+  --bg-fee2e2: #fee2e2;
+  --bg-fef2f2: #fef2f2;
+  --bg-fef3c7: #fef3c7;
+  --bg-ffe4e6: #ffe4e6;
+  --bg-fff1f2: #fff1f2;
+  --bg-fff7ed: #fff7ed;
+  --bg-fffbeb: #fffbeb;
+  --bg-ffffff: #ffffff;
+  /* Text / icon colours */
+  --tx-000000: #000000;
+  --tx-0369a1: #0369a1;
+  --tx-059669: #059669;
+  --tx-0f172a: #0f172a;
+  --tx-10b981: #10b981;
+  --tx-15803d: #15803d;
+  --tx-166534: #166534;
+  --tx-1a202c: #1a202c;
+  --tx-1d4ed8: #1d4ed8;
+  --tx-1e293b: #1e293b;
+  --tx-1e3a5f: #1e3a5f;
+  --tx-2563eb: #2563eb;
+  --tx-333333: #333333;
+  --tx-334155: #334155;
+  --tx-374151: #374151;
+  --tx-3b82f6: #3b82f6;
+  --tx-475569: #475569;
+  --tx-4a5568: #4a5568;
+  --tx-4f46e5: #4f46e5;
+  --tx-555555: #555555;
+  --tx-6366f1: #6366f1;
+  --tx-64748b: #64748b;
+  --tx-666666: #666666;
+  --tx-6b7280: #6b7280;
+  --tx-718096: #718096;
+  --tx-8b5cf6: #8b5cf6;
+  --tx-92400e: #92400e;
+  --tx-94a3b8: #94a3b8;
+  --tx-b45309: #b45309;
+  --tx-db2777: #db2777;
+  --tx-dc2626: #dc2626;
+  --tx-ef4444: #ef4444;
+  --tx-f59e0b: #f59e0b;
+  /* Borders & outlines */
+  --bd-bae6fd: #bae6fd;
+  --bd-bbf7d0: #bbf7d0;
+  --bd-bfdbfe: #bfdbfe;
+  --bd-c7d2fe: #c7d2fe;
+  --bd-cbd5e1: #cbd5e1;
+  --bd-cccccc: #cccccc;
+  --bd-dbeafe: #dbeafe;
+  --bd-dddddd: #dddddd;
+  --bd-e2e8f0: #e2e8f0;
+  --bd-e8edf2: #e8edf2;
+  --bd-edf2f7: #edf2f7;
+  --bd-eef2f6: #eef2f6;
+  --bd-f1f5f9: #f1f5f9;
+  --bd-f8fafc: #f8fafc;
+  --bd-f8fbff: #f8fbff;
+  --bd-ffffff: #ffffff;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-rgb: 17 24 39;
+  --ink-rgb: 255 255 255;
+
+  /* Variables defined in index.css and the admin stylesheets */
+  --bg-color: #0b1120;
+  --bg-alt: #0f1a2e;
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --admin-bg: #0b1120;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+  /* Backgrounds */
+  --bg-94a3b8: #475569;
+  --bg-cbd5e1: #3a4659;
+  --bg-d1fae5: #12382a;
+  --bg-d5e2f3: #2a3a52;
+  --bg-dbeafe: #1e3a5f;
+  --bg-dcfce7: #12382a;
+  --bg-e0e7ff: #1d2447;
+  --bg-e2e8f0: #263244;
+  --bg-e8dff7: #2a2050;
+  --bg-eaedff: #1c2244;
+  --bg-eaf2ff: #172846;
+  --bg-ecfdf5: #0f2a20;
+  --bg-eef2ff: #1b2142;
+  --bg-eef4ff: #0f1a2e;
+  --bg-eef5ff: #0f1a2e;
+  --bg-eff6ff: #162743;
+  --bg-f0f7ff: #0f1a2e;
+  --bg-f0f9ff: #0f1c2e;
+  --bg-f0fdf4: #0f2a20;
+  --bg-f1f5f9: #1a2332;
+  --bg-f4f8ff: #0e1729;
+  --bg-f5f7ff: #0e1729;
+  --bg-f5f9ff: #0e1729;
+  --bg-f8fafc: #0b1120;
+  --bg-f8faff: #0d1425;
+  --bg-f8fbff: #0d1425;
+  --bg-f9fafb: #0b1120;
+  --bg-f9fbff: #0d1425;
+  --bg-fafafa: #0b1120;
+  --bg-fafaff: #0d1425;
+  --bg-fafcff: #0d1425;
+  --bg-fcfdfe: #0d1425;
+  --bg-fee2e2: #4a1d24;
+  --bg-fef2f2: #3a171d;
+  --bg-fef3c7: #46340d;
+  --bg-ffe4e6: #4a1d24;
+  --bg-fff1f2: #3a171d;
+  --bg-fff7ed: #33220f;
+  --bg-fffbeb: #33260c;
+  --bg-ffffff: #111827;
+  /* Text / icon colours */
+  --tx-000000: #f8fafc;
+  --tx-0369a1: #38bdf8;
+  --tx-059669: #34d399;
+  --tx-0f172a: #f8fafc;
+  --tx-10b981: #34d399;
+  --tx-15803d: #4ade80;
+  --tx-166534: #4ade80;
+  --tx-1a202c: #f1f5f9;
+  --tx-1d4ed8: #60a5fa;
+  --tx-1e293b: #f1f5f9;
+  --tx-1e3a5f: #93c5fd;
+  --tx-2563eb: #60a5fa;
+  --tx-333333: #e2e8f0;
+  --tx-334155: #cbd5e1;
+  --tx-374151: #cbd5e1;
+  --tx-3b82f6: #60a5fa;
+  --tx-475569: #b6c2d2;
+  --tx-4a5568: #b6c2d2;
+  --tx-4f46e5: #818cf8;
+  --tx-555555: #cbd5e1;
+  --tx-6366f1: #818cf8;
+  --tx-64748b: #94a3b8;
+  --tx-666666: #b4c0d0;
+  --tx-6b7280: #94a3b8;
+  --tx-718096: #94a3b8;
+  --tx-8b5cf6: #a78bfa;
+  --tx-92400e: #fbbf24;
+  --tx-94a3b8: #7c8aa0;
+  --tx-b45309: #fbbf24;
+  --tx-db2777: #f472b6;
+  --tx-dc2626: #f87171;
+  --tx-ef4444: #f87171;
+  --tx-f59e0b: #fbbf24;
+  /* Borders & outlines */
+  --bd-bae6fd: #1a4f6e;
+  --bd-bbf7d0: #14503a;
+  --bd-bfdbfe: #28487a;
+  --bd-c7d2fe: #2f3a73;
+  --bd-cbd5e1: #3a4659;
+  --bd-cccccc: #3a4659;
+  --bd-dbeafe: #1e3a5f;
+  --bd-dddddd: #2f3b4f;
+  --bd-e2e8f0: #263244;
+  --bd-e8edf2: #232f42;
+  --bd-edf2f7: #232f42;
+  --bd-eef2f6: #232f42;
+  --bd-f1f5f9: #1c2636;
+  --bd-f8fafc: #172033;
+  --bd-f8fbff: #172033;
+  --bd-ffffff: #111827;
+}
+
+/* Smooth colour change while the user flips the theme */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+    fill 0.3s ease, stroke 0.3s ease !important;
+}
+
+/* ---------- Dark mode fixes for specific components ---------- */
+
+/* Disabled pagination buttons should look dim, not bright */
+html[data-theme="dark"] .pagination button:disabled {
+  color: var(--tx-475569);
+}
+
+/* Blog content written/pasted with its own inline colours stays readable */
+html[data-theme="dark"] .blog-html-content [style*="color"] {
+  color: inherit !important;
+}
+html[data-theme="dark"] .blog-html-content [style*="background"] {
+  background: transparent !important;
+}
+
+/* Black PNG icons (edit, play, dashboard stats) are inverted on dark surfaces */
+html[data-theme="dark"] .icon-adaptive {
+  filter: invert(1);
+}

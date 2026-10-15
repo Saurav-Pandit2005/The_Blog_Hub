@@ -23,16 +23,12 @@ const ResourceSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a description'],
   },
-  coverImage: {
-    type: String,
-  },
+  coverImage: String,
+  fileUrl: String,
   status: {
     type: String,
     enum: ['Draft', 'Pending', 'Published'],
     default: 'Draft',
-  },
-  fileUrl: {
-    type: String,
   },
   downloads: {
     type: Number,

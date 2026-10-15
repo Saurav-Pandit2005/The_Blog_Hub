@@ -16,7 +16,7 @@
     background: transparent;
     padding: 8px 18px;
     border-radius: 25px;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;

@@ -27,7 +27,7 @@
 }
 
 .featured-content p {
-    color: #555;
+    color: var(--tx-555555);
     margin-bottom: 25px;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .resource-meta span {
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-weight: 600;
 }
 

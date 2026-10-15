@@ -1,18 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-    Twitter,
-    Facebook,
-    Instagram,
-    Linkedin,
-    Github,
-    Mail,
-    MapPin,
-    Send
-} from 'lucide-react';
+import { Twitter, Facebook, Instagram, Linkedin, Github, Mail, MapPin } from 'lucide-react';
 import './Footer.css';
 
-import logoImg from '../../assets/Images/Visitor/Navbar/logo.png';
+import Logo from '../../components/Logo/Logo';
 
 function Footer() {
     const currentYear = new Date().getFullYear();
@@ -24,8 +14,7 @@ function Footer() {
                     {/* Brand Section */}
                     <div className="footer-col brand-col">
                         <div className="footer-logo">
-                            <img src={logoImg} alt="The Blog Hub Logo" />
-                            <h3>The Blog Hub</h3>
+                            <Logo />
                         </div>
                         <p className="brand-desc">
                             Empowering authors to share their unique stories with the world. 

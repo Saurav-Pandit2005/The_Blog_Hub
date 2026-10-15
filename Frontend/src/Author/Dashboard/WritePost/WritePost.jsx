@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PenTool, Sparkles, Image, Tag, Save, Send, Info, X, CheckCircle, Bold, Italic, Heading1, Heading2, Heading3, Type, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Quote, Link as LinkIcon, Eraser } from 'lucide-react';
+import { PenTool, Sparkles, Image, Tag, Save, Send, Info, X, CheckCircle, Bold, Italic, Heading1, Heading2, Type, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Quote, Link as LinkIcon, Eraser } from 'lucide-react';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
 import './WritePost.css';

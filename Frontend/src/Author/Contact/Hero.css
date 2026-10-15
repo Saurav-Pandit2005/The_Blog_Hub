@@ -2,7 +2,7 @@
 
 .podcast-hero.blogs-hero-custom {
     padding: 100px 120px 80px 120px;
-    background: linear-gradient(135deg, #F4F8FF, #EAF2FF);
+    background: linear-gradient(135deg, var(--bg-f4f8ff), var(--bg-eaf2ff));
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -11,14 +11,14 @@
 .podcast-hero-content h1 {
     font-size: 54px;
     margin-bottom: 25px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-family: 'Merriweather', serif;
     line-height: 1.2;
     font-weight: 900;
 }
 
 .highlight {
-    background: linear-gradient(to right, #3b82f6, #8b5cf6);
+    background: linear-gradient(to right, var(--tx-3b82f6), var(--tx-8b5cf6));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
@@ -27,7 +27,7 @@
 .podcast-hero-content p {
     max-width: 650px;
     margin: 0 auto 40px;
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 18px;
     line-height: 1.8;
 }

@@ -2,22 +2,22 @@
     display: flex;
     gap: 60px;
     padding: 80px 120px;
-    background: #ffffff;
+    background: var(--bg-ffffff);
     font-family: 'Merriweather', serif;
 }
 
 .author-contact-wrapper .contact-info {
     flex: 1;
-    background: #fff;
+    background: var(--bg-ffffff);
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--bd-f1f5f9);
 }
 
 .author-contact-wrapper .contact-info h2 {
     margin-bottom: 35px;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-size: 26px;
     font-weight: 700;
 }
@@ -38,13 +38,13 @@
 
 .author-contact-wrapper .info-item h4 {
     margin-bottom: 5px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-size: 17px;
     font-weight: 700;
 }
 
 .author-contact-wrapper .info-item p {
-    color: #64748b;
+    color: var(--tx-64748b);
     font-size: 14px;
     line-height: 1.6;
 }
@@ -53,7 +53,7 @@
     margin-top: 35px;
     display: flex;
     gap: 20px;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--bd-f1f5f9);
     padding-top: 25px;
 }
 
@@ -69,16 +69,16 @@
 /* FORM STYLES */
 .author-contact-wrapper .contact-form {
     flex: 1;
-    background: #fff;
+    background: var(--bg-ffffff);
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--bd-f1f5f9);
 }
 
 .author-contact-wrapper .contact-form h2 {
     margin-bottom: 30px;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-size: 26px;
     font-weight: 700;
 }
@@ -91,19 +91,19 @@
 .author-contact-wrapper .form-group textarea {
     width: 100%;
     padding: 14px 18px;
-    border: 1.5px solid #e2e8f0;
+    border: 1.5px solid var(--bd-e2e8f0);
     border-radius: 12px;
     font-family: 'Merriweather', serif;
     font-size: 14px;
     transition: all 0.3s ease;
-    background: #f8fafc;
+    background: var(--bg-f8fafc);
 }
 
 .author-contact-wrapper .form-group input:focus,
 .author-contact-wrapper .form-group textarea:focus {
     border-color: #3B82F6;
     outline: none;
-    background: #fff;
+    background: var(--bg-ffffff);
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 

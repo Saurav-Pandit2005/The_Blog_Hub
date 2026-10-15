@@ -9,10 +9,7 @@ const InquirySchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Please add your email address'],
-    match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      'Please add a valid email',
-    ],
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please add a valid email'],
   },
   subject: {
     type: String,
@@ -29,12 +26,8 @@ const InquirySchema = new mongoose.Schema({
     enum: ['New', 'Read', 'Replied', 'Solved'],
     default: 'New',
   },
-  replyMessage: {
-    type: String,
-  },
-  repliedAt: {
-    type: Date,
-  },
+  replyMessage: String,
+  repliedAt: Date,
   createdAt: {
     type: Date,
     default: Date.now,

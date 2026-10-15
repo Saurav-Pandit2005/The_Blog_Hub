@@ -11,7 +11,7 @@
 
 .about-cta p {
     font-size: 16px;
-    color: #64748b;
+    color: var(--tx-64748b);
     margin-bottom: 30px;
 }
 
@@ -43,7 +43,7 @@
     padding: 13px 30px;
     border: 1px solid #3B82F6;
     border-radius: 30px;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     text-decoration: none;
     font-weight: 600;
     font-size: 15px;

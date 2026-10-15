@@ -1,4 +1,3 @@
-import React from 'react';
 import AdminHero from './Hero';
 import AdminContactSection from './Contact_Section';
 import AdminFAQ from './FAQ';

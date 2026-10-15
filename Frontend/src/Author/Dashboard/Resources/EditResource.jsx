@@ -143,9 +143,9 @@ function EditResource() {
                                     <button 
                                         type="button" 
                                         onClick={() => document.getElementById('pdf-upload').click()}
-                                        style={{ padding: '12px 20px', background: '#f1f5f9', color: '#334155', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: '700', transition: '0.3s' }}
-                                        onMouseEnter={(e) => { e.target.style.background = '#e2e8f0'; }}
-                                        onMouseLeave={(e) => { e.target.style.background = '#f1f5f9'; }}
+                                        style={{ padding: '12px 20px', background: 'var(--bg-f1f5f9)', color: 'var(--tx-334155)', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: '700', transition: '0.3s' }}
+                                        onMouseEnter={(e) => { e.target.style.background = 'var(--bg-e2e8f0)'; }}
+                                        onMouseLeave={(e) => { e.target.style.background = 'var(--bg-f1f5f9)'; }}
                                     >
                                         📄 Select PDF
                                     </button>
@@ -153,7 +153,7 @@ function EditResource() {
                                         type="text" 
                                         readOnly 
                                         value={resourceFile ? resourceFile.name : 'Keep Existing PDF...'} 
-                                        style={{ flex: 1, padding: '12px 15px', borderRadius: '8px', border: '2px solid #e2e8f0', background: '#f8fafc', color: '#475569', fontSize: '14px', outline: 'none' }}
+                                        style={{ flex: 1, padding: '12px 15px', borderRadius: '8px', border: '2px solid var(--bd-e2e8f0)', background: 'var(--bg-f8fafc)', color: 'var(--tx-475569)', fontSize: '14px', outline: 'none' }}
                                         placeholder="Keep Existing PDF..."
                                     />
                                     <input 

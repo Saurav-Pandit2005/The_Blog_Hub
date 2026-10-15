@@ -1,6 +1,6 @@
  .podcast-hero.resources-hero-custom {
     padding: 20px 120px 80px 120px;
-    background: linear-gradient(135deg, #F4F8FF, #EAF2FF);
+    background: linear-gradient(135deg, var(--bg-f4f8ff), var(--bg-eaf2ff));
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -22,20 +22,20 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
 }
 
 .podcast-hero-content h1 {
     font-size: 54px;
     margin-bottom: 25px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-family: 'Merriweather', serif;
     line-height: 1.2;
     font-weight: 900;
 }
 
 .highlight {
-    background: linear-gradient(to right, #3b82f6, #8b5cf6);
+    background: linear-gradient(to right, var(--tx-3b82f6), var(--tx-8b5cf6));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -44,7 +44,7 @@
 .podcast-hero-content p {
     max-width: 650px;
     margin: 0 auto 40px;
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 18px;
     line-height: 1.8;
 }
@@ -54,7 +54,7 @@
     align-items: center;
     gap: 20px;
     padding: 12px 30px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgb(var(--surface-rgb) / 0.6);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 100px;
@@ -63,18 +63,18 @@
 
 .mini-stat {
     font-size: 15px;
-    color: #64748b;
+    color: var(--tx-64748b);
 }
 
 .mini-stat b {
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-weight: 700;
 }
 
 .stat-separator {
     width: 1px;
     height: 15px;
-    background: #e2e8f0;
+    background: var(--bg-e2e8f0);
 }
 
 @media (max-width: 900px) {

@@ -1,0 +1,44 @@
+.brand-logo {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    user-select: none;
+}
+
+.brand-logo-full {
+    height: 40px;
+}
+
+.brand-logo-icon {
+    height: 36px;
+}
+
+.footer-logo .brand-logo-full {
+    height: 46px;
+}
+
+.admin-sidebar .logo .brand-logo-full {
+    height: 42px;
+}
+
+/* Author sidebar: show only the icon when it collapses */
+.sidebar-logo-simple .brand-logo-icon {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .sidebar-logo-simple .brand-logo-full {
+        display: none;
+    }
+
+    .sidebar-logo-simple .brand-logo-icon {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-logo-full {
+        height: 34px;
+    }
+}

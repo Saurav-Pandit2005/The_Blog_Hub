@@ -1,7 +1,7 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import logoImg from '../../assets/Images/Visitor/Navbar/logo.png';
+import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
+import Logo from '../../components/Logo/Logo';
 
 function Navbar() {
     const navigate = useNavigate();
@@ -20,8 +20,7 @@ function Navbar() {
         <nav className="navbar">
             {/* Logo Section */}
             <Link to="/home" className="logo">
-                <img src={logoImg} alt="The Blog Hub Logo" />
-                <span>The Blog Hub</span>
+                <Logo />
             </Link>
 
             {/* Links Section */}
@@ -36,6 +35,7 @@ function Navbar() {
 
             {/* Actions Section */}
             <div className="auth-buttons">
+                <ThemeToggle />
                 {isLoggedIn ? (
                     <div className="profile-dropdown-container">
                         <div className="user-profile-trigger">

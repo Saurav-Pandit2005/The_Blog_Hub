@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { UserContext } from '../../context/UserContext';
@@ -7,7 +7,6 @@ import './Login.css';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { setUser } = useContext(UserContext);

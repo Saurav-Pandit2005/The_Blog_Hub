@@ -1,4 +1,3 @@
-import React from 'react';
 import './Explore_Categories.css';
 
 function Explore_Categories({ selectedCategory, setSelectedCategory }) {

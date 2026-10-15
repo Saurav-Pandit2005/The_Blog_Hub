@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Heart, MessageCircle, Calendar, Tag, ArrowLeft, MessageSquare } from 'lucide-react';
 import api from '../../../api';
@@ -120,12 +120,6 @@ function BlogDetailPage() {
         new Date(dateStr).toLocaleDateString(undefined, {
             month: 'long', day: 'numeric', year: 'numeric',
         });
-
-    const readingTime = (content) => {
-        if (!content) return '1 min';
-        const words = stripHtml(content).split(/\s+/).length;
-        return `${Math.max(1, Math.ceil(words / 200))} min read`;
-    };
 
     // ── Loading ──
     if (loading) {
@@ -326,7 +320,7 @@ function BlogDetailPage() {
                     <div className="comments-list">
                         {comments.length === 0 ? (
                             <div className="no-comments-msg">
-                                <MessageSquare size={28} strokeWidth={1.5} style={{ color: '#cbd5e1', marginBottom: '10px' }} />
+                                <MessageSquare size={28} strokeWidth={1.5} style={{ color: 'var(--bg-cbd5e1)', marginBottom: '10px' }} />
                                 <p>No comments yet. Be the first to share your thoughts!</p>
                             </div>
                         ) : (

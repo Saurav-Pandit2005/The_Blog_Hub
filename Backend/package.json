@@ -7,15 +7,13 @@
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": [
-    "mern",
-    "blog",
-    "api"
-  ],
+  "keywords": ["mern", "blog", "api"],
   "author": "Saurav Pandit",
   "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
     "cors": "^2.8.6",

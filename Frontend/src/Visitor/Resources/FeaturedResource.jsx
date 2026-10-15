@@ -1,4 +1,3 @@
-import React from 'react';
 import './FeaturedResource.css';
 import resourceImg from '../../assets/Images/Visitor/Resources/resource1.jpg';
 

@@ -1,74 +1,50 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { fail } = require('../utils/helpers');
 
-// Request protection middleware
+const getToken = (req) => {
+  const header = req.headers.authorization;
+  return header && header.startsWith('Bearer ') ? header.split(' ')[1] : null;
+};
+
+// Require a valid token
 exports.protect = async (req, res, next) => {
-  let token;
+  const token = getToken(req);
+  if (!token) return fail(res, 401, 'Not authorized to access this route');
 
-  // Check for token in headers
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    // Extract token from Bearer <token>
-    token = req.headers.authorization.split(' ')[1];
-  }
-
-  // Check if token exists
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      error: 'Not authorized to access this route',
-    });
-  }
-
+  let user;
   try {
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Add user to request
-    req.user = await User.findById(decoded.id);
-
-    next();
+    user = await User.findById(decoded.id);
   } catch (err) {
-    return res.status(401).json({
-      success: false,
-      error: 'Not authorized to access this route',
-    });
+    return fail(res, 401, 'Not authorized to access this route');
   }
+
+  if (!user) return fail(res, 401, 'Not authorized to access this route');
+
+  req.user = user;
+  next();
 };
 
-// Grant access to specific roles
-exports.authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        error: `User role ${req.user.role} is not authorized to access this route`,
-      });
-    }
-    next();
-  };
+// Allow only the given roles
+exports.authorize = (...roles) => (req, res, next) => {
+  if (!roles.includes(req.user.role)) {
+    return fail(res, 403, `User role ${req.user.role} is not authorized to access this route`);
+  }
+  next();
 };
 
-// Optional protect — sets req.user if token present, but doesn't block if no token
+// Set req.user when a valid token is sent, otherwise continue as a guest
 exports.optionalProtect = async (req, res, next) => {
-  let token;
+  const token = getToken(req);
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-
-  if (!token) return next(); // No token — continue as guest
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
-  } catch (err) {
-    // Token invalid — continue as guest, don't fail
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.id);
+    } catch (err) {
+      // invalid token: treat as guest
+    }
   }
 
   next();

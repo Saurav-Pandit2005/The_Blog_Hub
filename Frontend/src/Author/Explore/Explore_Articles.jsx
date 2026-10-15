@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Calendar, Heart, MessageSquare } from 'lucide-react';
 import api from '../../api';
@@ -7,23 +7,17 @@ import './Explore_Articles.css';
 function Explore_Articles({ searchTerm = "", selectedCategory = "All Categories", sortBy = "Latest", currentPage = 1, setTotalPages }) {
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user') || 'null');
-    const isLoggedIn = !!(token && user?.id);
 
     useEffect(() => {
         const fetchLiveBlogs = async () => {
             try {
-                setLoading(true);
                 const res = await api.get('/blogs');
                 if (res.data.success) {
                     setBlogs(res.data.data);
                 }
             } catch (err) {
                 console.error("Error fetching live blogs for Explore:", err);
-            } finally {
-                setLoading(false);
             }
         };
         fetchLiveBlogs();
@@ -128,7 +122,7 @@ function Explore_Articles({ searchTerm = "", selectedCategory = "All Categories"
                         </div>
                     ))
                 ) : (
-                    <div className="no-articles" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 0', color: '#666' }}>
+                    <div className="no-articles" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 0', color: 'var(--tx-666666)' }}>
                         <p>No publications found matching your search.</p>
                     </div>
                 )}

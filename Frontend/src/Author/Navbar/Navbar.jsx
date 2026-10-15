@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
 
 // Assets
-import logoImg from '../../assets/Images/Visitor/Navbar/logo.png';
+import Logo from '../../components/Logo/Logo';
 
 function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -41,8 +42,7 @@ function Navbar() {
         <nav className="author-navbar">
             {/* LOGO */}
             <Link to="/author/home" className="logo">
-                <img src={logoImg} alt="Logo" />
-                The Blog Hub
+                <Logo />
             </Link>
 
             {/* NAVIGATION */}
@@ -56,20 +56,23 @@ function Navbar() {
             </ul>
 
             {/* PROFILE & USER INFO */}
-            <div className="auth-profile-container" ref={dropdownRef} onClick={toggleDropdown}>
-                <span className="auth-user-name">{user.name}</span>
-                <img 
-                    src={user.profilePic || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} 
-                    className="auth-profile-img" 
-                    alt="Profile" 
-                />
+            <div className="nav-actions">
+                <ThemeToggle />
+                <div className="auth-profile-container" ref={dropdownRef} onClick={toggleDropdown}>
+                    <span className="auth-user-name">{user.name}</span>
+                    <img 
+                        src={user.profilePic || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} 
+                        className="auth-profile-img" 
+                        alt="Profile" 
+                    />
 
-                <div className={`auth-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
-                    <Link to="/author/profile" className="auth-dropdown-item bold-item">Profile</Link>
-                    <Link to="/author/dashboard" className="auth-dropdown-item bold-item">Dashboard</Link>
-                    <Link to="/login" className="auth-dropdown-item auth-logout-btn" onClick={() => localStorage.clear()}>
-                        Logout
-                    </Link>
+                    <div className={`auth-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+                        <Link to="/author/profile" className="auth-dropdown-item bold-item">Profile</Link>
+                        <Link to="/author/dashboard" className="auth-dropdown-item bold-item">Dashboard</Link>
+                        <Link to="/login" className="auth-dropdown-item auth-logout-btn" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); }}>
+                            Logout
+                        </Link>
+                    </div>
                 </div>
             </div>
         </nav>

@@ -5,7 +5,7 @@
 .upload-podcast-container {
     display: flex;
     min-height: 100vh;
-    background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%);
+    background: linear-gradient(135deg, var(--bg-eef2ff) 0%, var(--bg-f8fafc) 100%);
     font-family: 'Outfit', sans-serif;
 }
 
@@ -33,20 +33,20 @@
 
 .upload-header-minimal h1 {
     font-size: 36px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-weight: 900;
     margin-bottom: 8px;
     font-family: 'Merriweather', serif;
 }
 
 .upload-header-minimal p {
-    color: #64748b;
+    color: var(--tx-64748b);
     font-size: 16px;
 }
 
 /* ===== PREMIUM CARD (Blue Border Sync) ===== */
 .upload-form-card-premium {
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 30px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
     border: 2px solid #6366F1;
@@ -81,17 +81,17 @@
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 800;
-    color: #475569;
+    color: var(--tx-475569);
     letter-spacing: 0.8px;
 }
 
 .premium-input, .premium-textarea {
     padding: 16px 22px;
     border-radius: 14px;
-    border: 2px solid #E2E8F0;
-    background: #F8FAFC;
+    border: 2px solid var(--bd-e2e8f0);
+    background: var(--bg-f8fafc);
     font-size: 16px;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     font-family: 'Outfit', sans-serif;
     transition: all 0.3s ease;
     width: 100%;
@@ -100,7 +100,7 @@
 
 .premium-input:focus, .premium-textarea:focus {
     border-color: #6366F1;
-    background: #fff;
+    background: var(--bg-ffffff);
     outline: none;
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
@@ -113,10 +113,10 @@
 /* ===== TOGGLE PILLS (Format & Source) ===== */
 .toggle-pills {
     display: flex;
-    background: #F1F5F9;
+    background: var(--bg-f1f5f9);
     padding: 5px;
     border-radius: 14px;
-    border: 1.5px solid #E2E8F0;
+    border: 1.5px solid var(--bd-e2e8f0);
 }
 
 .toggle-pills .pill {
@@ -127,21 +127,21 @@
     border-radius: 10px;
     font-weight: 700;
     font-size: 14px;
-    color: #64748b;
+    color: var(--tx-64748b);
     cursor: pointer;
     transition: all 0.25s ease;
     font-family: 'Outfit', sans-serif;
 }
 
 .toggle-pills .pill.active {
-    background: #fff;
-    color: #6366F1;
+    background: var(--bg-ffffff);
+    color: var(--tx-6366f1);
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.1);
     font-weight: 800;
 }
 
 .toggle-pills .pill:hover:not(.active) {
-    color: #334155;
+    color: var(--tx-334155);
 }
 
 /* ===== UPLOAD ZONE ===== */
@@ -152,7 +152,7 @@
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: #FAFAFF;
+    background: var(--bg-fafaff);
 }
 
 .media-upload-zone:hover {
@@ -162,15 +162,15 @@
 }
 
 .zone-icon { font-size: 48px; margin-bottom: 12px; }
-.zone-content p { font-weight: 800; color: #1e293b; margin-bottom: 6px; font-size: 16px; }
-.zone-content span { font-size: 13px; color: #94a3b8; font-weight: 500; }
+.zone-content p { font-weight: 800; color: var(--tx-1e293b); margin-bottom: 6px; font-size: 16px; }
+.zone-content span { font-size: 13px; color: var(--tx-94a3b8); font-weight: 500; }
 
 /* ===== LINK INPUT ===== */
 .link-input-modern {
     display: flex;
     align-items: center;
-    background: #F8FAFC;
-    border: 2px solid #E2E8F0;
+    background: var(--bg-f8fafc);
+    border: 2px solid var(--bd-e2e8f0);
     border-radius: 14px;
     padding: 0 20px;
     transition: 0.3s;
@@ -183,7 +183,7 @@
 
 .link-input-modern .link-icon {
     font-size: 20px;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
 }
 
 .link-input-modern input {
@@ -193,7 +193,7 @@
     background: transparent;
     outline: none;
     font-size: 16px;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     font-family: 'Outfit', sans-serif;
 }
 
@@ -207,7 +207,7 @@
 .thumb-preview-box {
     width: 260px;
     aspect-ratio: 16/9;
-    background: #F1F5F9;
+    background: var(--bg-f1f5f9);
     border-radius: 18px;
     overflow: hidden;
     cursor: pointer;
@@ -220,10 +220,10 @@
 }
 
 .thumb-preview-box img { width: 100%; height: 100%; object-fit: cover; }
-.thumb-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: #6366F1; font-weight: 800; font-size: 15px; }
+.thumb-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--tx-6366f1); font-weight: 800; font-size: 15px; }
 
-.thumb-info p { font-weight: 800; color: #1e293b; margin-bottom: 4px; font-size: 15px; }
-.thumb-info span { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+.thumb-info p { font-weight: 800; color: var(--tx-1e293b); margin-bottom: 4px; font-size: 15px; }
+.thumb-info span { font-size: 13px; color: var(--tx-94a3b8); line-height: 1.6; }
 
 /* ===== DIVIDER ===== */
 .form-divider {
@@ -240,7 +240,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 30px;
-    border-top: 2px solid #F1F5F9;
+    border-top: 2px solid var(--bd-f1f5f9);
 }
 
 .publish-toggle {
@@ -251,7 +251,7 @@
 
 .publish-toggle span {
     font-weight: 800;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     font-size: 16px;
 }
 
@@ -277,11 +277,11 @@
 }
 
 .btn-secondary {
-    background: #fff;
-    color: #475569;
+    background: var(--bg-ffffff);
+    color: var(--tx-475569);
     padding: 16px 35px;
     border-radius: 14px;
-    border: 2px solid #E2E8F0;
+    border: 2px solid var(--bd-e2e8f0);
     font-weight: 800;
     font-size: 15px;
     cursor: pointer;
@@ -290,9 +290,9 @@
 }
 
 .btn-secondary:hover {
-    background: #F8FAFC;
+    background: var(--bg-f8fafc);
     border-color: #6366F1;
-    color: #1e293b;
+    color: var(--tx-1e293b);
 }
 
 /* ===== SWITCH ===== */
@@ -309,7 +309,7 @@
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #E2E8F0;
+    background-color: var(--bg-e2e8f0);
     transition: .4s;
     border-radius: 34px;
 }
@@ -321,7 +321,7 @@
     width: 20px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: var(--bg-ffffff);
     transition: .4s;
     border-radius: 50%;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);

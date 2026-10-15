@@ -1,6 +1,6 @@
 .resources-section {
     padding: 60px 80px;
-    background: #f8fafc;
+    background: var(--bg-f8fafc);
 }
 
 .card-buttons {
@@ -24,7 +24,7 @@
 
 .card-buttons .outline-btn {
     border: 1px solid #3B82F6;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     background: transparent;
 }
 

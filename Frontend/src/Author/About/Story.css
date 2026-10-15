@@ -1,6 +1,6 @@
 .about-story {
     padding: 90px 120px;
-    background: #ffffff;
+    background: var(--bg-ffffff);
     font-family: 'Merriweather', serif;
 }
 
@@ -18,14 +18,14 @@
 
 .about-story .story-content h2 {
     margin-bottom: 30px;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-size: 28px;
     font-weight: 700;
 }
 
 .about-story .story-content p {
     margin-bottom: 18px;
-    color: #555;
+    color: var(--tx-555555);
     line-height: 1.8;
 }
 
@@ -60,19 +60,19 @@
 .about-story .year {
     font-size: 14px;
     font-weight: 600;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
 }
 
 .about-story .timeline-item h4 {
     margin: 6px 0;
     font-size: 18px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-weight: 700;
 }
 
 .about-story .timeline-item p {
     font-size: 14px;
-    color: #666;
+    color: var(--tx-666666);
     line-height: 1.6;
 }
 

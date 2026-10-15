@@ -1,19 +1,19 @@
 .about-cta {
     padding: 90px 120px;
-    background: #ffffff;
+    background: var(--bg-ffffff);
     text-align: center;
     font-family: 'Merriweather', serif;
 }
 
 .about-cta h2 {
     font-size: 34px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     margin-bottom: 20px;
     font-weight: 700;
 }
 
 .about-cta p {
-    color: #555;
+    color: var(--tx-555555);
     max-width: 600px;
     margin: 0 auto 40px auto;
     font-size: 16px;
@@ -55,7 +55,7 @@
 
 .about-cta .primary-outline-btn {
     border: 1px solid #3B82F6;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     background: transparent;
 }
 

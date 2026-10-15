@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Calendar, Heart, MessageSquare, Edit } from 'lucide-react';
+import { User, Calendar, Heart, MessageSquare } from 'lucide-react';
 import api from '../../../api';
 import './Articles.css';
 
@@ -115,7 +115,7 @@ function AdminArticles({ selectedCategory = "All" }) {
                         </div>
                     ))
                 ) : (
-                    <div className="no-articles" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 0', color: '#666' }}>
+                    <div className="no-articles" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 0', color: 'var(--tx-666666)' }}>
                         <p>No publications found in this category.</p>
                     </div>
                 )}

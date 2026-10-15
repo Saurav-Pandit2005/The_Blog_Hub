@@ -6,7 +6,7 @@
     align-items: center;
     padding: 14px 110px;
     width: 100%;
-    background: linear-gradient(90deg, #EEF5FF 0%, #F5F9FF 100%);
+    background: linear-gradient(90deg, var(--bg-eef5ff) 0%, var(--bg-f5f9ff) 100%);
     border-bottom: 1px solid rgba(59, 130, 246, 0.15);
     position: sticky;
     top: 0;
@@ -21,12 +21,8 @@
     font-weight: 700;
     font-size: 20px;
     letter-spacing: 0.5px;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     text-decoration: none;
-}
-
-.author-navbar .logo img {
-    width: 30px;
 }
 
 /* NAV LINKS */
@@ -38,7 +34,7 @@
 
 .author-navbar .nav-links a {
     text-decoration: none;
-    color: #333;
+    color: var(--tx-333333);
     font-size: 16px;
     font-weight: 600;
     position: relative;
@@ -58,7 +54,7 @@
 }
 
 .author-navbar .nav-links a:hover {
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
 }
 
 .author-navbar .nav-links a:hover::after {
@@ -84,7 +80,7 @@
 .auth-user-name {
     font-size: 15px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--tx-1e293b);
 }
 
 .auth-profile-img {
@@ -101,7 +97,7 @@
     position: absolute;
     right: 0;
     top: 55px;
-    background: white;
+    background: var(--bg-ffffff);
     min-width: 180px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -120,33 +116,33 @@
     display: block;
     padding: 10px 20px;
     text-decoration: none;
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 14px;
     font-weight: 500;
     transition: 0.2s;
 }
 
 .auth-dropdown-item:hover {
-    background: #f8fafc;
-    color: #3b82f6;
+    background: var(--bg-f8fafc);
+    color: var(--tx-3b82f6);
 }
 
 .bold-item {
     font-weight: 800 !important;
-    color: #1e293b !important;
+    color: var(--tx-1e293b) !important;
 }
 
 /* LOGOUT SPECIFIC (RED) */
 .auth-logout-btn {
-    border-top: 1px solid #edf2f7;
+    border-top: 1px solid var(--bd-edf2f7);
     margin-top: 5px;
     padding-top: 10px !important;
-    color: #ef4444 !important;
+    color: var(--tx-ef4444) !important;
 }
 
 .auth-logout-btn:hover {
-    background: #fee2e2 !important;
-    color: #dc2626 !important;
+    background: var(--bg-fee2e2) !important;
+    color: var(--tx-dc2626) !important;
 }
 
 @keyframes authFadeIn {

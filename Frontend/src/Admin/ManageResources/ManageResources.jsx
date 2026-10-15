@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../api';
 import './ManageResources.css';

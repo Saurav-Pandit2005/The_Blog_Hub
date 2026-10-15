@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../api';
 import './Dashboard.css';
@@ -105,7 +105,7 @@ function AdminDashboard() {
                                 statsData.recentUsers.map((user, idx) => (
                                     <div className="user-list-item" key={idx}>
                                         <div className="user-avatar-box">
-                                            <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} alt="user" />
+                                            <img src={user.profilePic || `https://ui-avatars.com/api/?name=${user.name}&background=eff6ff&color=3b82f6`} alt="user" />
                                             <span className={`role-dot ${user.role.toLowerCase()}`}></span>
                                         </div>
                                         <div className="user-details">

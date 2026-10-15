@@ -2,39 +2,37 @@ const express = require('express');
 const {
   createResource,
   getResources,
+  getMyResources,
   getSingleResource,
   updateResource,
   deleteResource,
   incrementViews,
   incrementDownloads,
-  getMyResources,
 } = require('../controllers/resourceController');
-
-const router = express.Router();
-
 const { protect, authorize, optionalProtect } = require('../middleware/auth');
 const { upload } = require('../middleware/upload');
 
-router.get('/my-resources', protect, getMyResources);
+const router = express.Router();
 
-const uploadFields = upload.fields([
+const resourceUpload = upload.fields([
   { name: 'coverImage', maxCount: 1 },
-  { name: 'resourceFile', maxCount: 1 }
+  { name: 'resourceFile', maxCount: 1 },
 ]);
+
+router.get('/my-resources', protect, getMyResources);
 
 router
   .route('/')
   .get(getResources)
-  .post(protect, authorize('Author', 'Admin'), uploadFields, createResource);
+  .post(protect, authorize('Author', 'Admin'), resourceUpload, createResource);
 
 router
   .route('/:id')
   .get(getSingleResource)
-  .put(protect, authorize('Author', 'Admin'), uploadFields, updateResource)
+  .put(protect, authorize('Author', 'Admin'), resourceUpload, updateResource)
   .delete(protect, authorize('Author', 'Admin'), deleteResource);
 
-router.put('/:id/view', optionalProtect, incrementViews);        // Unique per user / counts for guest
-router.put('/:id/download', protect, incrementDownloads);        // Unique per logged-in user only
-
+router.put('/:id/view', optionalProtect, incrementViews); // unique per user, counted for guests
+router.put('/:id/download', protect, incrementDownloads); // unique per logged-in user
 
 module.exports = router;

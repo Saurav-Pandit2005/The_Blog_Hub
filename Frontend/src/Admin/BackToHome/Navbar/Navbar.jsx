@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import logoImg from '../../../assets/Images/Visitor/Navbar/logo.png';
+import ThemeToggle from '../../../components/ThemeToggle/ThemeToggle';
+import Logo from '../../../components/Logo/Logo';
 import adminProfileImg from '../../../assets/Images/Admin/Profile/admin.jpg';
 import { UserContext } from '../../../context/UserContext';
 import { User as UserIcon, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
@@ -41,8 +42,7 @@ function AdminNavbar() {
         <nav className="author-navbar admin-mode-navbar">
             {/* LOGO */}
             <Link to="/admin/home" className="logo">
-                <img src={logoImg} alt="Logo" />
-                The Blog Hub
+                <Logo />
             </Link>
 
             {/* NAVIGATION */}
@@ -56,30 +56,33 @@ function AdminNavbar() {
             </ul>
 
             {/* PROFILE & USER INFO */}
-            <div className="auth-profile-container" ref={dropdownRef} onClick={toggleDropdown}>
-                <div className="auth-user-info-wrap">
-                    <span className="auth-user-name">{user?.name}</span>
-                    <small className="admin-tag-new">Admin</small>
-                </div>
-                <img
-                    src={user?.profilePic || adminProfileImg}
-                    className="auth-profile-img-square"
-                    alt="Profile"
-                />
-                <ChevronDown size={16} className={`auth-chevron ${isDropdownOpen ? 'open' : ''}`} />
+            <div className="nav-actions">
+                <ThemeToggle />
+                <div className="auth-profile-container" ref={dropdownRef} onClick={toggleDropdown}>
+                    <div className="auth-user-info-wrap">
+                        <span className="auth-user-name">{user?.name}</span>
+                        <small className="admin-tag-new">Admin</small>
+                    </div>
+                    <img
+                        src={user?.profilePic || adminProfileImg}
+                        className="auth-profile-img-square"
+                        alt="Profile"
+                    />
+                    <ChevronDown size={16} className={`auth-chevron ${isDropdownOpen ? 'open' : ''}`} />
 
-                <div className={`auth-dropdown-content premium-admin-dropdown ${isDropdownOpen ? 'show' : ''}`}>
-                    <Link to="/admin/profile" className="auth-dropdown-item">
-                        <UserIcon size={16} /> My Profile
-                    </Link>
-                    <Link to="/admin/dashboard" className="auth-dropdown-item">
-                        <LayoutDashboard size={16} /> Admin Panel
-                    </Link>
+                    <div className={`auth-dropdown-content premium-admin-dropdown ${isDropdownOpen ? 'show' : ''}`}>
+                        <Link to="/admin/profile" className="auth-dropdown-item">
+                            <UserIcon size={16} /> My Profile
+                        </Link>
+                        <Link to="/admin/dashboard" className="auth-dropdown-item">
+                            <LayoutDashboard size={16} /> Admin Panel
+                        </Link>
 
-                    <div className="dropdown-divider"></div>
-                    <button onClick={handleLogout} className="auth-dropdown-item auth-logout-btn">
-                        <LogOut size={16} /> Logout
-                    </button>
+                        <div className="dropdown-divider"></div>
+                        <button onClick={handleLogout} className="auth-dropdown-item auth-logout-btn">
+                            <LogOut size={16} /> Logout
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>

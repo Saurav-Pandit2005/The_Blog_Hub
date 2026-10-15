@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Eye, DownloadCloud, User } from 'lucide-react';
 import api from '../../api';
@@ -120,7 +120,7 @@ function ResourcesGrid() {
                                         width: '100%',
                                         height: '100%',
                                         minHeight: '200px',
-                                        background: 'linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%)',
+                                        background: 'linear-gradient(135deg, var(--bg-eef2ff) 0%, var(--bg-e0e7ff) 100%)',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center',
@@ -169,7 +169,7 @@ function ResourcesGrid() {
                         </div>
                     ))
                 ) : (
-                    <div className="no-resources" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 0', color: '#666' }}>
+                    <div className="no-resources" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 0', color: 'var(--tx-666666)' }}>
                         <p>No resources found in the library.</p>
                     </div>
                 )}

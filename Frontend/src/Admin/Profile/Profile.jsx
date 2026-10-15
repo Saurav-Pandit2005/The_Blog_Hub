@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useContext } from 'react';
 import Slidebar from '../Slidebar/Slidebar';
 import './Profile.css';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
@@ -10,12 +9,10 @@ import '../Dashboard/Dashboard.css'; // Global Toast styles
 
 function AdminProfile() {
     const { user, updateUserData } = useContext(UserContext);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const [activeTab, setActiveTab] = useState('profile');
     const [avatarSrc, setAvatarSrc] = useState(user?.profilePic || adminProfileImg);
-    const dropdownRef = useRef(null);
     const fileInputRef = useRef(null);
 
     const triggerToast = (message, type = 'success') => {
@@ -24,21 +21,6 @@ function AdminProfile() {
             setToast(prev => ({ ...prev, show: false }));
         }, 3000);
     };
-
-    const toggleDropdown = (e) => {
-        e.stopPropagation();
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, []);
 
     // ── Profile Info State ──
     const [profile, setProfile] = useState({

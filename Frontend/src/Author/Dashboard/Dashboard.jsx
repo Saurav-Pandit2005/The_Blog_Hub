@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from './Slidebar/Slidebar';
 import api from '../../api';
@@ -39,13 +39,14 @@ function Dashboard() {
 
     const statsData = [
         { title: "Total Blogs", value: stats?.totalBlogs || "0", icon: blogIcon },
-        { title: "Total Views", value: stats?.totalViews || "0", icon: viewIcon },
-        { title: "Podcasts", value: stats?.totalPodcasts || "0", icon: podcastIcon },
-        { title: "Resources", value: stats?.totalResources || "0", icon: resourcesIcon },
+        { title: "Total Views", value: stats?.totalViews || "0", icon: viewIcon, adaptive: true },
+        { title: "Podcasts", value: stats?.totalPodcasts || "0", icon: podcastIcon, adaptive: true },
+        { title: "Resources", value: stats?.totalResources || "0", icon: resourcesIcon, adaptive: true },
     ];
 
     const handleLogout = () => {
-        localStorage.clear();
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         navigate('/login');
     };
 
@@ -86,7 +87,7 @@ function Dashboard() {
                                 <div className="card-header">
                                     <h3>{stat.title}</h3>
                                     <div className="card-icon-round">
-                                        <img src={stat.icon} alt={stat.title} />
+                                        <img src={stat.icon} alt={stat.title} className={stat.adaptive ? 'icon-adaptive' : undefined} />
                                     </div>
                                 </div>
                                 <p className="stat-value">{stat.value}</p>

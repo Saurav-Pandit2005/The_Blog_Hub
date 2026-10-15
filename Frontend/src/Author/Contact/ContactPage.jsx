@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import Hero from './Hero';
 import Contact_Section from './Contact_Section';

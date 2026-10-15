@@ -6,9 +6,16 @@ const BlogSchema = new mongoose.Schema({
     trim: true,
     required: [true, 'Please add a blog title'],
   },
-  slug: String,
+  slug: {
+    type: String,
+    index: true,
+  },
+  summary: {
+    type: String,
+    trim: true,
+  },
   content: {
-    type: String, // Or JSON if using a specific editor like Editor.js
+    type: String,
     required: [true, 'Please add the blog content'],
   },
   coverImage: {
@@ -45,13 +52,12 @@ const BlogSchema = new mongoose.Schema({
   },
 });
 
-// Create blog slug from title
-BlogSchema.pre('save', async function () {
+// Build the slug from the title
+BlogSchema.pre('save', function () {
   if (this.title) {
     this.slug = this.title
       .toLowerCase()
-      .split(' ')
-      .join('-')
+      .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '');
   }
 });

@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import './WriteBlog.css';
 import '../Dashboard/Dashboard.css'; // Global Toast styles
-import { 
-    PenTool, Image as ImageIcon, Type, Sparkles, Send, Save, Calendar, ChevronLeft,
-    Bold, Italic, Heading1, Heading2, Heading3, Underline, List, ListOrdered, 
-    AlignLeft, AlignCenter, AlignRight, Quote, Link as LinkIcon, Eraser, CheckCircle, X, Info
-} from 'lucide-react';
+import { PenTool, Image as ImageIcon, Type, Sparkles, Send, Save, Calendar, Bold, Italic, Heading1, Heading2, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Quote, Link as LinkIcon, Eraser, CheckCircle, X } from 'lucide-react';
 import adminProfileImg from '../../assets/Images/Admin/Profile/admin.jpg';
 import { UserContext } from '../../context/UserContext';
 import api from '../../api';

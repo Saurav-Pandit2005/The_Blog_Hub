@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import { 
@@ -88,11 +88,6 @@ function EditAbout() {
         { key: 'team', label: 'Team Members', icon: <Users size={18} /> },
         { key: 'cta', label: 'Call to Action', icon: <Rocket size={18} /> },
     ];
-
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/login');
-    };
 
     return (
         <div className="edit-about-container">

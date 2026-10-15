@@ -31,16 +31,12 @@
     font-family: 'Merriweather', serif;
     font-weight: 700;
     font-size: 20px;
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     margin-bottom: 12px; /* Further reduced */
     padding-bottom: 15px; /* Further reduced */
     border-bottom: 1px solid #334155;
     text-decoration: none;
     width: 100%;
-}
-
-.admin-sidebar .logo img {
-    width: 38px;
 }
 
 .admin-sidebar .menu {
@@ -69,7 +65,7 @@
 
 .admin-sidebar .menu a:hover {
     background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     transform: translateX(5px);
 }
 
@@ -94,7 +90,7 @@
 }
 
 .admin-status-card {
-    background: white;
+    background: var(--bg-ffffff);
     border-radius: 16px;
     padding: 10px; /* Slimmer card */
     display: flex;
@@ -115,7 +111,7 @@
     height: 40px;
     border-radius: 8px;
     overflow: hidden;
-    background: #f1f5f9;
+    background: var(--bg-f1f5f9);
 }
 
 .admin-avatar img {
@@ -133,13 +129,13 @@
     margin: 0;
     font-size: 13.5px;
     font-weight: 800;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     line-height: 1.2;
 }
 
 .admin-info span {
     font-size: 10px;
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     font-weight: 600;
     margin-top: 2px;
 }

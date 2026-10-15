@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AdminPageHeader from './Page_Header';
 import AdminFilter from './Filter';
 import AdminExploreArticles from './Explore_Arctiles'; // Using user's filename with typo

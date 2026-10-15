@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     Twitter,
@@ -11,9 +10,7 @@ import {
 } from 'lucide-react';
 import './Footer.css';
 
-import logoImg from '../../../assets/Images/Visitor/Navbar/logo.png';
-import adminProfileImg from '../../../assets/Images/Admin/Profile/admin.jpg';
-import { UserContext } from '../../../context/UserContext';
+import Logo from '../../../components/Logo/Logo';
 
 function AdminFooter() {
     const currentYear = new Date().getFullYear();
@@ -25,8 +22,7 @@ function AdminFooter() {
                     {/* Brand Section */}
                     <div className="footer-col brand-col">
                         <div className="footer-logo">
-                            <img src={logoImg} alt="The Blog Hub Logo" />
-                            <h3>The Blog Hub</h3>
+                            <Logo />
                         </div>
                         <p className="brand-desc">
                             Stewarding the future of digital content. 

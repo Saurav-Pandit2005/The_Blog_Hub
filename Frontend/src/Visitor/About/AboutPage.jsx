@@ -1,4 +1,3 @@
-import React from 'react';
 import AboutHero from './AboutHero';
 import AboutStory from './AboutStory';
 import AboutTeam from './AboutTeam';

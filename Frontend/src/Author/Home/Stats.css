@@ -3,8 +3,8 @@
     justify-content: center;
     gap: 120px;
     padding: 60px 80px;
-    background: #ffffff;
-    border-top: 1px solid #f1f5f9;
+    background: var(--bg-ffffff);
+    border-top: 1px solid var(--bd-f1f5f9);
     font-family: 'Merriweather', serif;
 }
 
@@ -13,14 +13,14 @@
 }
 
 .stat-box h2 {
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
 .stat-box p {
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 15px;
     font-weight: 500;
 }

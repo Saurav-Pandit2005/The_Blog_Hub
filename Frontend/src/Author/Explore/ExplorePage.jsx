@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import Page_Header from './Page_Header';
 import Filter from './Filter';

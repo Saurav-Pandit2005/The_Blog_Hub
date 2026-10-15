@@ -2,8 +2,8 @@
 .footer {
     padding: 80px 0 0 0;
     margin-top: 0;
-    background: linear-gradient(90deg, #EEF5FF 0%, #F5F9FF 100%);
-    border-top: 1px solid #f1f5f9;
+    background: linear-gradient(90deg, var(--bg-eef5ff) 0%, var(--bg-f5f9ff) 100%);
+    border-top: 1px solid var(--bd-f1f5f9);
     font-family: 'Merriweather', serif;
 }
 
@@ -38,20 +38,8 @@
     margin-bottom: 25px;
 }
 
-.footer-logo img {
-    height: 38px;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
-}
-
-.footer-logo h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    letter-spacing: -0.5px;
-}
-
 .brand-desc {
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 0.95rem;
     line-height: 1.7;
     margin-bottom: 30px;
@@ -67,13 +55,13 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #f8fafc;
-    color: #64748b;
+    background: var(--bg-f8fafc);
+    color: var(--tx-64748b);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--bd-f1f5f9);
 }
 
 .social-link:hover {
@@ -86,7 +74,7 @@
 
 /* Headings */
 .footer-col h4 {
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 25px;
@@ -116,19 +104,19 @@
 
 .footer-links a {
     text-decoration: none;
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 0.95rem;
     transition: all 0.2s;
 }
 
 .footer-links a:hover {
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     padding-left: 5px;
 }
 
 /* Newsletter Column */
 .newsletter-col p {
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 0.95rem;
     margin-bottom: 20px;
 }
@@ -144,19 +132,19 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 0.9rem;
 }
 
 .contact-item svg {
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
 }
 
 /* Footer Bottom */
 .footer-bottom {
     background: transparent;
     padding: 30px 40px;
-    border-top: 1px solid #c7d2fe;
+    border-top: 1px solid var(--bd-c7d2fe);
 }
 
 .footer-bottom-content {
@@ -169,7 +157,7 @@
 }
 
 .footer-bottom p {
-    color: #64748b;
+    color: var(--tx-64748b);
     font-size: 0.9rem;
 }
 

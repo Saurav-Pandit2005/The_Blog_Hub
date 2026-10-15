@@ -28,9 +28,7 @@ const PodcastSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add the duration'],
   },
-  audioUrl: {
-    type: String,
-  },
+  audioUrl: String,
   isExternal: {
     type: Boolean,
     default: false,
@@ -57,7 +55,7 @@ const PodcastSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-    }
+    },
   ],
   createdAt: {
     type: Date,

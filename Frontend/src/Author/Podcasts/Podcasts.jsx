@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Play, Headphones, Eye, Trash2 } from 'lucide-react';
+import { Play, Headphones, Eye } from 'lucide-react';
 import api from '../../api';
 import Pagination from './Pagination';
 import './Podcasts.css';

@@ -15,7 +15,7 @@
 }
 
 .user-modal-card {
-    background: white;
+    background: var(--bg-ffffff);
     width: 90%;
     max-width: 550px;
     border-radius: 24px;
@@ -25,9 +25,9 @@
 }
 
 .modal-header {
-    background: #f8fbff;
+    background: var(--bg-f8fbff);
     padding: 25px 35px;
-    border-bottom: 1px solid #eef2f6;
+    border-bottom: 1px solid var(--bd-eef2f6);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -36,13 +36,13 @@
 .modal-header h2 {
     font-size: 20px;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     margin: 0;
     font-family: 'Merriweather', serif;
 }
 
 .close-modal {
-    background: #f1f5f9;
+    background: var(--bg-f1f5f9);
     border: none;
     width: 32px;
     height: 32px;
@@ -51,14 +51,14 @@
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    color: #64748b;
+    color: var(--tx-64748b);
     cursor: pointer;
     transition: 0.2s;
 }
 
 .close-modal:hover {
-    background: #e2e8f0;
-    color: #0f172a;
+    background: var(--bg-e2e8f0);
+    color: var(--tx-0f172a);
     transform: rotate(90deg);
 }
 
@@ -82,7 +82,7 @@
 .m-group label {
     font-size: 13px;
     font-weight: 700;
-    color: #475569;
+    color: var(--tx-475569);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -90,17 +90,17 @@
 .m-group input, .m-group select {
     padding: 12px 18px;
     border-radius: 12px;
-    border: 1.5px solid #e2e8f0;
-    background: #f8fbff;
+    border: 1.5px solid var(--bd-e2e8f0);
+    background: var(--bg-f8fbff);
     font-size: 15px;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     transition: 0.3s;
     outline: none;
 }
 
 .m-group input:focus, .m-group select:focus {
     border-color: #3b82f6;
-    background: white;
+    background: var(--bg-ffffff);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
 }
 
@@ -115,8 +115,8 @@
 
 .gen-btn {
     padding: 10px 15px;
-    background: #eff6ff;
-    color: #3b82f6;
+    background: var(--bg-eff6ff);
+    color: var(--tx-3b82f6);
     border: 1.5px dashed #3b82f6;
     border-radius: 10px;
     font-size: 13px;
@@ -132,8 +132,8 @@
 
 .modal-footer {
     padding: 25px 35px;
-    background: #f8fbff;
-    border-top: 1px solid #eef2f6;
+    background: var(--bg-f8fbff);
+    border-top: 1px solid var(--bd-eef2f6);
     display: flex;
     justify-content: flex-end;
     gap: 15px;
@@ -141,18 +141,18 @@
 
 .cancel-btn {
     padding: 12px 25px;
-    background: white;
-    border: 1.5px solid #e2e8f0;
+    background: var(--bg-ffffff);
+    border: 1.5px solid var(--bd-e2e8f0);
     border-radius: 12px;
-    color: #64748b;
+    color: var(--tx-64748b);
     font-weight: 700;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .cancel-btn:hover {
-    background: #f1f5f9;
-    color: #0f172a;
+    background: var(--bg-f1f5f9);
+    color: var(--tx-0f172a);
 }
 
 .confirm-add-btn {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
@@ -14,7 +14,6 @@ function Resources() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [resourcesData, setResourcesData] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
     const triggerToast = (message, type = 'success') => {
@@ -33,8 +32,6 @@ function Resources() {
                 }
             } catch (err) {
                 console.error("Error fetching resources:", err);
-            } finally {
-                setLoading(false);
             }
         };
         fetchResources();
@@ -112,7 +109,7 @@ function Resources() {
 
                             <div className="res-actions">
                                 <button className="action-button edit" title="Edit Resource" onClick={() => navigate(`/author/edit-resource/${res._id}`)}>
-                                    <img src={editIcon} alt="Edit" />
+                                    <img src={editIcon} alt="Edit" className="icon-adaptive" />
                                 </button>
                                 <button className="action-button delete" title="Remove Resource" onClick={() => handleDelete(res._id)}>
                                     <img src={deleteIcon} alt="Delete" />

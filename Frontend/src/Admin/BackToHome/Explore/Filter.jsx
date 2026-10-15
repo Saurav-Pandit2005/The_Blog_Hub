@@ -1,4 +1,3 @@
-import React from 'react';
 import './Filter.css';
 
 function AdminFilter({ searchTerm, setSearchTerm, selectedCategory, setSelectedCategory, sortBy, setSortBy }) {

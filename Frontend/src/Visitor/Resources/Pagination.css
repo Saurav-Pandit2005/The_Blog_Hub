@@ -11,7 +11,7 @@
 .pagination a {
     margin: 0 4px;
     text-decoration: none;
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-weight: 500;
     padding: 8px 14px;
     border-radius: 8px;
@@ -20,8 +20,8 @@
 }
 
 .pagination a:hover:not(.active):not(.disabled) {
-    background: #f1f5f9;
-    border-color: #cbd5e1;
+    background: var(--bg-f1f5f9);
+    border-color: var(--bd-cbd5e1);
 }
 
 .pagination .active {

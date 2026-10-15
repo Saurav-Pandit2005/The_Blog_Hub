@@ -1,4 +1,3 @@
-import React from 'react';
 import './ResourcesHero.css';
 
 function ResourcesHero() {

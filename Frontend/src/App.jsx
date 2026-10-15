@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { UserContext } from './context/UserContext';
 
 import HomePage from './Visitor/Home/HomePage';
 import BlogPage from './Visitor/Blogs/BlogPage';
@@ -51,6 +49,7 @@ import Navbar from './Visitor/Authentication/Navbar.jsx';
 import Footer from './Visitor/Authentication/Footer.jsx';
 
 import AdminNavbar from './Admin/BackToHome/Navbar/Navbar';
+import ThemeToggle from './components/ThemeToggle/ThemeToggle';
 import AdminFooter from './Admin/BackToHome/Footer/Footer';
 import AdminHomePage from './Admin/BackToHome/Home/HomePage';
 import AdminExplorePage from './Admin/BackToHome/Explore/ExplorePage';
@@ -61,9 +60,6 @@ import AdminContactPage from './Admin/BackToHome/Contact/ContactPage';
 
 function App() {
   const location = useLocation();
-  const { user } = useContext(UserContext);
-  const isAdmin = user?.role === 'Admin';
-  const isAuthor = user?.role === 'Author';
   
   // Paths where we don't want Visitor Navbar and Footer
   const isAuthorPath = location.pathname.startsWith('/author');
@@ -75,10 +71,13 @@ function App() {
   // Define which pages should show the Author UI on shared visitor routes
   const isAuthorBackToHome = false;
 
+  const showFloatingThemeToggle = ['/login', '/register', '/forgot-password'].includes(location.pathname); // the landing page has its own toggle
+
   const hideNavFooter = ['/', '/login', '/register', '/forgot-password'].includes(location.pathname) || isAuthorPath || isAdminPath || isAdminBackToHome || isAuthorBackToHome;
 
   return (
     <>
+      {showFloatingThemeToggle && <ThemeToggle variant="floating" />}
       {!hideNavFooter && <Navbar />}
       {isAdminBackToHome && <AdminNavbar />}
       {isAuthorBackToHome && <AuthorNavbar />}

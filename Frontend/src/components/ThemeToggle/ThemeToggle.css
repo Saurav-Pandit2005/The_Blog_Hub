@@ -1,0 +1,90 @@
+/* Wrapper used by the navbars to put the toggle next to the profile menu */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* ---- Round icon button (navbars) ---- */
+.theme-toggle-icon,
+.theme-toggle-floating {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid var(--bd-e2e8f0);
+    background: var(--bg-ffffff);
+    color: var(--tx-475569);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.theme-toggle-icon:hover,
+.theme-toggle-floating:hover {
+    color: var(--tx-3b82f6);
+    border-color: #3b82f6;
+    transform: rotate(15deg);
+}
+
+/* ---- Floating (pages without a navbar: landing, login, register...) ---- */
+.theme-toggle-floating {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 1100;
+}
+
+/* ---- Sidebar row ---- */
+.theme-toggle-sidebar {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: transparent;
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 600;
+    justify-content: flex-start;
+}
+
+.theme-toggle-sidebar:hover {
+    background: rgba(148, 163, 184, 0.12);
+    color: var(--tx-3b82f6);
+    border-color: #3b82f6;
+}
+
+/* Author sidebar sits on a light surface in light mode */
+.sidebar .theme-toggle-sidebar {
+    justify-content: center;
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 800;
+    color: var(--tx-475569);
+    border-color: var(--bd-e2e8f0);
+    background: var(--bg-ffffff);
+}
+
+.sidebar .theme-toggle-sidebar:hover {
+    color: var(--tx-3b82f6);
+    border-color: #3b82f6;
+}
+
+@media (max-width: 900px) {
+    .sidebar .theme-toggle-sidebar span {
+        display: none;
+    }
+}

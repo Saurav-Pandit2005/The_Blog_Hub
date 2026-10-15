@@ -1,19 +1,19 @@
 .newsletter {
     text-align: center;
     padding: 80px 80px;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, var(--bg-f8fafc) 0%, var(--bg-f1f5f9) 100%);
     font-family: 'Merriweather', serif;
 }
 
 .newsletter h2 {
     margin-bottom: 15px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-size: 32px;
     font-weight: 700;
 }
 
 .newsletter p {
-    color: #475569;
+    color: var(--tx-475569);
     margin-bottom: 35px;
     font-size: 16px;
     max-width: 600px;
@@ -30,13 +30,13 @@
 .newsletter-box input {
     padding: 14px 20px;
     width: 320px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--bd-e2e8f0);
     border-radius: 10px;
     font-family: 'Merriweather', serif;
     outline: none;
     font-size: 14px;
     transition: all 0.3s ease;
-    background: white;
+    background: var(--bg-ffffff);
 }
 
 .newsletter-box input:focus {

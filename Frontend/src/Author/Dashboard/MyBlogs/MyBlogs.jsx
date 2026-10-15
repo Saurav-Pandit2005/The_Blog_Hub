@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slidebar from '../Slidebar/Slidebar';
 import api from '../../../api';
@@ -125,7 +125,7 @@ function MyBlogs() {
 
                                 <div className="blog-actions">
                                     <Link to={`/author/edit-post/${blog._id}`} className="action-button edit" title="Edit Post">
-                                        <img src={editIcon} alt="Edit" />
+                                        <img src={editIcon} alt="Edit" className="icon-adaptive" />
                                     </Link>
                                     <button 
                                         className="action-button delete" 

@@ -1,4 +1,3 @@
-import React from 'react';
 import ContactHero from './ContactHero';
 import ContactSection from './ContactSection';
 import FAQ from './FAQ';

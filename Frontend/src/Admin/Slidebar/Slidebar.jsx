@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Slidebar.css';
+import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
 
 // Assets
-import logoImg from '../../assets/Images/Visitor/Navbar/logo.png';
+import Logo from '../../components/Logo/Logo';
 import { 
     LayoutDashboard, 
     PenSquare, 
@@ -45,8 +46,7 @@ function Slidebar() {
         <aside className="admin-sidebar">
             <div className="sidebar-top">
                 <Link to="/admin/dashboard" className="logo">
-                    <img src={logoImg} alt="Logo" />
-                    The Blog Hub
+                    <Logo onDark />
                 </Link>
 
                 <nav className="menu">
@@ -73,6 +73,8 @@ function Slidebar() {
                         <span>Administrator</span>
                     </div>
                 </div>
+
+                <ThemeToggle variant="sidebar" />
 
                 <button className="logout-btn" onClick={() => {
                     logout();

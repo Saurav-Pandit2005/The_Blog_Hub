@@ -1,275 +1,190 @@
 const Resource = require('../models/Resource');
-const { uploadToCloudinary } = require('../middleware/upload');
+const { uploadField } = require('../middleware/upload');
+const { fail, pick, isOwnerOrAdmin } = require('../utils/helpers');
+
+const RESOURCE_FIELDS = ['title', 'type', 'category', 'desc', 'status', 'coverImage', 'fileUrl'];
+
+// Build the document data from the request body and any uploaded files
+const buildResourceData = async (req) => {
+  const data = pick(req.body, RESOURCE_FIELDS);
+
+  const coverImage = await uploadField(req.files, 'coverImage', 'resources/thumbnails');
+  const fileUrl = await uploadField(req.files, 'resourceFile', 'resources/files');
+
+  if (coverImage) data.coverImage = coverImage;
+  if (fileUrl) data.fileUrl = fileUrl;
+
+  return data;
+};
 
 /**
- * @desc    Create a new resource
- * @route   POST /api/v1/resources
- * @access  Private (Author/Admin Only)
+ * @route POST /api/v1/resources
+ * @access Private (Author/Admin)
  */
-exports.createResource = async (req, res, next) => {
+exports.createResource = async (req, res) => {
   try {
-    req.body.author = req.user.id; 
+    const data = await buildResourceData(req);
+    const resource = await Resource.create({ ...data, author: req.user.id });
 
-    if (req.files && req.files.coverImage) {
-      const result = await uploadToCloudinary(req.files.coverImage[0].buffer, 'resources/thumbnails');
-      req.body.coverImage = result.secure_url;
-    }
-
-    if (req.files && req.files.resourceFile) {
-      const result = await uploadToCloudinary(req.files.resourceFile[0].buffer, 'resources/files');
-      req.body.fileUrl = result.secure_url;
-    }
-
-    const resource = await Resource.create(req.body);
-
-    res.status(201).json({
-      success: true,
-      data: resource,
-    });
+    res.status(201).json({ success: true, data: resource });
   } catch (err) {
-    res.status(400).json({
-      success: false,
-      error: err.message || 'Server Error. Check your resource data.',
-    });
+    fail(res, 400, err.message || 'Server Error. Check your resource data.');
   }
 };
 
 /**
- * @desc    Get all resources
+ * @desc    Published resources
  * @route   GET /api/v1/resources
  * @access  Public
  */
-exports.getResources = async (req, res, next) => {
+exports.getResources = async (req, res) => {
   try {
-    let query = { status: 'Published' };
+    const resources = await Resource.find({ status: 'Published' }).populate(
+      'author',
+      'name profilePic'
+    );
 
-    const resources = await Resource.find(query).populate('author', 'name profilePic');
-
-    res.status(200).json({
-      success: true,
-      count: resources.length,
-      data: resources,
-    });
+    res.status(200).json({ success: true, count: resources.length, data: resources });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: 'Server Error while fetching resources.',
-    });
+    fail(res, 500, 'Server Error while fetching resources.');
   }
 };
 
 /**
- * @desc    Get current user's resources
- * @route   GET /api/v1/resources/my-resources
- * @access  Private (Author/Admin)
+ * @route GET /api/v1/resources/my-resources
+ * @access Private (Author/Admin)
  */
-exports.getMyResources = async (req, res, next) => {
+exports.getMyResources = async (req, res) => {
   try {
     const resources = await Resource.find({ author: req.user.id });
 
-    res.status(200).json({
-      success: true,
-      count: resources.length,
-      data: resources,
-    });
+    res.status(200).json({ success: true, count: resources.length, data: resources });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: 'Server Error while fetching your resources.',
-    });
+    fail(res, 500, 'Server Error while fetching your resources.');
   }
 };
 
-
 /**
- * @desc    Get single resource
- * @route   GET /api/v1/resources/:id
- * @access  Public
+ * @route GET /api/v1/resources/:id
+ * @access Public
  */
-exports.getSingleResource = async (req, res, next) => {
+exports.getSingleResource = async (req, res) => {
   try {
     const resource = await Resource.findById(req.params.id).populate('author', 'name profilePic');
 
-    if (!resource) {
-      return res.status(404).json({
-        success: false,
-        error: `Resource not found with id: ${req.params.id}`,
-      });
-    }
+    if (!resource) return fail(res, 404, `Resource not found with id: ${req.params.id}`);
 
-    res.status(200).json({
-      success: true,
-      data: resource,
-    });
+    res.status(200).json({ success: true, data: resource });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: 'Server Error while fetching single resource.',
-    });
+    fail(res, 500, 'Server Error while fetching single resource.');
   }
 };
 
 /**
- * @desc    Update resource
- * @route   PUT /api/v1/resources/:id
- * @access  Private (Author/Admin Only)
+ * @route PUT /api/v1/resources/:id
+ * @access Private (owner or Admin)
  */
-exports.updateResource = async (req, res, next) => {
+exports.updateResource = async (req, res) => {
   try {
-    let resource = await Resource.findById(req.params.id);
+    const resource = await Resource.findById(req.params.id);
 
-    if (!resource) {
-      return res.status(404).json({
-        success: false,
-        error: `Resource not found with id: ${req.params.id}`,
-      });
+    if (!resource) return fail(res, 404, `Resource not found with id: ${req.params.id}`);
+    if (!isOwnerOrAdmin(resource.author, req.user)) {
+      return fail(res, 403, 'Not authorized to update this resource');
     }
 
-    // Authorization check
-    if (resource.author.toString() !== req.user.id && req.user.role !== 'Admin') {
-      return res.status(401).json({
-        success: false,
-        error: `User ${req.user.id} is not authorized to update this resource`,
-      });
-    }
-
-    if (req.files && req.files.coverImage) {
-      const result = await uploadToCloudinary(req.files.coverImage[0].buffer, 'resources/thumbnails');
-      req.body.coverImage = result.secure_url;
-    }
-
-    if (req.files && req.files.resourceFile) {
-      const result = await uploadToCloudinary(req.files.resourceFile[0].buffer, 'resources/files');
-      req.body.fileUrl = result.secure_url;
-    }
-
-    resource = await Resource.findByIdAndUpdate(req.params.id, req.body, {
+    const data = await buildResourceData(req);
+    const updated = await Resource.findByIdAndUpdate(req.params.id, data, {
       new: true,
       runValidators: true,
     });
 
-    res.status(200).json({
-      success: true,
-      data: resource,
-    });
+    res.status(200).json({ success: true, data: updated });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: 'Server Error while updating resource.',
-    });
+    fail(res, 500, 'Server Error while updating resource.');
   }
 };
 
 /**
- * @desc    Delete resource
- * @route   DELETE /api/v1/resources/:id
- * @access  Private (Author/Admin Only)
+ * @route DELETE /api/v1/resources/:id
+ * @access Private (owner or Admin)
  */
-exports.deleteResource = async (req, res, next) => {
+exports.deleteResource = async (req, res) => {
   try {
     const resource = await Resource.findById(req.params.id);
 
-    if (!resource) {
-      return res.status(404).json({
-        success: false,
-        error: `Resource not found with id: ${req.params.id}`,
-      });
+    if (!resource) return fail(res, 404, `Resource not found with id: ${req.params.id}`);
+    if (!isOwnerOrAdmin(resource.author, req.user)) {
+      return fail(res, 403, 'Not authorized to delete this resource');
     }
 
-    // Authorization check
-    if (resource.author && resource.author.toString() !== req.user.id && req.user.role !== 'Admin') {
-      return res.status(401).json({
-        success: false,
-        error: `User ${req.user.id} is not authorized to delete this resource`,
-      });
-    }
+    await resource.deleteOne();
 
-    await Resource.findByIdAndDelete(req.params.id);
-
-    res.status(200).json({
-      success: true,
-      data: {},
-    });
+    res.status(200).json({ success: true, data: {} });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: 'Server Error while deleting resource.',
-    });
+    fail(res, 500, 'Server Error while deleting resource.');
   }
 };
 
 /**
- * @desc    Increment resource views
+ * @desc    Count a view: once per logged-in user (author excluded), always for guests
  * @route   PUT /api/v1/resources/:id/view
  * @access  Public
  */
-exports.incrementViews = async (req, res, next) => {
+exports.incrementViews = async (req, res) => {
   try {
-    const resource = await Resource.findById(req.params.id);
-    if (!resource) {
-      return res.status(404).json({ success: false, error: 'Resource not found' });
+    const { id } = req.params;
+    const resource = await Resource.findById(id);
+
+    if (!resource) return fail(res, 404, 'Resource not found');
+
+    let updated = resource;
+
+    if (!req.user) {
+      updated = await Resource.findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true });
+    } else if (resource.author?.toString() !== req.user.id) {
+      updated =
+        (await Resource.findOneAndUpdate(
+          { _id: id, viewedBy: { $ne: req.user.id } },
+          { $inc: { views: 1 }, $push: { viewedBy: req.user.id } },
+          { new: true }
+        )) || resource;
     }
 
-    if (req.user?.id) {
-      // Skip if the viewer is the resource author
-      if (resource.author.toString() === req.user.id.toString()) {
-        return res.status(200).json({ success: true, data: resource });
-      }
-
-      // Logged-in user: only count once
-      const alreadyViewed = resource.viewedBy.some(id => id.toString() === req.user.id.toString());
-      if (!alreadyViewed) {
-        resource.views += 1;
-        resource.viewedBy.push(req.user.id);
-        await resource.save();
-      }
-    } else {
-      // Guest: simple count (no tracking)
-      resource.views += 1;
-      await resource.save();
-    }
-
-    res.status(200).json({ success: true, data: resource });
+    res.status(200).json({ success: true, data: updated });
   } catch (err) {
-    console.error('View Error:', err);
-    res.status(500).json({ success: false, error: 'Server Error updating views' });
+    fail(res, 500, 'Server Error updating views');
   }
 };
 
 /**
- * @desc    Increment resource downloads (unique per user, excluding author)
+ * @desc    Count a download once per logged-in user (author excluded)
  * @route   PUT /api/v1/resources/:id/download
  * @access  Private
  */
-exports.incrementDownloads = async (req, res, next) => {
+exports.incrementDownloads = async (req, res) => {
   try {
-    const resource = await Resource.findById(req.params.id);
-    if (!resource) {
-      return res.status(404).json({ success: false, error: 'Resource not found' });
-    }
+    const { id } = req.params;
+    const resource = await Resource.findById(id);
 
-    if (!req.user?.id) {
-      return res.status(401).json({ success: false, error: 'Please login to download' });
-    }
+    if (!resource) return fail(res, 404, 'Resource not found');
 
-    // Skip if the downloader is the resource author
-    if (resource.author.toString() === req.user.id.toString()) {
+    if (resource.author?.toString() === req.user.id) {
       return res.status(200).json({ success: true, data: resource, alreadyDownloaded: true });
     }
 
-    const alreadyDownloaded = resource.downloadedBy.some(id => id.toString() === req.user.id.toString());
+    const updated = await Resource.findOneAndUpdate(
+      { _id: id, downloadedBy: { $ne: req.user.id } },
+      { $inc: { downloads: 1 }, $push: { downloadedBy: req.user.id } },
+      { new: true }
+    );
 
-    if (!alreadyDownloaded) {
-      resource.downloads += 1;
-      resource.downloadedBy.push(req.user.id);
-      await resource.save();
-    }
-
-    res.status(200).json({ success: true, data: resource, alreadyDownloaded });
+    res.status(200).json({
+      success: true,
+      data: updated || resource,
+      alreadyDownloaded: !updated,
+    });
   } catch (err) {
-    console.error('Download Error:', err);
-    res.status(500).json({ success: false, error: 'Server Error updating downloads' });
+    fail(res, 500, 'Server Error updating downloads');
   }
 };
-
-

@@ -18,8 +18,8 @@
 
 /* ── Page Wrapper ── */
 .blog-details-wrapper {
-    background-color: #e8dff7;
-    background-image: radial-gradient(#d5e2f3 1px, transparent 1px);
+    background-color: var(--bg-e8dff7);
+    background-image: radial-gradient(var(--bg-d5e2f3) 1px, transparent 1px);
     background-size: 24px 24px;
     min-height: 100vh;
 }
@@ -232,9 +232,9 @@
 .article-card {
     min-width: 0;
     /* Pure white so it pops on the dotted background */
-    background: linear-gradient(90deg, #EEF5FF 0%, #F5F9FF 100%);
+    background: linear-gradient(90deg, var(--bg-eef5ff) 0%, var(--bg-f5f9ff) 100%);
     border-radius: 28px;
-    border: 1px solid #dbeafe;
+    border: 1px solid var(--bd-dbeafe);
     box-shadow:
         0 10px 25px rgba(15, 23, 42, 0.05),
         0 24px 48px rgba(15, 23, 42, 0.04),
@@ -272,33 +272,33 @@
     display: inline-flex;
     align-items: center;
     padding: 5px 14px;
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--bg-eff6ff);
+    color: var(--tx-2563eb);
     border-radius: 30px;
     font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 1px solid #dbeafe;
+    border: 1px solid var(--bd-dbeafe);
 }
 
 .article-card-dot {
     width: 4px;
     height: 4px;
-    background: #cbd5e1;
+    background: var(--bg-cbd5e1);
     border-radius: 50%;
 }
 
 .article-card-label {
     font-size: 12px;
     font-weight: 600;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
     letter-spacing: 0.3px;
 }
 
 .article-card-date {
     font-size: 13px;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
     font-weight: 500;
 }
 
@@ -307,7 +307,7 @@
     padding: 40px 52px 44px;
     font-size: 1.1rem;
     line-height: 2.05;
-    color: #374151;
+    color: var(--tx-374151);
     font-family: 'Merriweather', serif;
 }
 
@@ -327,9 +327,9 @@
     font-family: 'Merriweather', serif;
     line-height: 1.18;
     letter-spacing: -0.5px;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     /* Premium text rendering for title */
-    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    background: linear-gradient(135deg, var(--tx-0f172a) 0%, var(--tx-334155) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -338,7 +338,7 @@
 .blog-html-content h2 {
     font-size: 1.55rem;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     margin: 48px 0 16px;
     font-family: 'Merriweather', serif;
     line-height: 1.3;
@@ -363,7 +363,7 @@
 .blog-html-content h3 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--tx-1e293b);
     margin: 38px 0 14px;
     font-family: 'Merriweather', serif;
 }
@@ -379,9 +379,9 @@
     padding: 8px 0 8px 28px;
     position: relative;
     line-height: 1.85;
-    color: #374151;
+    color: var(--tx-374151);
     font-size: 1.05rem;
-    border-bottom: 1px solid #f8fafc;
+    border-bottom: 1px solid var(--bd-f8fafc);
 }
 
 .blog-html-content ul li::before {
@@ -410,8 +410,8 @@
     top: 8px;
     width: 21px;
     height: 21px;
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--bg-eff6ff);
+    color: var(--tx-2563eb);
     border-radius: 50%;
     font-size: 11px;
     font-weight: 800;
@@ -422,17 +422,17 @@
 }
 
 .blog-html-content strong {
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-weight: 700;
 }
 
 .blog-html-content em {
-    color: #475569;
+    color: var(--tx-475569);
     font-style: italic;
 }
 
 .blog-html-content a {
-    color: #2563eb;
+    color: var(--tx-2563eb);
     text-decoration: underline;
     text-decoration-color: rgba(37, 99, 235, 0.3);
     text-underline-offset: 3px;
@@ -448,11 +448,11 @@
     position: relative;
     margin: 44px 0;
     padding: 30px 32px 30px 52px;
-    background: linear-gradient(135deg, #f0f7ff, #fafcff);
+    background: linear-gradient(135deg, var(--bg-f0f7ff), var(--bg-fafcff));
     border-radius: 16px;
-    border: 1px solid #dbeafe;
+    border: 1px solid var(--bd-dbeafe);
     font-style: italic;
-    color: #1e3a5f;
+    color: var(--tx-1e3a5f);
     font-size: 1.15rem;
     line-height: 1.85;
     overflow: hidden;
@@ -483,13 +483,13 @@
 
 /* Inline Code */
 .blog-html-content code {
-    background: #f1f5f9;
-    color: #db2777;
+    background: var(--bg-f1f5f9);
+    color: var(--tx-db2777);
     padding: 3px 8px;
     border-radius: 6px;
     font-size: 0.88em;
     font-family: 'Courier New', monospace;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--bd-e2e8f0);
 }
 
 /* Code Block */
@@ -513,7 +513,7 @@
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 1.5px;
-    color: #475569;
+    color: var(--tx-475569);
     font-family: 'Outfit', sans-serif;
     margin-bottom: 16px;
     padding-bottom: 12px;
@@ -533,14 +533,14 @@
     border-radius: 16px;
     margin: 32px 0;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--bd-e2e8f0);
 }
 
 /* Horizontal Divider inside content */
 .blog-html-content hr {
     border: none;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+    background: linear-gradient(90deg, transparent, var(--bg-e2e8f0) 20%, var(--bg-e2e8f0) 80%, transparent);
     margin: 48px 0;
 }
 
@@ -559,8 +559,8 @@
     border-radius: 18px;
     overflow: hidden;
     box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
-    background: #fff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-ffffff);
+    border: 1px solid var(--bd-e2e8f0);
 }
 
 .sidebar-cover-card img {
@@ -580,8 +580,8 @@
 .sidebar-badge {
     display: inline-block;
     padding: 5px 13px;
-    background: #dbeafe;
-    color: #2563eb;
+    background: var(--bg-dbeafe);
+    color: var(--tx-2563eb);
     border-radius: 30px;
     font-size: 12px;
     font-weight: 700;
@@ -590,10 +590,10 @@
 
 /* Sidebar Info Card */
 .sidebar-info-card {
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 18px;
     padding: 24px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--bd-e2e8f0);
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
@@ -601,7 +601,7 @@
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
     font-weight: 700;
     margin: 0 0 14px 0;
 }
@@ -610,13 +610,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #475569;
+    color: var(--tx-475569);
     font-size: 14px;
     margin-bottom: 10px;
 }
 
 .sidebar-info-row svg {
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     flex-shrink: 0;
 }
 
@@ -624,7 +624,7 @@
 .author-card {
     margin-top: 56px;
     padding: 32px;
-    background: linear-gradient(135deg, #ffffff, #eff6ff);
+    background: linear-gradient(135deg, var(--bg-ffffff), var(--bg-eff6ff));
     border-radius: 20px;
     display: flex;
     gap: 20px;
@@ -638,7 +638,7 @@
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #bfdbfe;
+    border: 3px solid var(--bd-bfdbfe);
     flex-shrink: 0;
 }
 
@@ -646,13 +646,13 @@
     margin: 0 0 6px 0;
     font-size: 17px;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--tx-0f172a);
 }
 
 .author-card-info p {
     margin: 0;
     font-size: 14px;
-    color: #64748b;
+    color: var(--tx-64748b);
     line-height: 1.7;
 }
 
@@ -660,7 +660,7 @@
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     font-weight: 700;
     margin-bottom: 4px;
     display: block;
@@ -670,7 +670,7 @@
 .comment-section {
     margin-top: 72px;
     padding-top: 48px;
-    border-top: 2px solid #e2e8f0;
+    border-top: 2px solid var(--bd-e2e8f0);
 }
 
 .comment-section-header {
@@ -683,7 +683,7 @@
 .comment-section-header h2 {
     font-size: 24px;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     margin: 0;
     font-family: 'Merriweather', serif;
 }
@@ -694,8 +694,8 @@
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: #dbeafe;
-    color: #2563eb;
+    background: var(--bg-dbeafe);
+    color: var(--tx-2563eb);
     border-radius: 50%;
     font-size: 14px;
     font-weight: 800;
@@ -718,11 +718,11 @@
     width: 100%;
     padding: 14px 18px;
     border-radius: 12px;
-    border: 1.5px solid #e2e8f0;
+    border: 1.5px solid var(--bd-e2e8f0);
     font-family: 'Merriweather', serif;
     font-size: 14px;
-    color: #334155;
-    background: #fff;
+    color: var(--tx-334155);
+    background: var(--bg-ffffff);
     transition: border-color 0.2s, box-shadow 0.2s;
     box-sizing: border-box;
 }
@@ -734,11 +734,11 @@
 }
 
 .comment-form-input::placeholder {
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
 }
 
 .comment-form-input[readonly] {
-    background: #f8fafc;
+    background: var(--bg-f8fafc);
     cursor: pointer;
 }
 
@@ -773,9 +773,9 @@
     display: flex;
     gap: 16px;
     padding: 22px 24px;
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 16px;
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--bd-f1f5f9);
     box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
     animation: fadeInUp 0.4s ease forwards;
 }
@@ -797,7 +797,7 @@
     height: 42px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #dbeafe;
+    border: 2px solid var(--bd-dbeafe);
     flex-shrink: 0;
 }
 
@@ -816,17 +816,17 @@
 .comment-user-name {
     font-size: 15px;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--tx-0f172a);
 }
 
 .comment-date-text {
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
 }
 
 .comment-text {
     font-size: 14px;
-    color: #475569;
+    color: var(--tx-475569);
     line-height: 1.7;
     margin: 0;
 }
@@ -838,18 +838,18 @@
     gap: 8px;
     text-align: center;
     padding: 48px 24px;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
     font-size: 15px;
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 16px;
-    border: 1.5px dashed #e2e8f0;
+    border: 1.5px dashed var(--bd-e2e8f0);
 }
 
 /* ── Related Articles ── */
 .related-section {
     margin-top: 90px;
     padding-top: 60px;
-    border-top: 2px solid #e2e8f0;
+    border-top: 2px solid var(--bd-e2e8f0);
 }
 
 .related-header {
@@ -862,7 +862,7 @@
 .related-title {
     font-size: 28px;
     font-weight: 900;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     font-family: 'Merriweather', serif;
     margin: 0;
 }
@@ -875,10 +875,10 @@
 }
 
 .related-card {
-    background: #fff;
+    background: var(--bg-ffffff);
     border-radius: 18px;
     overflow: hidden;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--bd-e2e8f0);
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
@@ -911,9 +911,9 @@
     position: absolute;
     top: 14px;
     left: 14px;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgb(var(--surface-rgb) / 0.92);
     backdrop-filter: blur(6px);
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     padding: 4px 12px;
     font-size: 11px;
     font-weight: 700;
@@ -932,7 +932,7 @@
 .related-card-body h3 {
     font-size: 16px;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--tx-0f172a);
     margin: 0 0 10px 0;
     line-height: 1.4;
     font-family: 'Merriweather', serif;
@@ -945,7 +945,7 @@
 
 .related-card-body p {
     font-size: 13px;
-    color: #64748b;
+    color: var(--tx-64748b);
     line-height: 1.65;
     margin: 0 0 18px 0;
     display: -webkit-box;
@@ -960,7 +960,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: #3b82f6;
+    color: var(--tx-3b82f6);
     text-decoration: none;
     font-weight: 700;
     font-size: 13px;
@@ -969,7 +969,7 @@
 
 .related-read-link:hover {
     gap: 10px;
-    color: #2563eb;
+    color: var(--tx-2563eb);
 }
 
 /* ── Loading Skeleton ── */
@@ -985,7 +985,7 @@
 .blog-loading-spinner {
     width: 44px;
     height: 44px;
-    border: 4px solid #e2e8f0;
+    border: 4px solid var(--bd-e2e8f0);
     border-top-color: #3b82f6;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -999,7 +999,7 @@
 
 .blog-loading-text {
     font-size: 15px;
-    color: #94a3b8;
+    color: var(--tx-94a3b8);
     font-style: italic;
     font-family: 'Merriweather', serif;
 }

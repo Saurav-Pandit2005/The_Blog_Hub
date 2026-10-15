@@ -1,4 +1,3 @@
-import React from 'react';
 import './Pagination.css';
 
 function AdminPagination({ currentPage, totalPages, onPageChange }) {

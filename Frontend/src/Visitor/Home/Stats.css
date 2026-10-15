@@ -3,7 +3,7 @@
     justify-content: center;
     gap: 80px;
     padding: 40px 80px;
-    background: white;
+    background: var(--bg-ffffff);
 }
 
 .stat-box {
@@ -11,13 +11,13 @@
 }
 
 .stat-box h2 {
-    color: #3B82F6;
+    color: var(--tx-3b82f6);
     font-size: 32px;
     margin-bottom: 5px;
 }
 
 .stat-box p {
-    color: #555;
+    color: var(--tx-555555);
     font-weight: 500;
 }
 
